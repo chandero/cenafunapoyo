@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TfrxReport Version="4.15.13" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="43521.3708923264" ReportOptions.Description.Text="" ReportOptions.LastChange="43521.4791640509" ScriptLanguage="PascalScript" ScriptText.Text="&#13;&#10;begin&#13;&#10;&#13;&#10;end." PropData="044C65667403880103546F7002100844617461736574730100095661726961626C65730100055374796C650100">
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxReportPage Name="Page1" PaperWidth="210" PaperHeight="297" PaperSize="9" LeftMargin="10" RightMargin="10" TopMargin="10" BottomMargin="10" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxPageHeader Name="PageHeader1" Height="128" Left="0" Top="16" Width="718.1107">
+      <TfrxMemoView Name="Memo1" Left="244" Top="16" Width="260" Height="28" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-16" Font.Name="Arial" Font.Style="1" HAlign="haCenter" ParentFont="False" Text="LIBRO MAYOR Y BALANCE"/>
+      <TfrxMemoView Name="Memo2" Left="1" Top="0" Width="244" Height="20" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="1" HAlign="haCenter" ParentFont="False" Text="[EMPRESA]"/>
+      <TfrxMemoView Name="Memo3" Left="1" Top="20" Width="244" Height="20" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-16" Font.Name="Arial" Font.Style="1" HAlign="haCenter" ParentFont="False" Text="[NIT]"/>
+      <TfrxMemoView Name="Memo4" Left="664" Top="0" Width="52" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="[PAGINA]"/>
+      <TfrxMemoView Name="Memo5" Left="616" Top="0" Width="48" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="Pág:"/>
+    </TfrxPageHeader>
+  </TfrxReportPage>
+</TfrxReport>
