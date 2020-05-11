@@ -3377,8 +3377,10 @@ begin
 
                 Saldo := IBQuery1.FieldByName('SALDO').AsCurrency;
 
-                //Dias := ObtenerDiasMora(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,IBSQL2);
-                Dias := DiasEntre(IncDay(IBQuery1.FieldByName('FECHA_INTERES').AsDateTime),FechaFinal);
+                Dias := ObtenerDiasMoraCausacion(IBQuery1.FieldByName('ID_COLOCACION').AsString,IBQuery1.FieldByName('ID_ESTADO_COLOCACION').AsInteger, IBQuery1.FieldByName('ID_LINEA').AsInteger, IBQuery1.FieldByName('AMORTIZA_INTERES').AsInteger, IBQuery1.FieldByName('DIAS_PAGO').AsInteger, IBQuery1.FieldByName('FECHA_DESEMBOLSO').AsDateTime, IBQuery1.FieldByName('FECHA_INTERES').AsDateTime, FechaFinal, IBQuery1.FieldByName('TIPO_INTERES').AsString);
+                // Dias := ObtenerDiasMora(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,IBSQL2);
+
+                //Dias := DiasEntre(IncDay(IBQuery1.FieldByName('FECHA_INTERES').AsDateTime),FechaFinal);
                 //Dias := DiasEntreFechas(IncDay(IBQuery1.FieldByName('FECHA_INTERES').AsDateTime),FechaFinal,IBQuery1.FieldByName('FECHA_DESEMBOLSO').AsDateTime + IBQuery1.FieldByName('DIAS_PAGO').AsInteger);
                 if (IBQuery1.FieldByName('TIPOC_INTERES').AsString = 'V') then
                    DiasMora := Dias - IBQuery1.FieldByName('AMORTIZA_INTERES').AsInteger;
