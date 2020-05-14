@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DB, IBCustomDataSet, IBQuery, StdCtrls, Buttons, ExtCtrls,
   DBClient, DBCtrls, UnitDmGeneral, Provider, frxClass, DataSetToExcel,
-  frxDBSet, ComCtrls, DateUtils;
+  frxDBSet, ComCtrls, DateUtils, IBDatabase, IBSQL;
 
 type
   TfrmCarteraxAsesor = class(TForm)
@@ -57,6 +57,7 @@ type
     CDSProcesoDESCRIPCION_ESTADO_COLOCACION: TStringField;
     IBQcompromiso: TIBQuery;
     CDSProcesoCOMPROMISO: TStringField;
+    IBSQL1: TIBSQL;
     procedure btnCerrarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnProcesoClick(Sender: TObject);
@@ -98,6 +99,9 @@ begin
         IBQcompromiso.Database := dmGeneral.IBDatabase1;
         IBQcompromiso.Transaction := dmGeneral.IBTransaction1;
 
+        IBSQL1.Database := dmGeneral.IBDatabase1;
+        IBSQL1.Transaction := dmGeneral.IBTransaction1;
+
         Inicializar;
 end;
 
@@ -105,6 +109,8 @@ procedure TfrmCarteraxAsesor.Inicializar;
 begin
         if (dmGeneral.IBTransaction1.InTransaction) then dmGeneral.IBTransaction1.Commit;
         dmGeneral.IBTransaction1.StartTransaction;
+
+
 
         IBQAsesor.Open;
         CDSAsesor.Open;
@@ -171,8 +177,8 @@ begin
            CDSProcesoFECHA_VENCIMIENTO.Value := IBQProcesoFECHA_VENCIMIENTO.Value;
            CDSProcesoASESOR.Value := IBQProcesoASESOR.Value;
            CDSProcesoDESCRIPCION_ESTADO_COLOCACION.Value := IBQProcesoDESCRIPCION_ESTADO_COLOCACION.Value;
-           _diasMora := DiasEntreFechas(IncDay(IBQProcesoFECHA_INTERES.Value),_hoy,IBQProcesoFECHA_DESEMBOLSO.Value + IBQProcesoDIAS_PAGO.Value);
-           _diasMora := _diasMora - IBQProcesoAMORTIZA_INTERES.Value;
+           _diasMora := ObtenerDiasMora(Agencia,IBQProceso.FieldByName('ID_COLOCACION').AsString,IBSQL1);
+           // _diasMora := _diasMora - IBQProcesoAMORTIZA_INTERES.Value;
            if _diasMora < 0 then _diasMora := 0;
            CDSProcesoDIAS_MORA.Value := _diasMora;
            IBQcompromiso.Close;

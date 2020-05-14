@@ -7703,7 +7703,10 @@ var
     _diasGracia: Integer;
     IBQvalidar: TIBQuery;
     IBT: TIBTransaction;
+    dmGeneral: TdmGeneral;
 begin
+        dmGeneral := TdmGeneral.Create(nil);
+        dmGeneral.getConnected;
         FechaHoy := fFechaActual;
 
         with IBSQL1 do
@@ -8072,7 +8075,11 @@ var
     _diasGracia: Integer;
     IBQvalidar: TIBQuery;
     IBT: TIBTransaction;    
+    dmGeneral: TdmGeneral;
 begin
+        dmGeneral := TdmGeneral.Create(nil);
+        dmGeneral.getConnected;
+        FechaHoy := fFechaActual;
         FechaHoy := fFechaActual;
 
         with IBSQL1 do
@@ -8245,7 +8252,10 @@ var
     _diasGracia: Integer;
     IBQvalidar: TIBQuery;
     IBT: TIBTransaction;
+    dmGeneral: TdmGeneral;
 begin
+        dmGeneral := TdmGeneral.Create(nil);
+        dmGeneral.getConnected;
         FechaHoy := fFechaActual;
 
         with IBSQL1 do
@@ -8265,8 +8275,7 @@ begin
            SQL.Add('LEFT OUTER JOIN "col$tasasvariables" ON ("col$colocacion".ID_INTERES = "col$tasasvariables".ID_INTERES) ');
            SQL.Add('INNER JOIN "col$tiposcuota" ON ("col$colocacion".ID_TIPO_CUOTA = "col$tiposcuota".ID_TIPOS_CUOTA)');
            SQL.Add('WHERE');
-           SQL.Add('"col$colocacion".ID_AGENCIA =:"ID_AGENCIA" and "col$colocacion".ID_COLOCACION =:"ID_COLOCACION"');
-           ParamByName('ID_AGENCIA').AsInteger := Agencia;
+           SQL.Add('"col$colocacion".ID_COLOCACION =:"ID_COLOCACION"');
            ParamByName('ID_COLOCACION').AsString := Colocacion;
            ExecQuery;
 
@@ -8667,7 +8676,10 @@ var
     _diasGracia: Integer;
     IBQvalidar: TIBQuery;
     IBT: TIBTransaction;
+    dmGeneral: TdmGeneral;
 begin
+        dmGeneral := TdmGeneral.Create(nil);
+        dmGeneral.getConnected;
         FechaHoy := _dFechaActual;
         Fecha := _dFechaI;
         Tipo := _sTipoInteres;

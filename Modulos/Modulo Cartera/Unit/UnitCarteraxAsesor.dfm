@@ -611,4 +611,8 @@ object frmCarteraxAsesor: TfrmCarteraxAsesor
         ParamType = ptUnknown
       end>
   end
+  object IBSQL1: TIBSQL
+    Left = 328
+    Top = 64
+  end
 end
