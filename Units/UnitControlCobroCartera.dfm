@@ -10480,7 +10480,7 @@ object frmControlCobroCartera: TfrmControlCobroCartera
     Top = 24
   end
   object frxReport1: TfrxReport
-    Version = '4.15.13'
+    Version = '4.10.12'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
@@ -10505,7 +10505,7 @@ object frmControlCobroCartera: TfrmControlCobroCartera
     end
   end
   object frxReport2: TfrxReport
-    Version = '4.15.13'
+    Version = '4.10.12'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
