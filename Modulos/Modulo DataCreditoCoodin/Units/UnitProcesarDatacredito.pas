@@ -560,7 +560,8 @@ begin
                 Fecha := CalculoFecha(Fecha,IBQuery1.FieldByName('AMORTIZA_INTERES').AsInteger);
              Fecha := IncDay(Fecha);
  //            DiasMora := ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores).Dias;
-             DiasMora := DiasEntre(Fecha,EdFechaCorte.Date);
+ //            DiasMora := DiasEntre(Fecha,EdFechaCorte.Date);
+             DiasMora := IBQuery1.FieldByName('MOROSIDAD').AsInteger;
              NovedadLocal := Novedad(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,DiasMora);
              SumaNovedad := SumaNovedad + NovedadLocal;
              LineaC.Noveda := StringReplace(Format('%2s',[IntToStr(Novedadlocal)]),' ','0',[rfReplaceAll]);
