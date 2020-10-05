@@ -58,6 +58,7 @@ type
     CDSADescontarCUOTA: TIntegerField;
     CDSADescontarVALOR: TCurrencyField;
     NLetra1: TNLetra;
+    IBQDescuento: TIBQuery;
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -151,6 +152,8 @@ begin
         IBQuerycontable.Database := dmGeneral.IBDatabase1;
         IBQuerytabla.Database := dmGeneral.IBDatabase1;
         IBQueryGarPersonal.Database := dmGeneral.IBDatabase1;
+        IBQDescuento.Database := dmGeneral.IBDatabase1;
+        IBQDescuento.Transaction := IBtranreporte;
 
         IBtranreporte.StartTransaction;
         IBTransaction6.StartTransaction;
@@ -227,6 +230,28 @@ begin
                 TasaNominal := TasaNominalVencida(FieldByName('TASA_INTERES_CORRIENTE').AsFloat,FieldByName('AMORTIZA_INTERES').AsInteger) + PuntosAdic;
         end;
         valor_colocacion := Saldo;
+
+          // Cargar descuentos a aplicar en cuotas
+             IBQDescuento.Close;
+             IBQDescuento.SQL.Clear;
+             IBQDescuento.SQL.Add('SELECT ccd.ID_DESCUENTO, cd.DESCRIPCION_DESCUENTO FROM "col$colocaciondescuento" ccd');
+             IBQDescuento.SQL.Add('INNER JOIN "col$descuentos" cd ON cd.ID_DESCUENTO = ccd.ID_DESCUENTO');
+             IBQDescuento.SQL.Add('WHERE ccd.ID_COLOCACION = :"ID_COLOCACION"');
+             IBQDescuento.ParamByName('ID_COLOCACION').AsString := EDcolocacion.Text;
+             IBQDescuento.Open;
+             CDSDescuento.Open;
+             while not IBQDescuento.Eof do
+             begin
+                 CDSDescuento.Append;
+                 CDSDescuento.FieldByName('ID_DESCUENTO').AsInteger := IBQDescuento.FieldByName('ID_DESCUENTO').AsInteger;
+                 CDSDescuento.FieldByName('DESCRIPCION_DESCUENTO').AsString := IBQDescuento.FieldByName('DESCRIPCION_DESCUENTO').AsString;
+                 CDSDescuento.FieldByName('DESCONTAR').AsBoolean := True;
+                 CDSDescuento.Post;
+                 IBQDescuento.Next;
+             end;
+             CDSDescuento.First;
+          // fin
+
         with IBQuerytabla do
         begin
              SQL.Clear;
@@ -272,7 +297,7 @@ begin
           SQL.Clear;
           if estado = 4 then
           begin
-             SQL.Add('select ID_COLOCACION,"col$concol"."CODIGO",NOMBRE,DEBITO,CREDITO');
+             SQL.Add('select "col$concol".ID_AGENCIA, ID_COLOCACION,"col$concol"."CODIGO",NOMBRE,DEBITO,CREDITO');
              SQL.Add(' FROM "col$concol" left join "con$puc" ON ');
              SQL.Add('("col$concol"."CODIGO" = "con$puc"."CODIGO") ');
              SQL.Add('where ("col$concol".ID_COLOCACION = :"ID_COLOCACION") ORDER BY CREDITO,"col$concol"."CODIGO"');
@@ -282,6 +307,7 @@ begin
           begin
              SQL.Add('SELECT');
              SQL.Add('"con$puc".NOMBRE,');
+             SQL.Add('"con$auxiliar".ID_AGENCIA,');
              SQL.Add('"con$auxiliar".DEBITO,');
              SQL.Add('"con$auxiliar".CREDITO,');
              SQL.Add('"con$puc".CODIGO');

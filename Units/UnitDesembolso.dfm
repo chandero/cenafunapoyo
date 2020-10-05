@@ -1,6 +1,6 @@
 object FrmDesembolso: TFrmDesembolso
-  Left = 359
-  Top = 51
+  Left = 363
+  Top = 19
   Width = 721
   Height = 661
   BorderIcons = [biSystemMenu]

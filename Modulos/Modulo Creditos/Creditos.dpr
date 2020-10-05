@@ -132,12 +132,15 @@ uses
   UnitAgregarObservacion in '..\..\Units\UnitAgregarObservacion.pas' {frmAgregarObservacionCobro},
   UnitInformacionBancoldex in '..\..\Units\UnitInformacionBancoldex.pas' {frmInformacionBancoldex},
   UnitEstadoSolicitud in '..\..\Units\UnitEstadoSolicitud.pas' {FrmEstadoSolicitud},
-  UnitCompromisoJudicial in '\\Vboxsvr\sgft\FunApoyo\Modulos\Modulo Cartera\Unit\UnitCompromisoJudicial.pas' {frmCompromisoJudicial},
-  UnitSmsRequest in '\\Vboxsvr\sgft\FunApoyo\Units\UnitSmsRequest.pas',
-  UnitSmsCredentials in '\\Vboxsvr\sgft\FunApoyo\Units\UnitSmsCredentials.pas',
-  UnitAnularAbono in '\\Vboxsvr\sgft\FunApoyo\Units\UnitAnularAbono.pas' {frmAnularAbono},
-  Jsons in '\\Vboxsvr\sgft\FunApoyo\Units\Jsons.pas',
-  UnitDialogoSMS in '\\Vboxsvr\sgft\FunApoyo\Units\UnitDialogoSMS.pas' {DialogSMS};
+  UnitCompromisoJudicial in '..\Modulo Cartera\Unit\UnitCompromisoJudicial.pas' {frmCompromisoJudicial},
+  UnitSmsRequest in '..\..\Units\UnitSmsRequest.pas',
+  Jsons in '..\..\Units\Jsons.pas',
+  UnitDialogoSMS in '..\..\Units\UnitDialogoSMS.pas' {DialogSMS},
+  UnitSmsCredentials in '..\..\Units\UnitSmsCredentials.pas',
+  UnitAnularAbono in '..\..\Units\UnitAnularAbono.pas' {frmAnularAbono},
+  UnitAcuerdoPago in '..\Modulo Cartera\Unit\UnitAcuerdoPago.pas' {frmAcuerdoPago},
+  UnitSendEmail in '..\..\Units\UnitSendEmail.pas',
+  EASendMailObjLib_TLB in 'C:\Archivos de programa\EASendMail\Include\delphi\EASendMailObjLib_TLB.pas';
 
 {$R *.res}
 

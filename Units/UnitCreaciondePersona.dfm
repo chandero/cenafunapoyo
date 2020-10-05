@@ -1,6 +1,6 @@
 object frmCreacionPersona: TfrmCreacionPersona
-  Left = 286
-  Top = 97
+  Left = 327
+  Top = 36
   Width = 670
   Height = 572
   Caption = 'Creaci'#243'n de Persona'
@@ -2604,8 +2604,8 @@ object frmCreacionPersona: TfrmCreacionPersona
     Top = 0
     Width = 656
     Height = 277
-    ActivePage = InfoNatural
-    TabIndex = 0
+    ActivePage = InfoJuridica
+    TabIndex = 1
     TabOrder = 0
     object InfoNatural: TTabSheet
       Caption = 'Persona Natural'
@@ -5015,7 +5015,7 @@ object frmCreacionPersona: TfrmCreacionPersona
       0000000000FC00002F00464F524D554C4152494F204445204150455254555241
       20592041435455414C495A4143494F4E204445204441544F530E00414C455841
       4E444552204352555A01003101003101003001003000004D00E54F558615AAE2
-      40820DC4C92F49E540}
+      40300DC39F5488E540}
   end
   object IBTitulares: TIBQuery
     SQL.Strings = (
@@ -5752,5 +5752,11 @@ object frmCreacionPersona: TfrmCreacionPersona
         ')')
     Left = 536
     Top = 456
+  end
+  object IBQgeneral: TIBQuery
+    Database = dmGeneral.IBDatabase1
+    Transaction = dmGeneral.IBTransaction1
+    Left = 416
+    Top = 224
   end
 end

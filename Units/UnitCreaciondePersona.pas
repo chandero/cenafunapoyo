@@ -314,6 +314,7 @@ type
     edRut: TEdit;
     edProveedor: TCheckBox;
     Label81: TLabel;
+    IBQgeneral: TIBQuery;
     procedure EdIdentificacionKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure CBtiposidentificacionEnter(Sender: TObject);
@@ -628,7 +629,8 @@ UnitGlobales,
 UnitdmPersona,
 UnitTomarFoto,
 UnitBuscarCIIU,
-UnitCreacionPersonaIndependiente;
+UnitCreacionPersonaIndependiente,
+UnitSendEmail;
 
 type
    PListaDireccion = ^AListaDireccion;
@@ -692,7 +694,8 @@ var
   vDuracionSociedad:integer;
   vCapitalSocial:Currency;
   vMatriculaMercantil:string;
-  vEmail :string; 
+  vEmail :String;
+  vEmailAnt: String;
 // Variables de Datos Conyuge
   vTipoIdentificacionConyuge:Integer;
   vNumeroIdentificacionConyuge:String;
@@ -1290,6 +1293,7 @@ begin
           CmdGrabar.Enabled := False;
         end;
 
+        vEmailAnt := '';
         vListaDirecciones.Clear;
         vListaReferencia.Clear;
 
@@ -1486,6 +1490,7 @@ begin
                EdEgresosOtros.Text := FormatCurr('#,#0.00',vEgresosOtros);
                EdEmail.Text := FieldByName('EMAIL').AsString;
                vEmail := EdEmail.Text;
+               vEmailAnt := vEmail;
                try
                  //ImgFotoC.Picture.Bitmap.Assign(FieldByName('FOTO'));
                  IMfoto := TMemoryStream.Create;
@@ -2682,6 +2687,12 @@ begin
           Exit;
       end;
 
+      if (not ValidEmail(vEmail)) then
+      begin
+         edEmail.SetFocus;
+         ShowMessage('La Dirección de Email Ingresada, NO es valida');
+      end;
+
       if vModificar then
        begin
          if Actualizar then
@@ -2710,6 +2721,9 @@ var I:integer;
     BS1:TMemoryStream;
     BS2:TMemoryStream;
     BS3:TMemoryStream;
+    Guid: TGUID;
+    _vUrl: String;
+    _vMensaje: String;    
 begin
       with dmPersona.IBQuery1 do
       try
@@ -3098,6 +3112,50 @@ begin
              end;
              //*** fin hijos
 
+///***** OJO SE BLOQUEA TEMPORALMENTE **////
+{
+           if (vEmailAnt <> vEmail) then
+           begin
+             // Generar Y Enviar UUID de confirmación de Correo
+
+             with IBQgeneral do
+             begin
+               Close;
+               SQL.Clear;
+               SQL.Add('SELECT * FROM GENERAL WHERE ID = 3');
+               Open;
+               _vUrl := FieldByName('GENE_CADENA').AsString;
+
+               Close;
+               SQL.Clear;
+               SQL.Add('SELECT * FROM GENERAL WHERE ID = 4');
+               Open;
+               _vMensaje := FieldByName('GENE_CADENA').AsString;
+
+               CreateGUID(Guid);
+               Close;
+               SQL.Clear;
+               SQL.Add('INSERT INTO GEN_CORREO_CONFIRMACION (ID_IDENTIFICACION, ID_PERSONA, FECHA_ENLACE, UUID, FECHA_RESPUESTA, IP_RESPUESTA, ESTADO) VALUES (:ID_IDENTIFICACION, :ID_PERSONA, :FECHA_ENLACE, :UUID, :FECHA_RESPUESTA, :IP_RESPUESTA, :ESTADO)');
+               ParamByName('ID_IDENTIFICACION').AsInteger := vTipoIdentificacion;
+               ParamByName('ID_PERSONA').AsString := vIdentificacion;
+               ParamByName('FECHA_ENLACE').AsDate := fFechaActual;
+               ParamByName('UUID').AsString := GUIDToString(Guid);
+               ParamByName('FECHA_RESPUESTA').Clear;
+               ParamByName('IP_RESPUESTA').Clear;
+               ParamByName('ESTADO').AsInteger := 0;
+               ExecSQL;
+             end;
+
+                if (sendEmail(vEmail, Format(_vMensaje, [vNombres + ' ' + vPrimerApellido + ' ' + vSegundoApellido, _vUrl, GUIDToString(Guid) ]))) then
+                begin
+                  ShowMessage('Se envió correo electrónico a ' + vEmail);
+                end
+                else
+                begin
+                  ShowMessage('No se pudo enviar correo electrónico a ' + vEmail);
+                end;
+           end;
+         }
         end;
         Transaction.Commit;
         Result := true;
@@ -3106,7 +3164,6 @@ begin
         raise;
         Result := false;
       end;
-
       CmdGrabar.Enabled := False;
 end;
 
@@ -3117,6 +3174,9 @@ var I:integer;
     BS1:TMemoryStream;
     BS2:TMemoryStream;
     BS3:TMemoryStream;
+    Guid: TGUID;
+    _vUrl: String;
+    _vMensaje: String;
 begin
       with dmPersona.IBQuery do
       try
@@ -3376,7 +3436,7 @@ begin
            ParamByName('ID_IDENTIFICACION').AsInteger := vTipoIdentificacion;
            ParamByName('ID_PERSONA').AsString := vIdentificacion;
            ExecSQL;
-           Transaction.CommitRetaining;
+           // Transaction.CommitRetaining;
            SQL.Clear;
            SQL.Add('insert into "gen$persadicional" values (');
            SQL.Add(':ID_IDENTIFICACION,');
@@ -3415,7 +3475,7 @@ begin
            ParamByName('ID_ESTUDIO').AsInteger := _vNivelEstudio;
            ParamByName('ID_TIPOVIVIENDA').AsInteger := _vTipoVivienda;
            ExecSQL;
-           Transaction.CommitRetaining;
+           // Transaction.CommitRetaining;
 
            SQL.Clear;
            SQL.Add('DELETE FROM "gen$personaextra" WHERE ');
@@ -3443,7 +3503,7 @@ begin
            ParamByName('OLD_ID_PERSONA').AsString := vIdentificacion;
 
            ExecSQL;
-           Transaction.CommitRetaining;
+           // Transaction.CommitRetaining;
            SQL.Clear;
            SQL.Add('insert into "gen$direccion" values (');
            SQL.Add(':"ID_IDENTIFICACION",:"ID_PERSONA",:"CONSECUTIVO",:"ID_DIRECCION",');
@@ -3476,7 +3536,7 @@ begin
              ParamByName('OLD_ID_IDENTIFICACION').AsInteger := vTipoIdentificacion;
              ParamByName('OLD_ID_PERSONA').AsString := vIdentificacion;
              ExecSQL;
-             Transaction.CommitRetaining;
+             // Transaction.CommitRetaining;
              SQL.Clear;
              SQL.Add('insert into "gen$referencias" values (');
              SQL.Add(':"TIPO_ID_REFERENCIA",:"ID_REFERENCIA",:"CONSECUTIVO_REFERENCIA",:"PRIMER_APELLIDO_REFERENCIA",');
@@ -3507,7 +3567,7 @@ begin
              ParamByName('OLD_ID_IDENTIFICACION').AsInteger := vTipoIdentificacion;
              ParamByName('OLD_ID_PERSONA').AsString := vIdentificacion;
              ExecSQL;
-             Transaction.CommitRetaining;
+             //Transaction.CommitRetaining;
              if CDbeneficiario.RecordCount > 0 then
              begin
                SQL.Clear;
@@ -3536,7 +3596,7 @@ begin
                ParamByName('ID_PERSONA').AsString := vIdentificacion;
                ParamByName('ID_IDENTIFICACION').AsInteger := vTipoIdentificacion;
                ExecSQL;
-               Transaction.CommitRetaining;
+               // Transaction.CommitRetaining;
              //*** fin actualizacion beneficiarios
              //*** inicio actualizacion hijos
              if CDhijo.RecordCount > 0 then
@@ -3561,13 +3621,59 @@ begin
                end;
              end;
              //*** fin actualizacion hijos
+
+
+//*** OJO ***// REACTIVAR
+{
+           if (vEmailAnt <> vEmail) then
+           begin
+             // Generar Y Enviar UUID de confirmación de Correo
+
+             with IBQgeneral do
+             begin
+               Close;
+               SQL.Clear;
+               SQL.Add('SELECT * FROM GENERAL WHERE GENE_ID = 3');
+               Open;
+               _vUrl := FieldByName('GENE_CADENA').AsString;
+
+               Close;
+               SQL.Clear;
+               SQL.Add('SELECT * FROM GENERAL WHERE GENE_ID = 4');
+               Open;
+               _vMensaje := FieldByName('GENE_CADENA').AsString;
+
+               CreateGUID(Guid);
+               Close;
+               SQL.Clear;
+               SQL.Add('INSERT INTO GEN_CORREO_CONFIRMACION (ID_IDENTIFICACION, ID_PERSONA, FECHA_ENLACE, UUID, FECHA_RESPUESTA, IP_RESPUESTA, ESTADO) VALUES (:ID_IDENTIFICACION, :ID_PERSONA, :FECHA_ENLACE, :UUID, :FECHA_RESPUESTA, :IP_RESPUESTA, :ESTADO)');
+               ParamByName('ID_IDENTIFICACION').AsInteger := vTipoIdentificacion;
+               ParamByName('ID_PERSONA').AsString := vIdentificacion;
+               ParamByName('FECHA_ENLACE').AsDate := fFechaActual;
+               ParamByName('UUID').AsString := GUIDToString(Guid);
+               ParamByName('FECHA_RESPUESTA').Clear;
+               ParamByName('IP_RESPUESTA').Clear;
+               ParamByName('ESTADO').AsInteger := 0;
+               ExecSQL;
+             end;
+
+                if (sendEmail(vEmail, Format(_vMensaje, [vNombres + ' ' + vPrimerApellido + ' ' + vSegundoApellido, _vUrl, GUIDToString(Guid) ]))) then
+                begin
+                  ShowMessage('Se envió correo electrónico a ' + vEmail);
+                end
+                else
+                begin
+                  ShowMessage('No se pudo enviar correo electrónico a ' + vEmail);
+                end;
+           end;
+}
          Transaction.Commit;
          Result := true;
         except
          Transaction.Rollback;
          raise;
         end;
-        
+
         CmdGrabar.Enabled := False;
 
 end;
@@ -4677,13 +4783,33 @@ end;
 
 procedure TfrmCreacionPersona.EdEmailExit(Sender: TObject);
 begin
-        vEmail := EdEmail.Text;
-        EdProfesion.SetFocus;
+        vEmail := Trim(EdEmail.Text);
+        if (not ValidEmail(vEmail)) then
+        begin
+           edEmail.SetFocus;
+           ShowMessage('La Dirección de Email Ingresada, NO es valida');
+        end
+        else
+        begin
+           CBEscolaridad.SetFocus;
+           ShowMessage('Un mensaje sera enviado a la dirección ingresada para su confirmación.');
+        end;
 end;
 
 procedure TfrmCreacionPersona.EdMailJurExit(Sender: TObject);
 begin
-        vEmail := EdMailJur.Text;
+        vEmail := Trim(EdMailJur.Text);
+        if (not ValidEmail(vEmail)) then
+        begin
+           edMailJur.SetFocus;
+           ShowMessage('La Dirección de Email Ingresada, NO es valida');
+        end
+        else
+        begin
+           EdRazonSocial.SetFocus;
+           ShowMessage('Un mensaje sera enviado a la dirección ingresada para su confirmación.');
+        end;
+
 end;
 
 procedure TfrmCreacionPersona.BtlimpiaHijoClick(Sender: TObject);

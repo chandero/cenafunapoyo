@@ -624,7 +624,7 @@ begin
         edFecha.Date := fFechaActual();
 end;
 
-function TfrmComprobanteC.grabar : Boolean;
+function TfrmComprobanteC.Grabar : Boolean;
 var
 I:integer;
 _transaccion, _transaccion2: TIBTransaction;
@@ -685,10 +685,10 @@ begin
          begin
             Close;
             SQL.Clear;
-            SQL.Add('insert into "con$auxiliar" values (');
-            SQL.Add(':"ID_COMPROBANTE",:"ID_AGENCIA",:"FECHA",:"CODIGO",:"DEBITO",');
+            SQL.Add('INSERT INTO "con$auxiliar" (ID, ID_COMPROBANTE,ID_AGENCIA,FECHA,CODIGO,DEBITO,CREDITO,ID_CUENTA,ID_COLOCACION,ID_IDENTIFICACION,ID_PERSONA,MONTO_RETENCION,TASA_RETENCION,ESTADOAUX,TIPO_COMPROBANTE, ID_CLASE_OPERACION) values (');
+            SQL.Add(':"ID", :"ID_COMPROBANTE",:"ID_AGENCIA",:"FECHA",:"CODIGO",:"DEBITO",');
             SQL.Add(':"CREDITO",:"ID_CUENTA",:"ID_COLOCACION",:"ID_IDENTIFICACION",');
-            SQL.Add(':"ID_PERSONA",:"MONTO_RETENCION",:"TASA_RETENCION",:"ESTADOAUX",:"TIPO_COMPROBANTE", :"ID", :"ID_CLASE_OPERACION")');
+            SQL.Add(':"ID_PERSONA",:"MONTO_RETENCION",:"TASA_RETENCION",:"ESTADOAUX",:"TIPO_COMPROBANTE", :"ID_CLASE_OPERACION") RETURNING ID');
             idauxiliar :=  ObtenerConsecutivoAuxiliar(IBSQL1);
             ParamByName('ID').AsInteger := idauxiliar;
             ParamByName('TIPO_COMPROBANTE').AsInteger :=  dblcbtipo.KeyValue;
@@ -706,8 +706,7 @@ begin
             ParamByName('TASA_RETENCION').AsFloat := CDSauxiliargridTASA.Value;
             ParamByName('ESTADOAUX').AsString := 'O';
             ParamByName('ID_CLASE_OPERACION').AsString := CDSauxiliargridID_CLASE_OPERACION.Value;
-            ExecSQL;
-
+            Open;
 
             Close;
             SQL.Clear;

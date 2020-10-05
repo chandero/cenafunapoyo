@@ -9122,11 +9122,11 @@ begin
             Transaction.StartTransaction;
             SQL.Clear;
             SQL.Add('INSERT INTO SOLICITUD_ADJUNTO (ID_SOLICITUD, SOAD_NOMBRE, SOAD_RUTA) VALUES (:ID_SOLICITUD, :SOAD_NOMBRE, :SOAD_RUTA)');
-            ParamByName('ID_SOLICITUD').AsString := numero_radicado;
+            ParamByName('ID_SOLICITUD').AsString := _numero_radicado;
             ParamByName('SOAD_NOMBRE').AsString := CDSadjuntoNombre.Value;
             ParamByName('SOAD_RUTA').AsString := CDSadjuntoRuta.Value;
             ExecSQL;
-            CopyFile(PChar(CDSadjuntoRuta.Value), PChar(_rutadestino + '\' + numero_radicado + '\'));
+            CopyFile(PChar(CDSadjuntoRuta.Value), PChar(_rutadestino + '\' + _numero_radicado + '\'), true);
             Close;
             Transaction.Commit;
             CDSadjunto.Next;

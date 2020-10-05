@@ -1,6 +1,6 @@
 object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
-  Left = 468
-  Top = 61
+  Left = 432
+  Top = -3
   Width = 582
   Height = 642
   Caption = 'Liquidacion Manual de Cartera'
@@ -2708,6 +2708,11 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
         Name = 'Cuenta'
         ValueType = 'prvvtString'
         Value = ''
+      end
+      item
+        Name = 'Factura'
+        ValueType = 'prvvtString'
+        Value = 'No Aplica'
       end>
     WrapAfterColumn = 0
     EjectPageAfterPrint = False
@@ -2716,8 +2721,8 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
     ToLine = 0
     ExportFromLine = 0
     ExportToLine = 0
-    Left = 222
-    Top = 448
+    Left = 126
+    Top = 463
     SystemInfo = (
       'OS: WIN32_NT 5.1.2600 Service Pack 3'
       ''
@@ -2860,7 +2865,7 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
             item
               Visible = True
               Memo.Strings = (
-                'Fecha de Liquidaci'#243'n:[:<yyyy/mm/dd>Hoy]')
+                'Fecha de Liquidacion:[:<yyyy/mm/dd>Hoy]')
               DeleteEmptyLinesAtEnd = False
               DeleteEmptyLines = False
               CanResizeX = False
@@ -4019,7 +4024,7 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
             item
               Visible = True
               Memo.Strings = (
-                'Pr'#243'xima Cuota:[ProximaCuota]')
+                'Proxima Cuota:[ProximaCuota]')
               DeleteEmptyLinesAtEnd = False
               DeleteEmptyLines = False
               CanResizeX = False
@@ -4118,9 +4123,9 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
               WordWrap = False
             end>
           dRec.Left = 1
-          dRec.Top = 3
+          dRec.Top = 5
           dRec.Right = 56
-          dRec.Bottom = 4
+          dRec.Bottom = 6
           Visible = False
         end
         object prTxHLineObj1: TprTxHLineObj
@@ -4190,6 +4195,28 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
           dRec.Left = 92
           dRec.Top = 3
           dRec.Right = 101
+          dRec.Bottom = 4
+          Visible = False
+        end
+        object prTxMemoObj62: TprTxMemoObj
+          dRec.DefVersion = 0
+          dRec.Versions = <
+            item
+              Visible = True
+              Memo.Strings = (
+                'Factura No.:[Factura]')
+              DeleteEmptyLinesAtEnd = False
+              DeleteEmptyLines = False
+              CanResizeX = False
+              CanResizeY = False
+              hAlign = prhLeft
+              vAlign = prvTop
+              DefaultFont = False
+              WordWrap = False
+            end>
+          dRec.Left = 1
+          dRec.Top = 3
+          dRec.Right = 23
           dRec.Bottom = 4
           Visible = False
         end
@@ -4410,12 +4437,12 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
   end
   object IBSQLAux: TIBSQL
     Transaction = IBTransaction1
-    Left = 48
-    Top = 360
+    Left = 40
+    Top = 392
   end
   object IBTransaction1: TIBTransaction
     Left = 80
-    Top = 360
+    Top = 400
   end
   object IBQabogado: TIBQuery
     SQL.Strings = (

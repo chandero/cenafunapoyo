@@ -201,7 +201,7 @@ begin
     FechaF2 := FechaCorte;
 
     FechaF3 := FechaProx;
-    FechaF4 := fFechaActual;
+    FechaF4 := FechaCorte;
     Paso := False;
 
     // Inicio While 1
@@ -275,7 +275,7 @@ begin
     FechaF1 := FechaInicial;
     FechaF2 := FechaCorte;
     FechaF3 := FechaProx;
-    FechaF4 := ffechaactual;
+    FechaF4 := FechaCorte;
     Paso := False;
 
     // Inicio While 1
@@ -350,7 +350,7 @@ begin
     FechaF1 := FechaInicial;
     FechaF2 := FechaCorte;
     FechaF3 := FechaProx;
-    FechaF4 := fFechaActual;
+    FechaF4 := FechaCorte;
     Paso := False;
 
     // Inicio While 1
@@ -8504,11 +8504,10 @@ var
 begin
         dmGeneral:= TdmGeneral.Create(nil);
         dmGeneral.getConnected;
-        with dmGeneral.IBQuery1 do
-        begin
-            SQL.clear;
-            SQL.Add('select * from "col$descuentos" where ID_DESCUENTO = :ID_DESCUENTO');
-        end;
+
+        dmGeneral.IBQuery1.SQL.clear;
+        dmGeneral.IBQuery1.SQL.Add('select * from "col$descuentos" where ID_DESCUENTO = :ID_DESCUENTO');
+
         CdsCuotas.First;
         CdsCuotas.Last;
         CdsCuotas.First;
@@ -8693,7 +8692,7 @@ begin
             if TryEncodeDate(YearOf(Fecha),MonthOf(Fecha),Dia,Fecha1) then
               Fecha := Fecha1;
         //  end;
-        Dias := DiasEntreFechas(IncDay(Fecha),FechaHoy,_dFechaD + _iDiasPago);
+
             // Validar COL_PERIODO_GRACIA
         IBT := TIBTransaction.Create(nil);
         IBT.DefaultDatabase := dmGeneral.IBDatabase1;
@@ -8708,13 +8707,20 @@ begin
         IBQvalidar.Open;
         if IBQvalidar.RecordCount > 0 then
         begin
-           _fechaInicial := IBQvalidar.FieldByName('FECHA_REGISTRO').AsDateTime;
+           _fechaInicial := IBQvalidar.FieldByName('FECHA_INTERES').AsDateTime;
+           _fechaInicial := CalculoFecha(_fechaInicial, Amortiza);
            _diasGracia := IBQvalidar.FieldByName('DIAS').AsInteger;
            _fechaFinal := CalculoFecha(_fechaInicial, _diasGracia);
+           Fecha := CalculoFecha(Fecha, _diasGracia);
+           Dias := DiasEntreFechas(IncDay(Fecha),FechaHoy,_dFechaD + _iDiasPago);
            if (_fechaFinal >= FechaHoy) then Dias := 0;
+        end
+        else
+        begin
+           Dias := DiasEntreFechas(IncDay(Fecha),FechaHoy,_dFechaD + _iDiasPago);
         end;
         IBQvalidar.Close;
-        IBT.Commit;        
+        IBT.Commit;
         Result := Dias;
 end;
 

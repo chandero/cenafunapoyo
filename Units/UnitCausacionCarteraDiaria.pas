@@ -3388,7 +3388,7 @@ begin
                 //  Dias := Dias + IBQuery1.FieldByName('AMORTIZA_INTERES').AsInteger;
 
                if Dias < 1 then Dias := 0;   
-               DiasCorrientes := Dias;
+               DiasCorrientes := DiasEntre(IBQuery1.FieldByName('FECHA_INTERES').AsDateTime, EdFechaCorte.Date);
 
                //// Evaluar Edad Y Dias de Mora
                //if IBQuery1.FieldByName('ID_ESTADO_COLOCACION').AsInteger = 2 then
@@ -3515,6 +3515,7 @@ var id_ant:Integer;
     i,Ano,Mes,Dia,DiasCalc:Integer;
     FechaDesembolso:TDate;
     TasaViv:Double;
+    _diasGracia: Integer;
 begin
           with IBQuery1 do begin
             if Transaction.InTransaction then
@@ -3562,6 +3563,7 @@ begin
           while not IBQuery1.Eof  do begin
               frmPantallaProgreso.Position := IBQuery1.RecNo;
               frmPantallaProgreso.InfoLabel := IBQuery1.FieldByName('ID_PERSONA').AsString + '-' + IBQuery1.FieldByName('ID_COLOCACION').AsString;
+              _diasGracia := 0;
               Application.ProcessMessages;
               if (IBQuery1.FieldByName('ID_IDENTIFICACION').AsInteger <> id_ant) or
                  (IBQuery1.FieldByName('ID_PERSONA').AsString <> pr_ant) then
@@ -3581,9 +3583,9 @@ begin
               IBSQL3.SQL.Add('ID_CLASIFICACION = :ID_CLASIFICACION and ');
               IBSQL3.SQL.Add('ID_GARANTIA = :ID_GARANTIA and ');
               IBSQL3.SQL.Add('ID_CATEGORIA = :ID_CATEGORIA');
-              IBSQL3.ParamByName('ID_CLASIFICACION').AsInteger := IBQuery1.FieldByName('ID_CLASIFICACION').AsInteger;
               IBSQL3.ParamByName('ID_GARANTIA').AsInteger := IBQuery1.FieldByName('ID_GARANTIA').AsInteger;
               IBSQL3.ParamByName('ID_CATEGORIA').AsString := 'C';
+              IBSQL3.ParamByName('ID_CLASIFICACION').AsInteger := IBQuery1.FieldByName('ID_CLASIFICACION').AsInteger;
               try
                 IBSQL3.ExecQuery;
                 DiasContingencia := IBSQL3.FieldByName('DIAS_INICIALES').AsInteger;
@@ -3594,6 +3596,18 @@ begin
               end;// try
               Dias := IBQuery1.FieldByName('DIAS').AsInteger;
               DiasCorrientes := Dias;
+
+              IBSQL3.Close;
+              IBSQL3.SQL.Clear;
+              IBSQL3.SQL.Add('select DIAS from COL_PERIODO_GRACIA WHERE');
+              IBSQL3.SQL.Add('ID_COLOCACION = :ID_COLOCACION AND ESTADO < 5');
+              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
+              try
+                IBSQL3.ExecQuery;
+                _diasGracia := IBSQL3.FieldByName('DIAS').AsInteger;
+              except
+                _diasGracia := 0;
+              end;
 
               if IBQuery1.FieldByName('TIPOC_INTERES').AsString = 'V' then
                 DiasContingencia := DiasContingencia + IBQuery1.FieldByName('AMORTIZA_INTERES').AsInteger;
@@ -3785,6 +3799,15 @@ begin
             end;
            // Fin Buqueda de Tasa Anticipada
 
+           // Valido Periodo de Gracia Activo
+           if _diasGracia > 0 then
+           begin
+               Causados := Causados + Contingentes;
+               Contingentes := 0;
+               if edad_act <> 'A' then
+                  edad_act := 'A';
+           end;
+
            // Calculo Intereses
             Anticipados := SimpleRoundTo(((IBQuery1.FieldByName('DEUDA').AsCurrency * (TasaAnt/100)) / 360 ) * -DiasANT,0);
 //            Causados  := SimpleRoundTo(((IBQuery1.FieldByName('DEUDA').AsCurrency * (Tasa/100)) / 360 ) * DiasCXC,0);
@@ -3865,7 +3888,7 @@ begin
                     SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
                     ParamByName('ID_AGENCIA').AsInteger := IBQuery1.fieldbyname('ID_AGENCIA').AsInteger;
                     ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-                    ParamByName('ID_ARRASTRE').AsString := IBQuery1.FieldByName('ID_EDAD_ACT').AsString; //edad_act;
+                    ParamByName('ID_ARRASTRE').AsString := edad_act;
                     ParamByName('TASA').AsDouble := Tasa;
                     ParamByName('ANTICIPADOS').AsCurrency := Anticipados;
                     ParamByName('CAUSADOS').AsCurrency := Causados;

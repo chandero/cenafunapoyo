@@ -111,13 +111,15 @@ uses
   DataSetToExcel in '..\..\Units\DataSetToExcel.pas',
   UnitCompromisoJudicial in '..\Modulo Cartera\Unit\UnitCompromisoJudicial.pas' {frmCompromisoJudicial},
   Unit_ComprobanteC in 'units\UnitComprobanteNuevo\Unit_ComprobanteC.pas' {frmComprobanteC},
-  UnitAnularAbono in '\\Vboxsvr\sgft\FunApoyo\Units\UnitAnularAbono.pas' {frmAnularAbono},
-  UnitSmsCredentials in '\\Vboxsvr\sgft\FunApoyo\Units\UnitSmsCredentials.pas',
-  UnitConsultaComprobantes in '\\Vboxsvr\sgft\FunApoyo\Modulos\Modulo Contabilidad\units\UnitConsultaComprobantes.pas' {frmConsultaComprobantes},
+  UnitAnularAbono in '..\..\Units\UnitAnularAbono.pas' {frmAnularAbono},
+  UnitSmsCredentials in '..\..\Units\UnitSmsCredentials.pas',
+  UnitConsultaComprobantes in 'units\UnitConsultaComprobantes.pas' {frmConsultaComprobantes},
   UnitInformeIngresosGastosporCentro in 'units\UnitInformeIngresosGastosporCentro.pas' {frmInformeIngresosGastosporCentro},
   UnitInformeBalanceGeneralporCentro in 'units\UnitInformeBalanceGeneralporCentro.pas' {frmInformeBalanceGeneralporCentro},
   UnitAuxiliarCentro in 'units\UnitAuxiliarCentro.pas' {frmAuxiliarCentro},
-  UnitInformeRecaudoCartera in 'units\UnitInformeRecaudoCartera.pas' {frmInformeRecaudoCartera};
+  UnitInformeRecaudoCartera in 'units\UnitInformeRecaudoCartera.pas' {frmInformeRecaudoCartera},
+  UnitSendEmail in '\\VBoxSvr\cena\cenafunapoyo\Units\UnitSendEmail.pas',
+  EASendMailObjLib_TLB in 'C:\Archivos de programa\EASendMail\Include\delphi\EASendMailObjLib_TLB.pas';
 
 {$R *.res}
 

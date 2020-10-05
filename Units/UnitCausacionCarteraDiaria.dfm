@@ -24186,7 +24186,7 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
     Top = 192
   end
   object frxReportProvision: TfrxReport
-    Version = '4.15.13'
+    Version = '4.10.12'
     DataSet = frxDBDataset1
     DataSetName = 'frxDBDataset1'
     DotMatrixReport = False

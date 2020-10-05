@@ -1,8 +1,8 @@
 object FrmRecuperarInforme: TFrmRecuperarInforme
-  Left = 419
-  Top = 260
-  Width = 338
-  Height = 134
+  Left = 557
+  Top = 202
+  Width = 336
+  Height = 198
   BorderIcons = [biSystemMenu]
   Caption = 'Recuperar Informe Desembolso'
   Color = clBtnFace
@@ -12,7 +12,7 @@ object FrmRecuperarInforme: TFrmRecuperarInforme
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poMainFormCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -604,6 +604,10 @@ object FrmRecuperarInforme: TFrmRecuperarInforme
     Numero = 0
     Letras = 'Cero'
     Left = 280
+    Top = 96
+  end
+  object IBQDescuento: TIBQuery
+    Left = 24
     Top = 96
   end
 end

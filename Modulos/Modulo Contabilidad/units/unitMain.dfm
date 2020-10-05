@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 365
-  Top = 234
+  Left = 295
+  Top = 132
   Width = 812
   Height = 406
   Caption = 'Modulo Contable - '

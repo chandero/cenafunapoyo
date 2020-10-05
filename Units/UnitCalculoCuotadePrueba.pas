@@ -170,6 +170,7 @@ var
   vConsignaAhorros:Currency;
   Banco:Integer;
   FechaCosignacion : TDate;
+  
 
 implementation
 
@@ -384,17 +385,17 @@ begin
                       FechaKant := FieldByname('FECHA_CAPITAL').AsDateTime;
                       EdFechaCapital.Caption := DateToStr(Fechakant);
                       EdFechaInteres.Caption := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
-                      EdTasaMaxima.Caption := FormatCurr('#0.00%',BuscoTasaEfectivaMaxima(fFechaActual,FieldByName('ID_CLASIFICACION').AsInteger,'A'));
+                      EdTasaMaxima.Caption := FormatCurr('#0.00%',BuscoTasaEfectivaMaxima(EdFechaCorte.Date,FieldByName('ID_CLASIFICACION').AsInteger,'A'));
                       Self.Caption := 'Calculo de Cuotas - Estado: '+ FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
                       if FieldByName('INTERES').AsString = 'V' then
                       begin
-                         EdTasaMaximaNominal.Caption := FormatCurr('#0.00%',TasaNominalVencida(BuscoTasaEfectivaMaxima(fFechaActual,FieldByName('ID_CLASIFICACION').AsInteger,'A'),FieldByName('AMORTIZA_INTERES').AsInteger));
+                         EdTasaMaximaNominal.Caption := FormatCurr('#0.00%',TasaNominalVencida(BuscoTasaEfectivaMaxima(EdFechaCorte.Date,FieldByName('ID_CLASIFICACION').AsInteger,'A'),FieldByName('AMORTIZA_INTERES').AsInteger));
                          TasaAplicada := TasaNominalVencida(TasaEfectiva,FieldByName('AMORTIZA_INTERES').AsInteger)  + FieldByName('PUNTOS_INTERES').AsFloat;
                          EdTasaNominal.Caption := FormatCurr('#0.00%',TasaAplicada);
                       end
                       else
                       begin
-                         EdTasaMaximaNominal.Caption := FormatCurr('#0.00%',TasaNominalAnticipada(BuscoTasaEfectivaMaxima(fFechaActual,FieldByName('ID_CLASIFICACION').AsInteger,'A'),FieldByName('AMORTIZA_INTERES').AsInteger));
+                         EdTasaMaximaNominal.Caption := FormatCurr('#0.00%',TasaNominalAnticipada(BuscoTasaEfectivaMaxima(EdFechaCorte.Date,FieldByName('ID_CLASIFICACION').AsInteger,'A'),FieldByName('AMORTIZA_INTERES').AsInteger));
                          TasaAplicada := TasaNominalAnticipada(TasaEfectiva,FieldByName('AMORTIZA_INTERES').AsInteger) + FieldByName('PUNTOS_INTERES').AsFloat;
                          EdTasaNominal.Caption := FormatCurr('#0.00%',TasaAplicada);
                       end;
@@ -486,7 +487,7 @@ begin
             EdFechaInteres.Caption := '';
             EdCuotas.Value := 1;
             EdFechaCorte.Date := _vFecha;
-            EdFechaCorte.MinDate := _vFecha - 7;
+            // EdFechaCorte.MinDate := _vFecha - 7;
             EdFechaNota.Date := _vFecha;
             EdFechaNota.MinDate := _vFecha - 7;
             EdFechaConsignacion.Date := _vFecha;
@@ -788,8 +789,8 @@ begin
      New(AR);
      AR^.CuotaNumero := CuotaNumero;
      AR^.CodigoPuc   := Codigo;
-     AR^.FechaInicial := fFechaActual;
-     AR^.FechaFinal   := fFechaActual;
+     AR^.FechaInicial := EdFechaCorte.Date;
+     AR^.FechaFinal   := EdFechaCorte.Date;
      AR^.Dias         := 0;
      AR^.Tasa         := 0;
      if EdEfectivo.Value > 0 then
@@ -853,8 +854,8 @@ begin
               New(AR);
               AR^.CuotaNumero := CuotaNumero;
               AR^.CodigoPuc   := CodigoAhorros;
-              AR^.FechaInicial := fFechaActual;
-              AR^.FechaFinal   := fFechaActual;
+              AR^.FechaInicial := EdFechaCorte.Date;
+              AR^.FechaFinal   := EdFechaCorte.Date;
               AR^.Dias         := 0;
               AR^.Tasa         := 0;
               AR^.Debito       := 0;
@@ -896,8 +897,8 @@ begin
             New(AR);
             AR^.CuotaNumero := CuotaNumero;
             AR^.CodigoPuc   := CodigoAhorros;
-            AR^.FechaInicial := fFechaActual;
-            AR^.FechaFinal   := fFechaActual;
+            AR^.FechaInicial := EdFechaCorte.Date;
+            AR^.FechaFinal   := EdFechaCorte.Date;
             AR^.Dias         := 0;
             AR^.Tasa         := 0;
             AR^.Debito       := (vTotalLiquidacion - EdEfectivo.Value);
@@ -924,8 +925,8 @@ begin
               New(AR);
               AR^.CuotaNumero := CuotaNumero;
               AR^.CodigoPuc   := CodigoBanco;
-              AR^.FechaInicial := fFechaActual;
-              AR^.FechaFinal   := fFechaActual;
+              AR^.FechaInicial := EdFechaCorte.Date;
+              AR^.FechaFinal   := EdFechaCorte.Date;
               AR^.Dias         := 0;
               AR^.Tasa         := 0;
               AR^.Debito       := 0;
@@ -980,8 +981,8 @@ begin
                 New(AR);
                 AR^.CuotaNumero := CuotaNumero;
                 AR^.CodigoPuc   := CodigoAhorros;
-                AR^.FechaInicial := fFechaActual;
-                AR^.FechaFinal   := fFechaActual;
+                AR^.FechaInicial := EdFechaCorte.Date;
+                AR^.FechaFinal   := EdFechaCorte.Date;
                 AR^.Dias         := 0;
                 AR^.Tasa         := 0;
                 AR^.Debito       := 0;
@@ -1002,8 +1003,8 @@ begin
               New(AR);
               AR^.CuotaNumero := CuotaNumero;
               AR^.CodigoPuc   := CodigoBanco;
-              AR^.FechaInicial := fFechaActual;
-              AR^.FechaFinal   := fFechaActual;
+              AR^.FechaInicial := EdFechaCorte.Date;
+              AR^.FechaFinal   := EdFechaCorte.Date;
               AR^.Dias         := 0;
               AR^.Tasa         := 0;
               AR^.Debito       := 0;
@@ -1043,8 +1044,8 @@ begin
             New(AR);
             AR^.CuotaNumero := CuotaNumero;
             AR^.CodigoPuc   := CodigoAhorros;
-            AR^.FechaInicial := fFechaActual;
-            AR^.FechaFinal   := fFechaActual;
+            AR^.FechaInicial := EdFechaCorte.Date;
+            AR^.FechaFinal   := EdFechaCorte.Date;
             AR^.Dias         := 0;
             AR^.Tasa         := 0;
             AR^.Debito       := (vTotalLiquidacion - (EdNacional.Value - vComisionNal));
@@ -1063,8 +1064,8 @@ begin
                New(AR);
                AR^.CuotaNumero := CuotaNumero;
                AR^.CodigoPuc   := CodigoBanco;
-               AR^.FechaInicial := fFechaActual;
-               AR^.FechaFinal   := fFechaActual;
+               AR^.FechaInicial := EdFechaCorte.Date;
+               AR^.FechaFinal   := EdFechaCorte.Date;
                AR^.Dias         := 0;
                AR^.Tasa         := 0;
                AR^.Debito       := 0;
@@ -1124,8 +1125,8 @@ begin
                    New(AR);
                    AR^.CuotaNumero := CuotaNumero;
                    AR^.CodigoPuc   := CodigoAhorros;
-                   AR^.FechaInicial := fFechaActual;
-                   AR^.FechaFinal   := fFechaActual;
+                   AR^.FechaInicial := EdFechaCorte.Date;
+                   AR^.FechaFinal   := EdFechaCorte.Date;
                    AR^.Dias         := 0;
                    AR^.Tasa         := 0;
                    AR^.Debito       := 0;
@@ -1148,8 +1149,8 @@ begin
             New(AR);
             AR^.CuotaNumero := CuotaNumero;
             AR^.CodigoPuc   := CodigoAhorros;
-            AR^.FechaInicial := fFechaActual;
-            AR^.FechaFinal   := fFechaActual;
+            AR^.FechaInicial := EdFechaCorte.Date;
+            AR^.FechaFinal   := EdFechaCorte.Date;
             AR^.Dias         := 0;
             AR^.Tasa         := 0;
             AR^.Debito       := (vTotalLiquidacion - EdLibranza.Value);
@@ -1173,8 +1174,8 @@ begin
                    New(AR);
                    AR^.CuotaNumero := CuotaNumero;
                    AR^.CodigoPuc   := CodigoSobrantes;
-                   AR^.FechaInicial := fFechaActual;
-                   AR^.FechaFinal   := fFechaActual;
+                   AR^.FechaInicial := EdFechaCorte.Date;
+                   AR^.FechaFinal   := EdFechaCorte.Date;
                    AR^.Dias         := 0;
                    AR^.Tasa         := 0;
                    AR^.Debito       := 0;

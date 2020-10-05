@@ -83,12 +83,12 @@ type
     EdCentro: TEdit;
     Label20: TLabel;
     edSobrante: TStaticText;
-    Report: TprTxReport;
     btnFactura: TBitBtn;
     Label21: TLabel;
     edFactura: TEdit;
     Label22: TLabel;
     edRespuesta: TMemo;
+    Report: TprTxReport;
     procedure FormShow(Sender: TObject);
     procedure CmdAceptarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -774,8 +774,6 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
      Grid.Options := [goFixedVertLine,goFixedHorzLine,goVertLine,goHorzLine,goRangeSelect];
      EdHonorarios.Enabled := False;
 
-
-
      // Crear Factura si es necesario
      if ( (_valorFacturarCXC > 0) or (_valorFacturarMES > 0) or (_valorFacturarMORA > 0) or ((_valorFacturarANT - _valorFacturarDEV) > 0) ) then
      begin
@@ -852,8 +850,8 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
                           ParamByName('FAIT_TOTAL').AsCurrency := _valorFacturarMORA;
                           ExecSQL;
                        end;
-
                      end;
+               edFactura.Text := IntToStr(_vFacturaConsecutivo);
              end;
            end;
      // Fin Factura
@@ -1078,12 +1076,11 @@ begin
            Report.Variables.ByName['CapitalHasta'].AsDateTime := CapitalHasta;
            Report.Variables.ByName['comprobante'].AsString := VNoComprobante;
            Report.Variables.ByName['empleado'].AsString := Nombres + '    ' + Apellidos;
+           Report.Variables.ByName['Factura'].AsString := IntToStr(_vFacturaConsecutivo);           
 
            if Report.PrepareReport then
            begin
-              frmVistaPreliminar := TfrmVistaPreliminar.Create(Self);
-              frmVistaPreliminar.Reporte := Report;
-              frmVistaPreliminar.ShowModal;
+              Report.PreviewPreparedReport(false);
            end;
 
            IBInforme.EmptyDataSet;

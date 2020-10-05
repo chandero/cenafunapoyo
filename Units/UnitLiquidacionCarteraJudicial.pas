@@ -2755,12 +2755,11 @@ begin
            Report.Variables.ByName['CapitalHasta'].AsDateTime := NuevaFechaCapital;
            Report.Variables.ByName['comprobante'].AsString := VComprobante;
            Report.Variables.ByName['empleado'].AsString := Nombres + '    ' + Apellidos;
+           Report.Variables.ByName['Factura'].AsString := IntToStr(_vFacturaConsecutivo);
 
            if Report.PrepareReport then
            begin
-              frmVistaPreliminar := TfrmVistaPreliminar.Create(Self);
-              frmVistaPreliminar.Reporte := Report;
-              frmVistaPreliminar.ShowModal;
+             Report.PreviewPreparedReport(false);
            end;
            IBInforme.EmptyDataSet;
 
@@ -3522,6 +3521,7 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
                        end;
 
                      end;
+                     edFactura.Text := IntToStr(_vFacturaConsecutivo);
                 end;
         end;
      // Fin Factura

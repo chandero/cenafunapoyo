@@ -3,7 +3,7 @@ unit UnitGlobales;
 interface
 
 Uses Graphics, Forms, StdCtrls, DBCtrls, Math, DateUtils, IB, IBSQL ,IBQuery,IBStoredProc, IBDataBase, Messages,SysUtils,DB,DBGrids,Windows,Controls, StrUtils,Classes,Dialogs, winspool, Printers,
-     Unit_DmComprobante,JvStringGrid,DBClient, UnitdmGeneral, UnitSmsCredentials;
+     Unit_DmComprobante,JvStringGrid,DBClient, UnitdmGeneral, UnitSmSCredentials;
 
 type
      PTablaCerLiq = ^TablaCerLiq;
@@ -286,6 +286,7 @@ function LeftPad(value: string; length:integer=8; pad:char='0'): string; overloa
 function RightPad(value: string; length:integer=8; pad:char='0'): string; overload;
 function GetDepartamento(depa_id:String): String;
 function validarConsecutivoFactura(_id: Integer): Boolean;
+function ValidEmail(email: string): boolean;
 
 implementation
 
@@ -1762,14 +1763,14 @@ end;
 
 function validarConsecutivoFactura(_id: Integer): Boolean;
 var
-    _ibSQL1: TIBSQL;
+    _ibSQL1: TIBQuery;
     _ibTransaction: TIBTransaction;
     _dmGeneral: TDmGeneral;
     Consecutivo:Integer;
 begin
        _dmGeneral := TdmGeneral.Create(nil);
        _dmGeneral.getConnected;
-       _ibSQL1 := TIBSQL.Create(nil);
+       _ibSQL1 := TIBQuery.Create(nil);
        _ibTransaction := TIBTransaction.Create(nil);
        _ibTransaction.DefaultDatabase := _dmGeneral.IBDatabase1;
        _ibSQL1.Database := _dmGeneral.IBDatabase1;
@@ -1781,9 +1782,8 @@ begin
             Transaction.Commit;
          Transaction.StartTransaction;
           SQL.Clear;
-          SQL.Add('select FAAU_SECUENCIAFINAL from FAC_AUTORIZACION WHERE FAAU_ID = :FAAU_ID');
-          ParamByName('FAAU_ID').AsInteger := 1;
-          ExecQuery;
+          SQL.Add('select FIRST 1 FAAU_SECUENCIAFINAL from FAC_AUTORIZACION ORDER BY FAAU_ID DESC');
+          Open;
           Consecutivo := FieldByName('FAAU_SECUENCIAFINAL').AsInteger;
           Close;
        end;
@@ -1880,18 +1880,19 @@ begin
          Transaction.StartTransaction;
          try
           SQL.Clear;
-          SQL.Add('select CONSECUTIVO from "gen$consecutivos" where ID_CONSECUTIVO = :ID');
-          ParamByName('ID').AsInteger := 2;
+          // SQL.Add('select CONSECUTIVO from "gen$consecutivos" where ID_CONSECUTIVO = :ID');
+          // ParamByName('ID').AsInteger := 2;
+          SQL.Add('SELECT GEN_ID(GEN_AUXILIAR_ID, 1) AS CONSECUTIVO FROM RDB$DATABASE');
           ExecQuery;
           Consecutivo := FieldByName('CONSECUTIVO').AsInteger;
           Close;
-          Consecutivo := Consecutivo + 1;
-          SQL.Clear;
-          SQL.Add('update "gen$consecutivos" set "gen$consecutivos"."CONSECUTIVO" = :"CONSECUTIVO" ');
-          SQL.Add(' where "gen$consecutivos"."ID_CONSECUTIVO" = :ID');
-          ParamByName('ID').AsInteger := 2;
-          ParamByName('CONSECUTIVO').AsInteger := Consecutivo;
-          ExecQuery;
+          // Consecutivo := Consecutivo + 1;
+          // SQL.Clear;
+          // SQL.Add('update "gen$consecutivos" set "gen$consecutivos"."CONSECUTIVO" = :"CONSECUTIVO" ');
+          // SQL.Add(' where "gen$consecutivos"."ID_CONSECUTIVO" = :ID');
+          // ParamByName('ID').AsInteger := 2;
+          // ParamByName('CONSECUTIVO').AsInteger := Consecutivo;
+          // ExecQuery;
           Transaction.Commit;
           Result := Consecutivo;
           break;
@@ -3115,5 +3116,98 @@ begin
         
         dmGeneral.Free;        
 end;
+
+function ValidEmail(email: string): boolean;
+  // Returns True if the email address is valid
+  // Author: Ernesto D'Spirito
+  const
+    // Valid characters in an "atom"
+    atom_chars = [#33..#255] - ['(', ')', '<', '>', '@', ',', ';', ':',
+                                '\', '/', '"', '.', '[', ']', #127];
+    // Valid characters in a "quoted-string"
+    quoted_string_chars = [#0..#255] - ['"', #13, '\'];
+    // Valid characters in a subdomain
+    letters = ['A'..'Z', 'a'..'z'];
+    letters_digits = ['0'..'9', 'A'..'Z', 'a'..'z'];
+    subdomain_chars = ['-', '0'..'9', 'A'..'Z', 'a'..'z'];
+  type
+    States = (STATE_BEGIN, STATE_ATOM, STATE_QTEXT, STATE_QCHAR,
+      STATE_QUOTE, STATE_LOCAL_PERIOD, STATE_EXPECTING_SUBDOMAIN,
+      STATE_SUBDOMAIN, STATE_HYPHEN);
+  var
+    State: States;
+    i, n, subdomains: integer;
+    c: char;
+  begin
+    State := STATE_BEGIN;
+    n := Length(email);
+    i := 1;
+    subdomains := 1;
+    while (i <= n) do begin
+      c := email[i];
+      case State of
+      STATE_BEGIN:
+        if c in atom_chars then
+          State := STATE_ATOM
+        else if c = '"' then
+          State := STATE_QTEXT
+        else
+          break;
+      STATE_ATOM:
+        if c = '@' then
+          State := STATE_EXPECTING_SUBDOMAIN
+        else if c = '.' then
+          State := STATE_LOCAL_PERIOD
+        else if not (c in atom_chars) then
+          break;
+      STATE_QTEXT:
+        if c = '\' then
+          State := STATE_QCHAR
+        else if c = '"' then
+          State := STATE_QUOTE
+        else if not (c in quoted_string_chars) then
+          break;
+      STATE_QCHAR:
+        State := STATE_QTEXT;
+      STATE_QUOTE:
+        if c = '@' then
+          State := STATE_EXPECTING_SUBDOMAIN
+        else if c = '.' then
+          State := STATE_LOCAL_PERIOD
+        else
+          break;
+      STATE_LOCAL_PERIOD:
+        if c in atom_chars then
+          State := STATE_ATOM
+        else if c = '"' then
+          State := STATE_QTEXT
+        else
+          break;
+      STATE_EXPECTING_SUBDOMAIN:
+        if c in letters then
+          State := STATE_SUBDOMAIN
+        else
+          break;
+      STATE_SUBDOMAIN:
+        if c = '.' then begin
+          inc(subdomains);
+          State := STATE_EXPECTING_SUBDOMAIN
+        end else if c = '-' then
+          State := STATE_HYPHEN
+        else if not (c in letters_digits) then
+          break;
+      STATE_HYPHEN:
+        if c in letters_digits then
+          State := STATE_SUBDOMAIN
+        else if c <> '-' then
+          break;
+      end;
+      inc(i);
+    end;
+    if i <= n then
+      Result := False
+    else
+       Result := (State = STATE_SUBDOMAIN) and (subdomains >= 2);
+   end;
 
 end.

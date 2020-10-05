@@ -1,6 +1,6 @@
 object frmMuestroLiquidacionColocacion: TfrmMuestroLiquidacionColocacion
-  Left = 395
-  Top = 66
+  Left = 324
+  Top = 7
   Width = 783
   Height = 629
   Caption = 'Detalle de la Liquidaci'#243'n'
@@ -1232,6 +1232,11 @@ object frmMuestroLiquidacionColocacion: TfrmMuestroLiquidacionColocacion
         Name = 'Cuenta'
         ValueType = 'prvvtString'
         Value = ''
+      end
+      item
+        Name = 'Factura'
+        ValueType = 'prvvtString'
+        Value = 'No Aplica'
       end>
     WrapAfterColumn = 0
     EjectPageAfterPrint = False
@@ -2642,9 +2647,9 @@ object frmMuestroLiquidacionColocacion: TfrmMuestroLiquidacionColocacion
               WordWrap = False
             end>
           dRec.Left = 1
-          dRec.Top = 3
+          dRec.Top = 5
           dRec.Right = 56
-          dRec.Bottom = 4
+          dRec.Bottom = 6
           Visible = False
         end
         object prTxHLineObj1: TprTxHLineObj
@@ -2714,6 +2719,28 @@ object frmMuestroLiquidacionColocacion: TfrmMuestroLiquidacionColocacion
           dRec.Left = 92
           dRec.Top = 3
           dRec.Right = 101
+          dRec.Bottom = 4
+          Visible = False
+        end
+        object prTxMemoObj62: TprTxMemoObj
+          dRec.DefVersion = 0
+          dRec.Versions = <
+            item
+              Visible = True
+              Memo.Strings = (
+                'Factura No.:[Factura]')
+              DeleteEmptyLinesAtEnd = False
+              DeleteEmptyLines = False
+              CanResizeX = False
+              CanResizeY = False
+              hAlign = prhLeft
+              vAlign = prvTop
+              DefaultFont = False
+              WordWrap = False
+            end>
+          dRec.Left = 1
+          dRec.Top = 3
+          dRec.Right = 23
           dRec.Bottom = 4
           Visible = False
         end
