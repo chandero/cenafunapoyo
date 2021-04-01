@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 439
-  Top = 174
+  Left = 0
+  Top = 23
   Width = 640
   Height = 434
   Caption = 'Cr'#233'ditos - '

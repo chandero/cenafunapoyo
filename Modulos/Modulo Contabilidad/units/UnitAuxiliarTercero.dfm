@@ -1,8 +1,8 @@
 object frmAuxiliarTercero: TfrmAuxiliarTercero
-  Left = 256
-  Top = 0
-  Width = 542
-  Height = 196
+  Left = 388
+  Top = 142
+  Width = 566
+  Height = 257
   Caption = 'Auxiliar de Terceros'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,8 +17,8 @@ object frmAuxiliarTercero: TfrmAuxiliarTercero
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 534
-    Height = 162
+    Width = 558
+    Height = 223
     Align = alClient
     TabOrder = 0
     object Label1: TLabel
@@ -143,8 +143,8 @@ object frmAuxiliarTercero: TfrmAuxiliarTercero
     end
     object Panel2: TPanel
       Left = 1
-      Top = 128
-      Width = 532
+      Top = 189
+      Width = 556
       Height = 33
       Align = alBottom
       Color = clOlive
@@ -686,7 +686,7 @@ object frmAuxiliarTercero: TfrmAuxiliarTercero
       000D004355454E5441494E494349414C000000000B004355454E544146494E41
       4C000000000400414E484F0000000000000000010000000C0066724442446174
       615365743100000000FC000000000000000000000000000000004D00A20D85ED
-      4EBBE440F303CD536DBCE440}
+      4EBBE44093A3D8D23795E540}
   end
   object IBQmaestro: TIBQuery
     Left = 152

@@ -18,9 +18,9 @@ uses
   UnitConsolidarData in 'Units\UnitConsolidarData.pas' {frmConsolidarData},
   UnitPantallaProgreso in 'Units\UnitPantallaProgreso.pas' {frmProgreso},
   UnitProcesarDatacredito in 'Units\UnitProcesarDatacredito.pas' {frmProcesarDatacredito},
-  UnitSmsCredentials in '\\Vboxsvr\sgft\FunApoyo\Units\UnitSmsCredentials.pas',
-  UnitSmsRequest in '\\Vboxsvr\sgft\FunApoyo\Units\UnitSmsRequest.pas',
-  Jsons in '\\Vboxsvr\sgft\FunApoyo\Units\Jsons.pas';
+  UnitSmsRequest in '..\..\Units\UnitSmsRequest.pas',
+  Jsons in '..\..\Units\Jsons.pas',
+  UnitSmsCredentials in '..\..\Units\UnitSmsCredentials.pas';
 
 {$R *.res}
 

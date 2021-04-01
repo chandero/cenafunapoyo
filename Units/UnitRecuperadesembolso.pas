@@ -88,6 +88,9 @@ var
   FrmRecuperarInforme: TFrmRecuperarInforme;
   dmGeneral: TdmGeneral;
   vAgencia: Integer;
+  vDesembolso: Currency;
+  vSaldoActual: Currency;
+  vAmortiza: Integer;
 
 implementation
 
@@ -110,7 +113,7 @@ begin
         begin
           Close;
           SQL.Clear;
-          SQL.Add('select ID_COLOCACION,VALOR_CUOTA,ID_ESTADO_COLOCACION,NOTA_CONTABLE,NUMERO_CUENTA from "col$colocacion"');
+          SQL.Add('select ID_COLOCACION,VALOR_DESEMBOLSO, VALOR_CUOTA, AMORTIZA_CAPITAL, ID_ESTADO_COLOCACION,NOTA_CONTABLE,NUMERO_CUENTA from "col$colocacion"');
           SQL.Add('where ID_COLOCACION = :ID_COLOCACION');
           ParamByName('ID_COLOCACION').AsString := EDcolocacion.Text;
           Open;
@@ -122,6 +125,9 @@ begin
           estado := FieldByName('ID_ESTADO_COLOCACION').AsInteger;
           v_cuota := FieldByName('VALOR_CUOTA').AsCurrency;
           vNumeroCuenta := FieldByName('NUMERO_CUENTA').AsInteger;
+          vDesembolso := FieldByName('VALOR_DESEMBOLSO').AsCurrency;
+          vSaldoActual := vDesembolso;
+          vAmortiza := FieldByName('AMORTIZA_CAPITAL').AsInteger;
           try
             nota_contable := StrToInt(FieldByName('NOTA_CONTABLE').AsString);
           except
@@ -178,6 +184,7 @@ Saldo,valor_colocacion,vColocacion :Currency;
 vAmortizaCapital: Integer;
 begin
         Empleado;
+        vAmortizaCapital := vAmortiza;
         if IBtranreporte.InTransaction then
            IBtranreporte.Commit;
         IBtranreporte.StartTransaction;
@@ -286,7 +293,7 @@ begin
                 if CDliquidacion.Locate('CUOTA_NUMERO',VarArrayOf([CDSADescontar.FieldByName('CUOTA_NUMERO').AsVariant]),[loCaseInsensitive]) then
                 begin
                    CDliquidacion.Edit;
-                   CDliquidacion.FieldByName('OTROS').AsCurrency := CDliquidacion.FieldByName('OTROS').AsCurrency + CDSADescontar.FieldByName('VALOR').AsCurrency;
+                   CDliquidacionotros.Value := CDliquidacionotros.Value + CDSADescontar.FieldByName('VALOR').AsCurrency;
                    CDliquidacion.Post;
                 end;
                 CDSADescontar.Next;

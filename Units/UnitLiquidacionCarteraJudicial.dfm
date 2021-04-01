@@ -1,6 +1,6 @@
 object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
   Left = 432
-  Top = -3
+  Top = 19
   Width = 582
   Height = 642
   Caption = 'Liquidacion Manual de Cartera'
@@ -12,7 +12,7 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
-  Position = poScreenCenter
+  Position = poMainFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
@@ -1149,8 +1149,8 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
     Top = 327
     Width = 570
     Height = 242
-    ActivePage = TabSheet1
-    TabIndex = 3
+    ActivePage = InfoIntereses
+    TabIndex = 0
     TabOrder = 4
     object InfoIntereses: TTabSheet
       Caption = 'Intereses'
@@ -4438,11 +4438,11 @@ object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
   object IBSQLAux: TIBSQL
     Transaction = IBTransaction1
     Left = 40
-    Top = 392
+    Top = 384
   end
   object IBTransaction1: TIBTransaction
     Left = 80
-    Top = 400
+    Top = 384
   end
   object IBQabogado: TIBQuery
     SQL.Strings = (

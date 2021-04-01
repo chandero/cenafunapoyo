@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, DateUtils, StrUtils, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, pr_Common, pr_TxClasses, DB, IBCustomDataSet, IBQuery, StdCtrls,
-  Buttons, Mask, ExtCtrls, DBClient, UnitDmGeneral;
+  Buttons, Mask, ExtCtrls, DBClient, UnitDmGeneral, JvEdit, JvTypedEdit,
+  FR_Class, frOLEExl, FR_DSet, FR_DBSet;
 
 type
   TfrmCajaDiario = class(TForm)
@@ -13,23 +14,22 @@ type
     Label5: TLabel;
     Label4: TLabel;
     CBMeses: TComboBox;
-    EdAno: TMaskEdit;
     Panel2: TPanel;
     CmdAceptar: TBitBtn;
     CmdCerrar: TBitBtn;
     IBQPuc: TIBQuery;
     IBQAuxiliar: TIBQuery;
-    IBQTemp: TClientDataSet;
-    IBQTempCODIGO: TStringField;
-    IBQTempDIA: TIntegerField;
-    IBQTempMES: TIntegerField;
-    IBQTempDEBITO: TCurrencyField;
-    IBQTempCREDITO: TCurrencyField;
-    IBQTempNOMBRE: TStringField;
     Reporte: TprTxReport;
     CmdReporte: TBitBtn;
     CmdArchivo: TBitBtn;
     SDArchivo: TSaveDialog;
+    edAno: TJvYearEdit;
+    frDBDataSet2: TfrDBDataSet;
+    frDBDataSet1: TfrDBDataSet;
+    frOLEExcelExport1: TfrOLEExcelExport;
+    frReport1: TfrReport;
+    IBQTemp: TIBQuery;
+    IBQTemp1: TIBQuery;
     procedure CmdAceptarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure CmdCerrarClick(Sender: TObject);
@@ -65,6 +65,7 @@ begin
         if dmGeneral.IBTransaction1.InTransaction then
            dmGeneral.IBTransaction1.Rollback;
         dmGeneral.IBTransaction1.StartTransaction;
+        {
         with IBQAuxiliar do begin
          Close;
          SQL.Clear;
@@ -143,6 +144,17 @@ begin
          frmProgreso.Cerrar;
 
        end;
+       }
+        with IBQTemp do begin
+          Close;
+          ParamByName('MES').AsInteger := CBMeses.ItemIndex + 1;
+        end;
+
+        with IBQTemp1 do begin
+          Close;
+          ParamByName('MES').AsInteger := CBMeses.ItemIndex + 1;
+        end;
+               
        CmdReporte.Enabled := True;
        CmdArchivo.Enabled := True;
 
@@ -161,6 +173,7 @@ end;
 procedure TfrmCajaDiario.CmdReporteClick(Sender: TObject);
 begin
        Empleado;
+       {
        Reporte.Variables.ByName['EMPRESA'].AsString := Empresa;
        Reporte.Variables.ByName['NIT'].AsString := Nit;
        Reporte.Variables.ByName['MES'].AsString := CBMeses.Text;
@@ -170,6 +183,14 @@ begin
 
        if Reporte.PrepareReport then
           Reporte.PreviewPreparedReport(True);
+       }
+       
+        frReport1.LoadFromFile('ReportesCon\frCajaDiario.frf');
+        frReport1.Dictionary.Variables['EMPRESA'] := QuotedStr(Empresa);
+        frReport1.Dictionary.Variables['MES'] := QuotedStr(CBMeses.Text);
+        frReport1.Dictionary.Variables['ANHOCORTE'] := EdAno.Text;
+        if frReport1.PrepareReport then
+          frReport1.ShowPreparedReport;
 
 end;
 
@@ -227,6 +248,7 @@ begin
         IBQAuxiliar.Database := dmGeneral.IBDatabase1;
         IBQPuc.Transaction := dmGeneral.IBTransaction1;
         IBQAuxiliar.Transaction := dmGeneral.IBTransaction1;
+        edAno.Value := DBAnho;
 end;
 
 end.

@@ -267,150 +267,6 @@ object frmInformeEstadoIngresosGastos: TfrmInformeEstadoIngresosGastos
     Left = 52
     Top = 24
   end
-  object IBQTabla: TClientDataSet
-    Active = True
-    Aggregates = <>
-    FieldDefs = <
-      item
-        Name = 'CODIGO'
-        DataType = ftString
-        Size = 18
-      end
-      item
-        Name = 'NOMBRE'
-        DataType = ftString
-        Size = 100
-      end
-      item
-        Name = 'SALDOANTERIOR'
-        DataType = ftCurrency
-      end
-      item
-        Name = 'DEBITOMOV'
-        DataType = ftCurrency
-      end
-      item
-        Name = 'CREDITOMOV'
-        DataType = ftCurrency
-      end
-      item
-        Name = 'DESCRIPCION_AGENCIA'
-        DataType = ftString
-        Size = 100
-      end>
-    IndexDefs = <
-      item
-        Name = 'IBQTablaIndex1'
-        Fields = 'CODIGO'
-      end>
-    IndexName = 'IBQTablaIndex1'
-    Params = <>
-    StoreDefs = True
-    Left = 82
-    Top = 26
-    Data = {
-      EF0000009619E0BD010000001800000006000000000003000000EF0006434F44
-      49474F0100490000000100055749445448020002001200064E4F4D4252450100
-      4900000001000557494454480200020064000D53414C444F414E544552494F52
-      080004000000010007535542545950450200490006004D6F6E65790009444542
-      49544F4D4F56080004000000010007535542545950450200490006004D6F6E65
-      79000A4352454449544F4D4F5608000400000001000753554254595045020049
-      0006004D6F6E657900134445534352495043494F4E5F4147454E434941010049
-      00000001000557494454480200020064000000}
-    object IBQTablaCODIGO: TStringField
-      DisplayWidth = 18
-      FieldName = 'CODIGO'
-      Size = 18
-    end
-    object IBQTablaNOMBRE: TStringField
-      FieldName = 'NOMBRE'
-      Size = 100
-    end
-    object IBQTablaSALDOANTERIOR: TCurrencyField
-      FieldName = 'SALDOANTERIOR'
-    end
-    object IBQTablaDEBITOMOV: TCurrencyField
-      FieldName = 'DEBITOMOV'
-    end
-    object IBQTablaCREDITOMOV: TCurrencyField
-      FieldName = 'CREDITOMOV'
-    end
-    object IBQTablaDESCRIPCION_AGENCIA: TStringField
-      FieldName = 'DESCRIPCION_AGENCIA'
-      Size = 100
-    end
-  end
-  object IBQTabla1: TClientDataSet
-    Active = True
-    Aggregates = <>
-    FieldDefs = <
-      item
-        Name = 'CODIGO'
-        DataType = ftString
-        Size = 4
-      end
-      item
-        Name = 'NOMBRE'
-        DataType = ftString
-        Size = 100
-      end
-      item
-        Name = 'DEBITOANT'
-        DataType = ftCurrency
-      end
-      item
-        Name = 'CREDITOANT'
-        DataType = ftCurrency
-      end
-      item
-        Name = 'DEBITOMOV'
-        DataType = ftCurrency
-      end
-      item
-        Name = 'CREDITOMOV'
-        DataType = ftCurrency
-      end>
-    IndexDefs = <
-      item
-        Name = 'IBQTablaIndex1'
-        Fields = 'CODIGO'
-      end>
-    IndexName = 'IBQTablaIndex1'
-    Params = <>
-    StoreDefs = True
-    Left = 110
-    Top = 26
-    Data = {
-      EA0000009619E0BD010000001800000006000000000003000000EA0006434F44
-      49474F0100490000000100055749445448020002000400064E4F4D4252450100
-      4900000001000557494454480200020064000944454249544F414E5408000400
-      0000010007535542545950450200490006004D6F6E6579000A4352454449544F
-      414E54080004000000010007535542545950450200490006004D6F6E65790009
-      44454249544F4D4F56080004000000010007535542545950450200490006004D
-      6F6E6579000A4352454449544F4D4F5608000400000001000753554254595045
-      0200490006004D6F6E6579000000}
-    object StringField1: TStringField
-      DisplayWidth = 10
-      FieldName = 'CODIGO'
-      Size = 4
-    end
-    object StringField2: TStringField
-      FieldName = 'NOMBRE'
-      Size = 100
-    end
-    object CurrencyField1: TCurrencyField
-      FieldName = 'DEBITOANT'
-    end
-    object CurrencyField2: TCurrencyField
-      FieldName = 'CREDITOANT'
-    end
-    object CurrencyField3: TCurrencyField
-      FieldName = 'DEBITOMOV'
-    end
-    object CurrencyField4: TCurrencyField
-      FieldName = 'CREDITOMOV'
-    end
-  end
   object IBQSaldoAnt: TIBQuery
     Database = dmGeneral.IBDatabase1
     Transaction = dmGeneral.IBTransaction1
@@ -454,8 +310,198 @@ object frmInformeEstadoIngresosGastos: TfrmInformeEstadoIngresosGastos
     Top = 32
   end
   object frDBDatos: TfrDBDataSet
-    DataSet = IBQTabla
     Left = 272
     Top = 32
+  end
+  object IBQsaldo: TIBQuery
+    Left = 64
+    Top = 56
+  end
+  object IBQTabla: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'CODIGO'
+        DataType = ftString
+        Size = 18
+      end
+      item
+        Name = 'NOMBRE'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'DEBITOANT'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'CREDITOANT'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DEBITOMOV'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'CREDITOMOV'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DEBITOACT'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'CREDITOACT'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DESCRIPCION_AGENCIA'
+        DataType = ftString
+        Size = 100
+      end>
+    IndexDefs = <
+      item
+        Name = 'IBQTablaIndex1'
+        Fields = 'CODIGO'
+      end>
+    IndexName = 'IBQTablaIndex1'
+    Params = <>
+    StoreDefs = True
+    Left = 90
+    Top = 34
+    Data = {
+      5F0100009619E0BD0100000018000000090000000000030000005F0106434F44
+      49474F0100490000000100055749445448020002001200064E4F4D4252450100
+      4900000001000557494454480200020064000944454249544F414E5408000400
+      0000010007535542545950450200490006004D6F6E6579000A4352454449544F
+      414E54080004000000010007535542545950450200490006004D6F6E65790009
+      44454249544F4D4F56080004000000010007535542545950450200490006004D
+      6F6E6579000A4352454449544F4D4F5608000400000001000753554254595045
+      0200490006004D6F6E6579000944454249544F41435408000400000001000753
+      5542545950450200490006004D6F6E6579000A4352454449544F414354080004
+      000000010007535542545950450200490006004D6F6E65790013444553435249
+      5043494F4E5F4147454E43494101004900000001000557494454480200020064
+      000000}
+    object IBQTablaCODIGO: TStringField
+      DisplayWidth = 19
+      FieldName = 'CODIGO'
+      Size = 18
+    end
+    object IBQTablaNOMBRE: TStringField
+      DisplayWidth = 59
+      FieldName = 'NOMBRE'
+      Size = 100
+    end
+    object IBQTablaDEBITOANT: TCurrencyField
+      DisplayWidth = 13
+      FieldName = 'DEBITOANT'
+    end
+    object IBQTablaCREDITOANT: TCurrencyField
+      DisplayWidth = 14
+      FieldName = 'CREDITOANT'
+    end
+    object IBQTablaDEBITOMOV: TCurrencyField
+      DisplayWidth = 13
+      FieldName = 'DEBITOMOV'
+    end
+    object IBQTablaCREDITOMOV: TCurrencyField
+      DisplayWidth = 15
+      FieldName = 'CREDITOMOV'
+    end
+    object IBQTablaDEBITOACT: TCurrencyField
+      DisplayWidth = 12
+      FieldName = 'DEBITOACT'
+    end
+    object IBQTablaCREDITOACT: TCurrencyField
+      DisplayWidth = 14
+      FieldName = 'CREDITOACT'
+    end
+    object IBQTablaDESCRIPCION_AGENCIA: TStringField
+      DisplayWidth = 26
+      FieldName = 'DESCRIPCION_AGENCIA'
+      Size = 100
+    end
+  end
+  object IBQTabla1: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'CODIGO'
+        DataType = ftString
+        Size = 4
+      end
+      item
+        Name = 'NOMBRE'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'DEBITOANT'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'CREDITOANT'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'DEBITOMOV'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'CREDITOMOV'
+        DataType = ftCurrency
+      end>
+    IndexDefs = <
+      item
+        Name = 'IBQTablaIndex1'
+        Fields = 'CODIGO'
+      end>
+    IndexName = 'IBQTablaIndex1'
+    Params = <>
+    StoreDefs = True
+    Left = 126
+    Top = 34
+    Data = {
+      EA0000009619E0BD010000001800000006000000000003000000EA0006434F44
+      49474F0100490000000100055749445448020002000400064E4F4D4252450100
+      4900000001000557494454480200020064000944454249544F414E5408000400
+      0000010007535542545950450200490006004D6F6E6579000A4352454449544F
+      414E54080004000000010007535542545950450200490006004D6F6E65790009
+      44454249544F4D4F56080004000000010007535542545950450200490006004D
+      6F6E6579000A4352454449544F4D4F5608000400000001000753554254595045
+      0200490006004D6F6E6579000000}
+    object StringField1: TStringField
+      DisplayWidth = 4
+      FieldName = 'CODIGO'
+      Size = 4
+    end
+    object StringField2: TStringField
+      FieldName = 'NOMBRE'
+      Size = 100
+    end
+    object CurrencyField1: TCurrencyField
+      FieldName = 'DEBITOANT'
+    end
+    object CurrencyField2: TCurrencyField
+      FieldName = 'CREDITOANT'
+    end
+    object CurrencyField3: TCurrencyField
+      FieldName = 'DEBITOMOV'
+    end
+    object CurrencyField4: TCurrencyField
+      FieldName = 'CREDITOMOV'
+    end
+    object IBQTabla1DEBITOACT: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'DEBITOACT'
+      Calculated = True
+    end
+    object IBQTabla1CREDITOACT: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'CREDITOACT'
+      Calculated = True
+    end
   end
 end

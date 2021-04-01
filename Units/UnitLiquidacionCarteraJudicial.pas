@@ -1272,7 +1272,7 @@ begin
            New(AR);
            devolucion := True;
            AR^.CuotaNumero := 0;
-           AR^.CodigoPuc := dmColocacion.IBSQLcodigos.FieldByName('COD_INT_ANT').AsString;
+           AR^.CodigoPuc := dmColocacion.IBSQLcodigosdup.FieldByName('COD_INT_ANT').AsString;
            AR^.FechaInicial := vFechaInicialDevuelto;
            AR^.FechaFinal   := vFechaFinalDevuelto;
            AR^.Dias := diasentre(vfechainicialdevuelto,vfechafinaldevuelto);
@@ -1329,7 +1329,7 @@ begin
          begin
            New(AR);
            AR^.CuotaNumero := 0;
-           AR^.CodigoPuc := dmColocacion.IBSQLcodigos.FieldByName('COD_INT_MES').AsString;
+           AR^.CodigoPuc := dmColocacion.IBSQLcodigosdup.FieldByName('COD_INT_MES').AsString;
            AR^.FechaInicial := vFechaInicialCobradoCorriente;
            AR^.FechaFinal   := vFechaFinalCobradoCorriente;
            AR^.Dias := vDiasCobradoCorriente; //DiasEntre(vFechaInicialCobradoCorriente,vFechaFinalCobradoCorriente);
@@ -1445,7 +1445,7 @@ begin
         begin
           New(AR);
           AR^.CuotaNumero := 0;
-          AR^.CodigoPuc := dmColocacion.IBSQLcodigos.FieldByName('COD_INT_MES').AsString;
+          AR^.CodigoPuc := dmColocacion.IBSQLcodigosdup.FieldByName('COD_INT_MES').AsString;
           AR^.FechaInicial := vFechaInicialContingente;
           AR^.FechaFinal := vFechaFinalContingente;
 //          vDiasContingente := DiasEntre(vFechaInicialContingente,vFechaFinalContingente);
@@ -1459,6 +1459,7 @@ begin
           AR^.Debito := 0;
           AR^.Credito := vAbonoInteresContingente;
           TasaLiquidacion := Tasa;
+          AR^.EsCausado := False;
           AR^.EsCapital := False;
           AR^.EsCapital := False;
           AR^.EsCorriente := True;
@@ -1481,7 +1482,7 @@ begin
          begin
            New(AR);
            AR^.CuotaNumero := 0;
-           AR^.CodigoPuc := dmColocacion.IBSQLcodigos.FieldByName('COD_INT_MES').AsString;
+           AR^.CodigoPuc := dmColocacion.IBSQLcodigosdup.FieldByName('COD_INT_MES').AsString;
            AR^.FechaInicial := vFechaInicialCorriente;
            AR^.FechaFinal := vFechaFinalCorriente;
     //       vDiasCorriente := DiasEntre(vFechaInicialCorriente,vFechaFinalCorriente);
@@ -1518,7 +1519,7 @@ begin
          begin
            New(AR);
            AR^.CuotaNumero := 0;
-           AR^.CodigoPuc := dmColocacion.IBSQLcodigos.FieldByName('COD_INT_ANT').AsString;
+           AR^.CodigoPuc := dmColocacion.IBSQLcodigosdup.FieldByName('COD_INT_ANT').AsString;
            AR^.FechaInicial := vFechaInicialAnticipado;
            AR^.FechaFinal := vFechaFinalAnticipado;
 //           vDiasAnticipado := DiasEntre(vFechaInicialAnticipado,vFechaFinalAnticipado);
@@ -1555,7 +1556,7 @@ begin
          begin
            New(AR);
            AR^.CuotaNumero := 0;
-           AR^.CodigoPuc := dmColocacion.IBSQLcodigos.FieldByName('COD_INT_MORA').AsString;
+           AR^.CodigoPuc := dmColocacion.IBSQLcodigosdup.FieldByName('COD_INT_MORA').AsString;
            AR^.FechaInicial := vFechaInicialMora;
            AR^.FechaFinal := vFechaFinalMora;
            AR^.Dias := vDiasMora;
@@ -3328,12 +3329,14 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
             // Fin Acumular Valores para Facturar
            end;
        end;
-       if TotalDebitoRecibo <> (vTotalCuentas + _valorFacturarCXC) then
+       {
+       if TotalDebitoRecibo <> (vTotalCuentas + _valorFacturarCXC + _valorFacturarMES + _valorFacturarMORA + _valorFacturarANT - _valorFacturarDEV) then
        begin
          MessageDlg('El Total Liquidado no corresponde al Total Digitado' + #10 + #13 +
                        'Revise los Valores',mtError,[mbOk],0);
          Exit;
        end;
+      }
 //**Actualizo extracto Aportes y Captaciones
     for I := 0 to ListaCuentas.Count - 1 do begin
       AC := ListaCuentas.Items[i];

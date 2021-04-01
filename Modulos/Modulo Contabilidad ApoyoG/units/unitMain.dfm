@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 331
-  Top = 93
+  Left = 605
+  Top = 221
   Width = 691
   Height = 521
   Caption = 'Modulo Contable - '
@@ -72,20 +72,20 @@ object frmMain: TfrmMain
       ImageIndex = 2
       OnClick = BtnExtractoClick
     end
-    object ToolButton3: TToolButton
+    object ToolButton1: TToolButton
       Left = 158
+      Top = 0
+      Caption = 'Sumatorias'
+      ImageIndex = 9
+      OnClick = ToolButton1Click
+    end
+    object ToolButton3: TToolButton
+      Left = 233
       Top = 0
       Width = 8
       Caption = 'ToolButton3'
       ImageIndex = 3
       Style = tbsSeparator
-    end
-    object ToolButton1: TToolButton
-      Left = 166
-      Top = 0
-      Caption = 'Sumatorias'
-      ImageIndex = 9
-      OnClick = ToolButton1Click
     end
     object ToolButton4: TToolButton
       Left = 241
@@ -266,18 +266,20 @@ object frmMain: TfrmMain
       end
       object BalanceGeneralDetallado1: TMenuItem
         Caption = 'Balance General Detallado'
+        Visible = False
         OnClick = BalanceGeneralDetallado1Click
-      end
-      object BalanceGeneralDetalladoAo1: TMenuItem
-        Caption = 'Balance General Detallado A'#241'o'
-        OnClick = BalanceGeneralDetalladoAo1Click
       end
       object BalanceGeneralDetalladoExcel1: TMenuItem
         Caption = 'Balance General Detallado Excel'
         OnClick = BalanceGeneralDetalladoExcel1Click
       end
+      object BalanceGeneralDetalladoAo1: TMenuItem
+        Caption = 'Balance General Detallado A'#241'o'
+        OnClick = BalanceGeneralDetalladoAo1Click
+      end
       object BalanceGeneral1: TMenuItem
         Caption = 'Balance General'
+        Visible = False
         OnClick = BalanceGeneral1Click
       end
       object EstadodeIngresosyGastos1: TMenuItem

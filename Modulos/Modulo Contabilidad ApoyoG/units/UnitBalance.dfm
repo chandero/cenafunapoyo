@@ -1,8 +1,8 @@
 object frmBalance: TfrmBalance
-  Left = 330
-  Top = 223
-  Width = 400
-  Height = 186
+  Left = 261
+  Top = 184
+  Width = 866
+  Height = 427
   Caption = 'Balance General'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -80,17 +80,6 @@ object frmBalance: TfrmBalance
         'Noviembre'
         'Diciembre')
     end
-    object EdAno: TMaskEdit
-      Left = 264
-      Top = 8
-      Width = 31
-      Height = 21
-      EditMask = '!9999;1;_'
-      MaxLength = 4
-      ReadOnly = True
-      TabOrder = 1
-      Text = '    '
-    end
     object CBNivel: TComboBox
       Left = 128
       Top = 30
@@ -111,6 +100,21 @@ object frmBalance: TfrmBalance
         '9'
         '10')
     end
+    object edAno: TJvYearEdit
+      Left = 264
+      Top = 8
+      Width = 49
+      Height = 21
+      Alignment = taRightJustify
+      ReadOnly = False
+      TabOrder = 1
+      Value = 2000
+      MaxValue = 9999
+      MinValue = 0
+      HasMaxValue = True
+      HasMinValue = True
+      WindowsillYear = 71
+    end
   end
   object ProgressBar1: TProgressBar
     Left = 0
@@ -119,16 +123,16 @@ object frmBalance: TfrmBalance
     Height = 17
     Min = 0
     Max = 100
-    TabOrder = 1
+    TabOrder = 4
   end
   object Panel2: TPanel
     Left = 0
-    Top = 119
-    Width = 392
+    Top = 360
+    Width = 858
     Height = 33
     Align = alBottom
     Color = clOlive
-    TabOrder = 2
+    TabOrder = 3
     object CmdAceptar: TBitBtn
       Left = 7
       Top = 5
@@ -304,7 +308,7 @@ object frmBalance: TfrmBalance
     Height = 21
     EditMask = '!9-9-99-99-99-99-99-99-99-99;0;0'
     MaxLength = 27
-    TabOrder = 3
+    TabOrder = 1
     OnExit = EdCodigoInicialExit
     OnKeyPress = EdCodigoInicialKeyPress
   end
@@ -315,9 +319,64 @@ object frmBalance: TfrmBalance
     Height = 21
     EditMask = '!9-9-99-99-99-99-99-99-99-99;0;0'
     MaxLength = 27
-    TabOrder = 4
+    TabOrder = 2
     OnExit = EdCodigoFinalExit
     OnKeyPress = EdCodigoFinalKeyPress
+  end
+  object DBGridData: TDBGrid
+    Left = 7
+    Top = 112
+    Width = 841
+    Height = 241
+    DataSource = DSdata
+    TabOrder = 5
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBlack
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOMBRE'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DEBITOANT'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CREDITOANT'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DEBITOMOV'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CREDITOMOV'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DEBITOACT'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CREDITOACT'
+        Visible = True
+      end>
   end
   object IBQPuc: TIBQuery
     Database = dmGeneral.IBDatabase1
@@ -399,33 +458,41 @@ object frmBalance: TfrmBalance
       5043494F4E5F4147454E43494101004900000001000557494454480200020064
       000000}
     object IBQTablaCODIGO: TStringField
-      DisplayWidth = 18
+      DisplayWidth = 19
       FieldName = 'CODIGO'
       Size = 18
     end
     object IBQTablaNOMBRE: TStringField
+      DisplayWidth = 59
       FieldName = 'NOMBRE'
       Size = 100
     end
     object IBQTablaDEBITOANT: TCurrencyField
+      DisplayWidth = 13
       FieldName = 'DEBITOANT'
     end
     object IBQTablaCREDITOANT: TCurrencyField
+      DisplayWidth = 14
       FieldName = 'CREDITOANT'
     end
     object IBQTablaDEBITOMOV: TCurrencyField
+      DisplayWidth = 13
       FieldName = 'DEBITOMOV'
     end
     object IBQTablaCREDITOMOV: TCurrencyField
+      DisplayWidth = 15
       FieldName = 'CREDITOMOV'
     end
     object IBQTablaDEBITOACT: TCurrencyField
+      DisplayWidth = 12
       FieldName = 'DEBITOACT'
     end
     object IBQTablaCREDITOACT: TCurrencyField
+      DisplayWidth = 14
       FieldName = 'CREDITOACT'
     end
     object IBQTablaDESCRIPCION_AGENCIA: TStringField
+      DisplayWidth = 26
       FieldName = 'DESCRIPCION_AGENCIA'
       Size = 100
     end
@@ -537,5 +604,21 @@ object frmBalance: TfrmBalance
   object SD1: TSaveDialog
     Left = 248
     Top = 48
+  end
+  object DSdata: TDataSource
+    DataSet = IBQTabla
+    Left = 360
+    Top = 32
+  end
+  object frCSVExport1: TfrCSVExport
+    ScaleX = 1
+    ScaleY = 1
+    Delimiter = ';'
+    Left = 272
+    Top = 56
+  end
+  object frTIFFExport1: TfrTIFFExport
+    Left = 304
+    Top = 56
   end
 end

@@ -108,12 +108,12 @@ uses
   UnitExtractoCredito in '..\..\Units\UnitExtractoCredito.pas' {frmExtractoCredito},
   UnitAnularAbono in '..\..\Units\UnitAnularAbono.pas' {frmAnularAbono},
   UnitExtractoColocacion in '..\..\Units\UnitExtractoColocacion.pas' {FrmExtractoColocacion},
-  UnitListadodePrueba in '\\Vboxsvr\sgft\FunApoyo\Modulos\Modulo Contabilidad ApoyoG\units\UnitListadodePrueba.pas' {frmListadodePrueba},
-  UnitSmsRequest in '\\Vboxsvr\sgft\FunApoyo\Units\UnitSmsRequest.pas',
-  UnitSmsCredentials in '\\Vboxsvr\sgft\FunApoyo\Units\UnitSmsCredentials.pas',
-  UnitBalance in '\\Vboxsvr\sgft\FunApoyo\Modulos\Modulo Contabilidad ApoyoG\units\UnitBalance.pas' {frmBalance},
-  DataSetToExcel in '\\Vboxsvr\sgft\FunApoyo\Units\DataSetToExcel.pas',
-  Jsons in '\\VBOXSVR\sgft\FunApoyo\Units\Jsons.pas';
+  UnitSmsCredentials in '\\VBoxSvr\cena\cenafunapoyo\Units\UnitSmsCredentials.pas',
+  UnitBalance in '\\VBoxSvr\cena\cenafunapoyo\Modulos\Modulo Contabilidad ApoyoG\units\UnitBalance.pas' {frmBalance},
+  DataSetToExcel in '\\VBoxSvr\cena\cenafunapoyo\Units\DataSetToExcel.pas',
+  UnitSendEmail in '\\VBoxSvr\cena\cenafunapoyo\Units\UnitSendEmail.pas',
+  UnitListadodePrueba in '\\VBoxSvr\cena\cenafunapoyo\Modulos\Modulo Contabilidad ApoyoG\units\UnitListadodePrueba.pas' {frmListadodePrueba},
+  Jsons in '\\VBoxSvr\cena\cenafunapoyo\Units\Jsons.pas';
 
 {$R *.res}
 
@@ -121,5 +121,7 @@ begin
   Application.Initialize;
   Application.Title := 'Contabilidad';
   Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmBalance, frmBalance);
+  Application.CreateForm(TfrmListadodePrueba, frmListadodePrueba);
   Application.Run;
 end.

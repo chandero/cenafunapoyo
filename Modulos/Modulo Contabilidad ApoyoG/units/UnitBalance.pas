@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FR_Class, frOLEExl, FR_DSet, FR_DBSet, DB, DBClient,DataSetToExcel,
-  IBCustomDataSet, IBQuery, StdCtrls, Buttons, ComCtrls, Mask, ExtCtrls, DateUtils, StrUtils,UnitdmGeneral;
+  IBCustomDataSet, IBQuery, StdCtrls, Buttons, ComCtrls, Mask, ExtCtrls, DateUtils, StrUtils,UnitdmGeneral,
+  JvEdit, JvTypedEdit, Grids, DBGrids, frexpimg, FR_E_TXT, FR_E_CSV;
 
 type
   TfrmBalance = class(TForm)
@@ -13,7 +14,6 @@ type
     Label5: TLabel;
     Label4: TLabel;
     CBMeses: TComboBox;
-    EdAno: TMaskEdit;
     ProgressBar1: TProgressBar;
     Panel2: TPanel;
     CmdAceptar: TBitBtn;
@@ -52,6 +52,11 @@ type
     EdCodigoInicial: TMaskEdit;
     Label3: TLabel;
     EdCodigoFinal: TMaskEdit;
+    edAno: TJvYearEdit;
+    DSdata: TDataSource;
+    DBGridData: TDBGrid;
+    frCSVExport1: TfrCSVExport;
+    frTIFFExport1: TfrTIFFExport;
     procedure CmdAceptarClick(Sender: TObject);
     procedure IBQTablaCalcFields(DataSet: TDataSet);
     procedure IBQTabla1CalcFields(DataSet: TDataSet);
@@ -134,7 +139,7 @@ begin
           SQL.Add('SELECT SUM(a.DEBITO) AS DEBITO, SUM(a.CREDITO) AS CREDITO FROM "con$comprobante" c');
           SQL.Add('INNER JOIN "con$auxiliar" a ON a.TIPO_COMPROBANTE = c.TIPO_COMPROBANTE and a.ID_COMPROBANTE = c.ID_COMPROBANTE');
           SQL.Add('WHERE a.FECHA BETWEEN :FECHA_INI and :FECHA_FIN and a.CODIGO LIKE :CODIGO');
-          SQL.Add(' and c.ESTADO = :ESTADO');
+          SQL.Add(' and a.ESTADOAUX = :ESTADO');
           ParamByName('ESTADO').AsString := 'C';
        end;
 
@@ -287,13 +292,13 @@ begin
        btnAExcel.Enabled := True;
 
 
-
 end;
 
 procedure TfrmBalance.IBQTablaCalcFields(DataSet: TDataSet);
 var
   ValorCuenta: Currency;
 begin
+        {
         ValorCuenta := DataSet.FieldByName('DEBITOANT').AsCurrency - DataSet.FieldByName('CREDITOANT').AsCurrency +
                        DataSet.FieldByName('DEBITOMOV').AsCurrency - DataSet.FieldByName('CREDITOMOV').AsCurrency;
         if (ValorCuenta > 0) then
@@ -306,12 +311,14 @@ begin
           DataSet.FieldByName('DEBITOACT').AsCurrency :=  0;
           DataSet.FieldByName('CREDITOACT').AsCurrency := -ValorCuenta;
         end;
+        }
 end;
 
 procedure TfrmBalance.IBQTabla1CalcFields(DataSet: TDataSet);
 var
   ValorCuenta: Currency;
 begin
+{
         ValorCuenta := DataSet.FieldByName('DEBITOANT').AsCurrency - DataSet.FieldByName('CREDITOANT').AsCurrency +
                        DataSet.FieldByName('DEBITOMOV').AsCurrency - DataSet.FieldByName('CREDITOMOV').AsCurrency;
         if (ValorCuenta > 0) then
@@ -324,6 +331,7 @@ begin
           DataSet.FieldByName('DEBITOACT').AsCurrency :=  0;
           DataSet.FieldByName('CREDITOACT').AsCurrency := -ValorCuenta;
         end;
+        }
 end;
 
 procedure TfrmBalance.CmdCerrarClick(Sender: TObject);

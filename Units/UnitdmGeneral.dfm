@@ -2,11 +2,10 @@ object dmGeneral: TdmGeneral
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 480
+  Left = 338
   Height = 196
   Width = 273
   object IBDatabase1: TIBDatabase
-    Connected = True
     DatabaseName = '10.0.2.2:C:\opt\db\funapoyo.fdb'
     Params.Strings = (
       'lc_ctype=ISO8859_1'

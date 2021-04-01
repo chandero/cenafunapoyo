@@ -1,8 +1,8 @@
 object FrmDesembolso: TFrmDesembolso
-  Left = 363
-  Top = 19
-  Width = 721
-  Height = 661
+  Left = 2
+  Top = 1
+  Width = 638
+  Height = 448
   BorderIcons = [biSystemMenu]
   Caption = 'Nueva Colocacion'
   Color = clBtnFace
@@ -1242,8 +1242,8 @@ object FrmDesembolso: TFrmDesembolso
   end
   object Panel4: TPanel
     Left = 0
-    Top = 598
-    Width = 713
+    Top = 592
+    Width = 653
     Height = 29
     Align = alBottom
     Color = clOlive

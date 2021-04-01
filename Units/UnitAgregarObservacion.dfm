@@ -1,6 +1,6 @@
 object frmAgregarObservacionCobro: TfrmAgregarObservacionCobro
-  Left = 862
-  Top = 188
+  Left = 854
+  Top = 269
   Width = 379
   Height = 170
   Caption = 'Agregar Observaci'#243'n'
@@ -42,8 +42,8 @@ object frmAgregarObservacionCobro: TfrmAgregarObservacionCobro
       Width = 97
       Height = 21
       CalAlignment = dtaLeft
-      Date = 37940.3543685185
-      Time = 37940.3543685185
+      Date = 37940
+      Time = 37940
       DateFormat = dfShort
       DateMode = dmComboBox
       Enabled = False

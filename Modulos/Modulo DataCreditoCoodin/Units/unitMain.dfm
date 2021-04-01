@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 559
-  Top = 193
+  Left = 439
+  Top = 186
   Width = 570
   Height = 366
   Caption = 'Reporte Centrales de Riesgo'

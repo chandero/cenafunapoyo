@@ -5,7 +5,9 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Mask, ComCtrls, ExtCtrls, DB, StrUtils,
-  IBCustomDataSet, IBQuery, pr_Common, pr_TxClasses, IBSQL, UnitDmGeneral;
+  IBCustomDataSet, IBQuery, pr_Common, pr_TxClasses, IBSQL, UnitDmGeneral,
+  Grids, DBGrids, DBClient, frexpimg, FR_E_TXT, FR_E_CSV, FR_Class,
+  frOLEExl, FR_DSet, FR_DBSet, JvEdit, JvTypedEdit, DataSetToExcel;
 
 type
   TfrmBalanceGralDetalladoAnyo = class(TForm)
@@ -19,15 +21,44 @@ type
     CmdAceptar: TBitBtn;
     CmdCerrar: TBitBtn;
     CBNivel: TComboBox;
-    IBQSaldoAct: TIBQuery;
-    IBQTabla: TIBQuery;
     IBQuery1: TIBQuery;
     IBQPuc: TIBQuery;
-    IBQSaldoActDEBITO: TIBBCDField;
-    IBQSaldoActCREDITO: TIBBCDField;
     ChkPapelCarta: TCheckBox;
     ReportBalanceDet: TprTxReport;
     Reporte: TprTxReport;
+    btnReporte: TBitBtn;
+    btnAExcel: TBitBtn;
+    ProgressBar1: TProgressBar;
+    IBQTabla: TClientDataSet;
+    IBQTablaCODIGO: TStringField;
+    IBQTablaNOMBRE: TStringField;
+    IBQTablaDEBITOANT: TCurrencyField;
+    IBQTablaCREDITOANT: TCurrencyField;
+    IBQTablaDEBITOMOV: TCurrencyField;
+    IBQTablaCREDITOMOV: TCurrencyField;
+    IBQTablaDEBITOACT: TCurrencyField;
+    IBQTablaCREDITOACT: TCurrencyField;
+    IBQTablaDESCRIPCION_AGENCIA: TStringField;
+    IBQTabla1: TClientDataSet;
+    StringField1: TStringField;
+    StringField2: TStringField;
+    CurrencyField1: TCurrencyField;
+    CurrencyField2: TCurrencyField;
+    CurrencyField3: TCurrencyField;
+    CurrencyField4: TCurrencyField;
+    IBQTabla1DEBITOACT: TCurrencyField;
+    IBQTabla1CREDITOACT: TCurrencyField;
+    IBQsaldo: TIBQuery;
+    DBGridData: TDBGrid;
+    frDBDataSet1: TfrDBDataSet;
+    frOLEExcelExport1: TfrOLEExcelExport;
+    frReport1: TfrReport;
+    SD1: TSaveDialog;
+    frCSVExport1: TfrCSVExport;
+    frTIFFExport1: TfrTIFFExport;
+    DSdata: TDataSource;
+    Label4: TLabel;
+    edAno: TJvYearEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CmdCerrarClick(Sender: TObject);
     procedure CmdAceptarClick(Sender: TObject);
@@ -42,6 +73,8 @@ type
     procedure EdAnoKeyPress(Sender: TObject; var Key: Char);
 
     procedure FormCreate(Sender: TObject);
+    procedure btnReporteClick(Sender: TObject);
+    procedure btnAExcelClick(Sender: TObject);
   private
     function Empleado : String;
     procedure Inicializar;
@@ -83,51 +116,25 @@ end;
 
 procedure TfrmBalanceGralDetalladoAnyo.CmdAceptarClick(Sender: TObject);
 var
-Tabla:String;
-SaldoAnterior:Currency;
-SumDebito,SumCredito:Currency;
-frmProgreso:TfrmProgreso;
-Total:Integer;
+   FechaInicialParaSaldoInicial,
+   FechaFinalParaSaldoInicial,
+   FechaInicialMovimiento,
+   FechaFinalMovimiento: TDateTime;
+   Periodo,PeriodoAnt: Word;
+   SaldoAnterior,DebitoAnt, CreditoAnt, DebitoMov, CreditoMov, DebitoAct, CreditoAct, SaldoActual: Currency;
+   Codigo: String;
+   Longitud: Integer;
 begin
-       SaldoAnterior := 0;
-       SumDebito := 0;
-       SumCredito := 0;
-       with IBQSaldoAct do
-        Begin
-          if Transaction.InTransaction then
-             Transaction.Rollback;
-          Transaction.StartTransaction;
-          SQL.Clear;
-          SQL.Add('select ');
-          SQL.Add('SUM("con$saldoscuenta".DEBITO) AS DEBITO,');
-          SQL.Add('SUM("con$saldoscuenta".CREDITO) AS CREDITO');
-          SQL.Add(' from "con$puc" ');
-          SQL.Add('LEFT JOIN "con$saldoscuenta" ON ("con$puc".CODIGO = "con$saldoscuenta".CODIGO and "con$puc".ID_AGENCIA = "con$saldoscuenta".ID_AGENCIA)');
-          SQL.Add('where ');
-          SQL.Add('("con$saldoscuenta".ID_AGENCIA = :ID_AGENCIA) and ("con$saldoscuenta".CODIGO = :"CODIGO") ');
-//          SQL.Add(' and ("con$saldoscuenta".MES = :"MES")');
-        end;
+       CmdAceptar.Enabled := False;
+       if dmGeneral.IBTransaction1.InTransaction then
+          dmGeneral.IBTransaction1.Rollback;
+       dmGeneral.IBTransaction1.StartTransaction;
        Empleado;
-       with IBQPuc do
-        begin
-          SQL.Clear;
-          SQL.Add('select ');
-          SQL.Add('Count(*) as TOTAL');
-          SQL.Add(' from "con$puc" ');
-          SQL.Add('where ');
-          SQL.Add('("con$puc".ID_AGENCIA = :ID_AGENCIA) and ("con$puc".CODIGO >= :"CODIGO_INICIAL" and "con$puc".CODIGO <= :"CODIGO_FINAL") and');
-          SQL.Add('("con$puc".NIVEL <= :"NIVEL")');
-          ParamByName('ID_AGENCIA').AsInteger := Agencia;
-          ParamByName('CODIGO_INICIAL').AsString := CodigoInicial;
-          ParamByName('CODIGO_FINAL').AsString := CodigoFinal;
-          ParamByName('NIVEL').AsInteger := Nivel;
-          Open;
-          Total := FieldByName('TOTAL').AsInteger;
-        end;
-
-
+       IBQTabla.EmptyDataSet;
+       CmdAceptar.Enabled := false;
        with IBQPuc do
         Begin
+          Close;
           SQL.Clear;
           SQL.Add('select ');
           SQL.Add('"con$puc".CODIGO,');
@@ -139,199 +146,140 @@ begin
           SQL.Add(' from "con$puc" ');
           SQL.Add('LEFT JOIN "gen$agencia" ON ("con$puc".ID_AGENCIA = "gen$agencia".ID_AGENCIA)');
           SQL.Add('where ');
-          SQL.Add('("con$puc".ID_AGENCIA = :ID_AGENCIA) and ("con$puc".CODIGO >= :"CODIGO_INICIAL" and "con$puc".CODIGO <= :"CODIGO_FINAL") and');
           SQL.Add('("con$puc".NIVEL <= :"NIVEL")');
+          SQL.Add(' and ("con$puc".CODIGO >= :CODIGO_INICIAL and "con$puc".CODIGO <= :CODIGO_FINAL)');
           SQL.Add('order by "con$puc".CODIGO');
 
-          ParamByName('ID_AGENCIA').AsInteger := Agencia;
+          ParamByName('NIVEL').AsInteger := CBNivel.ItemIndex + 1;
           ParamByName('CODIGO_INICIAL').AsString := CodigoInicial;
           ParamByName('CODIGO_FINAL').AsString := CodigoFinal;
-          ParamByName('NIVEL').AsInteger := Nivel;
           Open;
+          Last;
+          First;
        end;
 
-          IBQPuc.Last;
-          IBQPuc.First;
+       with IBQsaldo do begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT SUM(a.DEBITO) AS DEBITO, SUM(a.CREDITO) AS CREDITO FROM "con$comprobante" c');
+          SQL.Add('INNER JOIN "con$auxiliar" a ON a.TIPO_COMPROBANTE = c.TIPO_COMPROBANTE and a.ID_COMPROBANTE = c.ID_COMPROBANTE');
+          SQL.Add('WHERE a.FECHA BETWEEN :FECHA_INI and :FECHA_FIN and a.CODIGO LIKE :CODIGO');
+          SQL.Add(' and a.ESTADOAUX = :ESTADO');
+          ParamByName('ESTADO').AsString := 'C';
+       end;
 
-          Tabla := '"BalanceDetAnyo' + FloatToStr(Now)+ '"';
-           with IBQTabla do
+       Periodo := 12;
+       PeriodoAnt := 0;
+
+       FechaInicialParaSaldoInicial := 0;
+       FechaFinalParaSaldoInicial := 0;
+
+       FechaInicialMovimiento := EncodeDate(DBAnho, 1, 01);
+       FechaFinalMovimiento := EncodeDate(DBAnho, 12, 31);
+
+       IBQTabla.Open;
+       IBQTabla.EmptyDataSet;
+
+       ProgressBar1.Min := 0;
+       ProgressBar1.Max := IBQPuc.RecordCount;
+       ProgressBar1.Position := 0; 
+
+       while not IBQPuc.Eof do
+       begin
+
+            ProgressBar1.Position := IBQPuc.RecNo;
+            Application.ProcessMessages;
+
+            case (IBQPuc.FieldByName('NIVEL').AsInteger) of
+                  1: Longitud := 1;
+                  2: Longitud := 2;
+                  3: Longitud := 4;
+                  4: Longitud := 6;
+                  5: Longitud := 8;
+                  6: Longitud := 10;
+                  7: Longitud := 12;
+                  8: Longitud := 14;
+                  9: Longitud := 16;
+                  10: Longitud := 18;
+            end;
+
+            Codigo := LeftStr(IBQpuc.FieldByName('CODIGO').AsString, Longitud) + '%';
+
+            IBQTabla.Append;
+
+            DebitoAnt:= 0;
+            CreditoAnt:= 0;
+
+
+            IBQTablaCODIGO.Value := LeftStr(IBQPuc.FieldByName('CODIGO').AsString,Longitud);
+            IBQTablaNOMBRE.Value := IBQPuc.FieldByName('NOMBRE').AsString;
+            SaldoAnterior := IBQPuc.FieldByName('SALDOINICIAL').AsCurrency + DebitoAnt - CreditoAnt;
+            if (SaldoAnterior > 0) then
             begin
-              SQL.Clear;
-              SQL.Add('create table ' + Tabla + ' (');
-              SQL.Add('CODIGO              VARCHAR(18),');
-              SQL.Add('NOMBRE              VARCHAR(100),');
-              SQL.Add('NIVEL               INTEGER,');
-              SQL.Add('DESCRIPCION_AGENCIA VARCHAR(50), ');
-              SQL.Add('DEBITOANT           NUMERICO,');
-              SQL.Add('CREDITOANT          NUMERICO,');
-              SQL.Add('DEBITOMOV           NUMERICO,');
-              SQL.Add('CREDITOMOV          NUMERICO)');
-              ExecSQL;
-              Transaction.CommitRetaining;
-              Close;
+                IBQTablaDEBITOANT.Value := SaldoAnterior;
+                IBQTablaCREDITOANT.Value := 0;
+            end
+            else
+            begin
+                IBQTablaDEBITOANT.Value := 0;
+                IBQTablaCREDITOANT.Value := -SaldoAnterior;
+            end;
 
 
-              SQL.Clear;
-              SQL.Add('insert into ' + Tabla + 'values(');
-              SQL.Add(':"CODIGO",');
-              SQL.Add(':"NOMBRE",');
-              SQL.Add(':NIVEL,');
-              SQL.Add(':DESCRIPCION_AGENCIA,');
-              SQL.Add(':"DEBITOANT",');
-              SQL.Add(':"CREDITOANT",');
-              SQL.Add(':"DEBITOMOV",');
-              SQL.Add(':"CREDITOMOV")');
-              frmProgreso := TfrmProgreso.Create(Self);
-              frmProgreso.Min := 0;
-              frmProgreso.Max := Total;
-              frmProgreso.Position := 0;
-              frmProgreso.Info.Caption := 'Procesando Balance Detallado';
-              frmProgreso.Ejecutar;
-              While (not IBQPuc.Eof)  do
-               begin
-                 frmProgreso.Position := IBQPuc.RecNo;
-                 frmProgreso.InfoLabel := 'Procesando Cuenta: ' + IBQPuc.FieldByName('CODIGO').AsString;
-                 Application.ProcessMessages;
-                 IBQSaldoAct.Close;
-                 IBQSaldoAct.ParamByName('ID_AGENCIA').AsInteger := Agencia;
-                 IBQSaldoAct.ParamByName('CODIGO').AsString  := IBQPuc.FieldByName('CODIGO').AsString;
-                 //IBQSaldoAct.ParamByName('MES').AsInteger := StrToInt(Mes);
-                 try
-                  IBQSaldoAct.Open;
-                 except
-                  frmProgreso.Cerrar;
-                  Transaction.Rollback;
-                  raise;
-                  Exit;
-                 end;
-                 ParamByName('CODIGO').AsString := LeftStr(IBQPuc.FieldByName('CODIGO').AsString,NivelCodigo);
-                 ParamByName('NOMBRE').AsString := IBQPuc.FieldByName('NOMBRE').AsString;
-                 ParamByName('NIVEL').AsInteger := IBQPuc.FieldByName('NIVEL').AsInteger;
-                 ParamByName('DESCRIPCION_AGENCIA').AsString := IBQPuc.FieldByName('DESCRIPCION_AGENCIA').AsString;
 
-                 IBQuery1.Close;
-                 IBQuery1.SQL.Clear;
-                 IBQuery1.SQL.Add('select ');
-                 IBQuery1.SQL.Add('SUM("con$saldoscuenta".DEBITO) AS DEBITO,');
-                 IBQuery1.SQL.Add('SUM("con$saldoscuenta".CREDITO) AS CREDITO');
-                 IBQuery1.SQL.Add(' from "con$saldoscuenta" ');
-                 IBQuery1.SQL.Add('where ');
-                 IBQuery1.SQL.Add('("con$saldoscuenta".ID_AGENCIA = :ID_AGENCIA) and ("con$saldoscuenta".CODIGO = :"CODIGO")');
-                 IBQuery1.SQL.Add(' and ("con$saldoscuenta".MES < :"MES")');
-                 IBQuery1.ParamByName('ID_AGENCIA').AsInteger := Agencia;
-                 IBQuery1.ParamByName('CODIGO').AsString := IBQPuc.FieldByName('CODIGO').AsString;
-                 IBQuery1.ParamByName('MES').AsInteger := 1; //StrToInt(Mes);
-                 try
-                   IBQuery1.Open;
-                   if IBQuery1.RecordCount > 0 then
-                   begin
-                      SumDebito := IBQuery1.FieldByName('DEBITO').AsCurrency;
-                      SumCredito := IBQuery1.FieldByName('CREDITO').AsCurrency;
-                   end
-                   else
-                   begin
-                      SumDebito := 0;
-                      SumCredito := 0;
-                   end;
-                 except
-                      SumDebito := 0;
-                      SumCredito := 0;
-                 end;
+            IBQsaldo.Close;
+            IBQsaldo.ParamByName('FECHA_INI').AsDate := FechaInicialMovimiento;
+            IBQsaldo.ParamByName('FECHA_FIN').AsDate := FechaFinalMovimiento;
+            IBQsaldo.ParamByName('CODIGO').AsString := Codigo;
+            IBQsaldo.Open;
 
-                 SaldoAnterior := IBQPuc.FieldByName('SALDOINICIAL').AsCurrency + SumDebito - SumCredito;
-                 if SaldoAnterior > 0 then
-                  begin
-                    ParamByName('DEBITOANT').AsCurrency := SaldoAnterior;
-                    ParamByName('CREDITOANT').AsCurrency := 0;
-                  end;
-                 if SaldoAnterior < 0 then
-                  begin
-                    ParamByName('CREDITOANT').AsCurrency := SaldoAnterior * -1;
-                    ParamByName('DEBITOANT').AsCurrency := 0;
-                  end;
-                 if SaldoAnterior = 0 then
-                  begin
-                    ParamByName('DEBITOANT').AsCurrency := 0;
-                    ParamByName('CREDITOANT').AsCurrency := 0;
-                  end;
-                 ParamByName('DEBITOMOV').AsCurrency := IBQSaldoAct.FieldByName('DEBITO').AsCurrency;
-                 ParamByName('CREDITOMOV').AsCurrency := IBQSaldoAct.FieldByName('CREDITO').AsCurrency;
-                 ExecSql;
-                 IBQPuc.Next;
+            if (not VarIsNull(IBQsaldo.FieldByName('DEBITO').Value)) then
+            begin
+                DebitoMov := IBQsaldo.FieldByName('DEBITO').AsCurrency;
+            end
+            else
+            begin
+                DebitoMov := 0;
+            end;
+
+            if (not VarIsNull(IBQsaldo.FieldByName('CREDITO').Value)) then
+            begin
+                    CreditoMov := IBQsaldo.FieldByName('CREDITO').AsCurrency;
+            end
+            else
+            begin
+                    CreditoMov := 0;
+            end;
+
+            IBQTablaDEBITOMOV.Value := DebitoMov;
+            IBQTablaCREDITOMOV.Value := CreditoMov;
+
+
+            if (IBQTablaDEBITOANT.Value <> 0) OR (IBQTablaCREDITOANT.Value <> 0) OR (IBQTablaDEBITOMOV.Value <> 0) OR (IBQTablaCREDITOMOV.Value <> 0) then
+            begin
+                SaldoActual := IBQTablaDEBITOANT.Value - IBQTablaCREDITOANT.Value +
+                       IBQTablaDEBITOMOV.Value - IBQTablaCREDITOMOV.Value;
+                if (SaldoActual > 0) then
+                begin
+                        IBQTablaDEBITOACT.Value :=  SaldoActual;
+                        IBQTablaCREDITOACT.Value := 0;
+                end
+                else
+                begin
+                        IBQTablaDEBITOACT.Value :=  0;
+                        IBQTablaCREDITOACT.Value := -SaldoActual;
                 end;
+                IBQTabla.Post;
+            end
+            else
+            begin
+                IBQTabla.Cancel;
+            end;
+            IBQPuc.Next;
+       end;
 
-              IBQPuc.Close;
-              frmProgreso.Cerrar;
-              
-              SQL.Clear;
-              SQL.Add('select ');
-              SQL.Add('CODIGO,');
-              SQL.Add('NOMBRE,');
-              SQL.Add('NIVEL,');
-              SQL.Add('DESCRIPCION_AGENCIA,');
-              SQL.Add('DEBITOANT,');
-              SQL.Add('CREDITOANT,');
-              SQL.Add('DEBITOMOV,');
-              SQL.Add('CREDITOMOV');
-              SQL.Add('from ' + Tabla + ' ');
-              SQL.Add('where ');
-              SQL.Add('(CODIGO >= :"CODIGO_INICIAL" and CODIGO <= :"CODIGO_FINAL")');
-              SQL.Add(' and ');
-              SQL.Add('(DEBITOANT>0 or CREDITOANT>0 or');
-              SQL.Add('DEBITOMOV>0 or CREDITOMOV>0)');
-
-              ParamByName('CODIGO_INICIAL').AsString := CodigoInicial;
-              ParamByName('CODIGO_FINAL').AsString := CodigoFinal;
-              Open;
-{              IBQTabla.Last;
-              IBQTabla.First;
-              IBQTabla.RecordCount;
-}
-              if ChkPapelCarta.Checked then
-              begin
-               Reporte.Variables.ByName['Empresa'].AsString := Empresa;
-               Reporte.Variables.ByName['Nit'].AsString := Nit;
-               Reporte.Variables.ByName['CodigoI'].AsString := LeftStr(CodigoInicial,NivelCodigo);
-               Reporte.Variables.ByName['CodigoF'].AsString := LeftStr(CodigoFinal,NivelCodigo);
-               Reporte.Variables.ByName['Hoy'].AsDateTime := Now;
-               Reporte.Variables.ByName['Empleado'].AsString := Empleado;
-               Reporte.Variables.ByName['Mes'].AsString := NomMes;
-               Reporte.Variables.ByName['AnoCorte'].AsInteger := AnoCorte;
-
-                  frmVistaPreliminar := TfrmVistaPreliminar.Create(Self);
-                  frmVistaPreliminar.Reporte := Reporte;
-                  frmVistaPreliminar.ShowModal;
-              end
-              else
-              begin
-               ReportBalanceDet.Variables.ByName['Empresa'].AsString := Empresa;
-               ReportBalanceDet.Variables.ByName['Nit'].AsString := Nit;
-               ReportBalanceDet.Variables.ByName['CodigoI'].AsString := LeftStr(CodigoInicial,NivelCodigo);
-               ReportBalanceDet.Variables.ByName['CodigoF'].AsString := LeftStr(CodigoFinal,NivelCodigo);
-               ReportBalanceDet.Variables.ByName['Hoy'].AsDateTime := Now;
-               ReportBalanceDet.Variables.ByName['Empleado'].AsString := Empleado;
-               ReportBalanceDet.Variables.ByName['Mes'].AsString := NomMes;
-               ReportBalanceDet.Variables.ByName['AnoCorte'].AsInteger := AnoCorte;
-
-                  frmVistaPreliminar := TfrmVistaPreliminar.Create(Self);
-                  frmVistaPreliminar.Reporte := ReportBalanceDet;
-                  frmVistaPreliminar.ShowModal;
-              end;
-              IBQTabla.Close;
-
-              Transaction.Commit;
-              With IBQTabla do
-              begin
-              Transaction.StartTransaction;
-              Close;
-              SQL.Clear;
-              SQL.Add('drop table ' + Tabla);
-              ExecSQL;
-              IBQTabla.Close;
-              Transaction.Commit;
-              end;
-
-            end; // Fin With IBQTabla
+       btnReporte.Enabled := True;
+       btnAExcel.Enabled := True;
 
 end;
 
@@ -424,13 +372,11 @@ procedure TfrmBalanceGralDetalladoAnyo.FormCreate(Sender: TObject);
 begin
         dmGeneral := TdmGeneral.Create(self);
         dmGeneral.getConnected;
-        IBQSaldoAct.Database := dmGeneral.IBDatabase1;
-        IBQTabla.Database := dmGeneral.IBDatabase1;
+        IBQSaldo.Database := dmGeneral.IBDatabase1;
         IBQuery1.Database := dmGeneral.IBDatabase1;
         IBQPuc.Database := dmGeneral.IBDatabase1;
 
-        IBQSaldoAct.Transaction := dmGeneral.IBTransaction1;
-        IBQTabla.Transaction := dmGeneral.IBTransaction1;
+        IBQSaldo.Transaction := dmGeneral.IBTransaction1;
         IBQuery1.Transaction := dmGeneral.IBTransaction1;
         IBQPuc.Transaction := dmGeneral.IBTransaction1;
 
@@ -444,8 +390,34 @@ begin
            Transaction.Rollback;
         Transaction.StartTransaction;
       end;
+      edAno.Value := DBAnho;
+end;
+
+procedure TfrmBalanceGralDetalladoAnyo.btnReporteClick(Sender: TObject);
+begin
+                IBQTabla.First;
+                frReport1.LoadFromFile('ReportesCon\frBalanceAnho.frf');
+                frReport1.Dictionary.Variables['EMPRESA'] := QuotedStr(Empresa);
+                frReport1.Dictionary.Variables['NIT'] := QuotedStr(nit);
+                frReport1.Dictionary.Variables['CORTE'] := QuotedStr('12');
+                frReport1.Dictionary.Variables['ANHO'] := QuotedStr(IntToStr(edAno.Value));
+                if frReport1.PrepareReport then
+                   frReport1.ShowPreparedReport;
 
 end;
+
+procedure TfrmBalanceGralDetalladoAnyo.btnAExcelClick(Sender: TObject);
+var
+   ExcelFile : TDataSetToExcel;
+begin
+          SD1.Title := 'Nombre Para El Archivo de Balance';
+          if (SD1.Execute) then
+          begin
+           IBQTabla.First;
+           ExcelFile := TDataSetToExcel.Create(IBQTabla,SD1.FileName);
+           ExcelFile.WriteFile;
+           ExcelFile.Free;
+          end;end;
 
 end.
 

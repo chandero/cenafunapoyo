@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FR_Class, frOLEExl, FR_DSet, FR_DBSet, DB, DBClient,DataSetToExcel,
-  IBCustomDataSet, IBQuery, StdCtrls, Buttons, ComCtrls, Mask, ExtCtrls, DateUtils, StrUtils,UnitdmGeneral;
+  IBCustomDataSet, IBQuery, StdCtrls, Buttons, ComCtrls, Mask, ExtCtrls, DateUtils, StrUtils,UnitdmGeneral,
+  JvEdit, JvTypedEdit;
 
 type
   TfrmBalance = class(TForm)
@@ -13,7 +14,6 @@ type
     Label5: TLabel;
     Label4: TLabel;
     CBMeses: TComboBox;
-    EdAno: TMaskEdit;
     ProgressBar1: TProgressBar;
     Panel2: TPanel;
     CmdAceptar: TBitBtn;
@@ -52,6 +52,7 @@ type
     EdCodigoInicial: TMaskEdit;
     Label3: TLabel;
     EdCodigoFinal: TMaskEdit;
+    edAno: TJvYearEdit;
     procedure CmdAceptarClick(Sender: TObject);
     procedure IBQTablaCalcFields(DataSet: TDataSet);
     procedure IBQTabla1CalcFields(DataSet: TDataSet);

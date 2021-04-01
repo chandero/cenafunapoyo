@@ -109,7 +109,7 @@ begin
         Alias := DBAlias;
         Clave := DBPasabordo;
         DBAlias := 'SYSDBA';
-        DBPasabordo:= 'masterkey';
+        DBPasabordo:= 'Zw7uE4f9qNN723ns';
         IBDatabase1.DatabaseName := BaseAnoAnt;
         IBDatabase1.Params.Values['User_Name'] := DBAlias;
         IBDatabase1.Params.Values['PassWord'] := DBPasabordo;

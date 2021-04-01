@@ -2592,12 +2592,10 @@ object frmLibroMayorYBalance: TfrmLibroMayorYBalance
     UseFileCache = True
     ShowProgress = True
     OverwritePrompt = False
-    DataOnly = False
     PrintOptimized = False
     Outline = False
     Background = False
     HTMLTags = True
-    Quality = 95
     Author = 'FastReport'
     Subject = 'FastReport PDF export'
     ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
@@ -2607,12 +2605,11 @@ object frmLibroMayorYBalance: TfrmLibroMayorYBalance
     FitWindow = False
     CenterWindow = False
     PrintScaling = False
-    CheckboxAsShape = False
     Left = 416
     Top = 48
   end
   object frxReport1: TfrxReport
-    Version = '4.15.13'
+    Version = '4.10.12'
     DotMatrixReport = False
     IniFile = '\Software\Fast Reports'
     PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]

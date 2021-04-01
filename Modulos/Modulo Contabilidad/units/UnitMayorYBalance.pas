@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Mask, ExtCtrls, DB, IBCustomDataSet, IBQuery,
   FR_Class, frOLEExl, UnitDmGeneral, DBClient, DateUtils, FR_DSet, FR_DBSet, StrUtils,
-  ComCtrls, DataSetToExcel;
+  ComCtrls, DataSetToExcel, JvEdit, JvTypedEdit;
 
 type
   TfrmMayorYBalance = class(TForm)
@@ -14,7 +14,6 @@ type
     Label5: TLabel;
     Label4: TLabel;
     CBMeses: TComboBox;
-    EdAno: TMaskEdit;
     Panel2: TPanel;
     CmdAceptar: TBitBtn;
     CmdCerrar: TBitBtn;
@@ -47,6 +46,7 @@ type
     btnReporte: TBitBtn;
     btnAExcel: TBitBtn;
     SD1: TSaveDialog;
+    edAno: TJvYearEdit;
     procedure FormCreate(Sender: TObject);
     procedure CmdAceptarClick(Sender: TObject);
     procedure IBQTablaCalcFields(DataSet: TDataSet);

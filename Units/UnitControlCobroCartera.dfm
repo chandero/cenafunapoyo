@@ -1,8 +1,8 @@
 object frmControlCobroCartera: TfrmControlCobroCartera
-  Left = 215
-  Top = 127
-  Width = 1166
-  Height = 622
+  Left = 392
+  Top = 199
+  Width = 1172
+  Height = 621
   Caption = 'Control de Cobro'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,14 +23,14 @@ object frmControlCobroCartera: TfrmControlCobroCartera
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1158
+    Width = 1164
     Height = 105
     Align = alTop
     TabOrder = 0
     object GroupBox1: TGroupBox
       Left = 1
       Top = 1
-      Width = 1156
+      Width = 1162
       Height = 98
       Align = alTop
       Caption = 'Condiciones de Busqueda'
@@ -709,310 +709,125 @@ object frmControlCobroCartera: TfrmControlCobroCartera
   object Panel2: TPanel
     Left = 0
     Top = 105
-    Width = 1158
+    Width = 1164
     Height = 174
     Align = alTop
     TabOrder = 1
     object GroupBox3: TGroupBox
       Left = 1
       Top = 1
-      Width = 1156
+      Width = 1162
       Height = 172
       Align = alClient
       Caption = 'Resultado de la Busqueda'
       TabOrder = 0
-      object GridColocaciones: TXStringGrid
+      object DBGdatacobro: TDBGrid
         Left = 2
         Top = 15
-        Width = 1152
+        Width = 1158
         Height = 155
         Align = alClient
-        Color = clWhite
-        ColCount = 15
-        DefaultRowHeight = 18
-        DefaultDrawing = False
-        FixedCols = 0
-        RowCount = 2
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRowSelect]
+        DataSource = DSdatacobro
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
         TabOrder = 0
-        OnDrawCell = GridColocacionesDrawCell
-        OnSelectCell = GridColocacionesSelectCell
-        FixedLineColor = clBlack
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clBlack
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = [fsBold]
+        OnCellClick = DBGdatacobroCellClick
+        OnDrawColumnCell = DBGdatacobroDrawColumnCell
         Columns = <
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'COLOCACION'
-            Color = clWhite
-            Width = 181
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'ID_COLOCACION'
+            Title.Caption = 'COLOCACION'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'ASOCIADO'
-            Color = clWhite
-            Width = 250
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'NOMBRE'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'SALDO'
-            Color = clWhite
-            Width = 222
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            Alignment = taRightJustify
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'SALDO'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'CUOTA'
-            Color = clWhite
-            Width = 120
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            Alignment = taRightJustify
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'VALOR_CUOTA'
+            Title.Caption = 'CUOTA'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'CAPITAL'
-            Color = clWhite
-            Width = 72
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'FECHA_CAPITAL'
+            Title.Caption = 'FECHA CAPITAL'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'INTERES'
-            Color = clWhite
-            Width = 72
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'FECHA_INTERES'
+            Title.Caption = 'FECHA INTERES'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'ESTADO'
-            Color = clWhite
-            Width = 171
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'ESTADO'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'DIAS'
-            Color = clWhite
-            Width = 136
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            Alignment = taRightJustify
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'DIAS'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'ID'
-            Color = clWhite
-            Width = 117
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'ID_IDENTIFICACION'
+            Title.Caption = 'ID'
+            Width = 50
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'IDENTIFICACION'
-            Color = clWhite
-            Width = 100
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'ID_PERSONA'
+            Title.Caption = 'DOCUMENTO'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            Caption = 'TIPO CUOTA'
-            Color = clWhite
-            Width = 120
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'TIPO_CUOTA'
+            Title.Caption = 'TIPO CUOTA'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'EN AHORROS'
-            Color = clWhite
-            Width = 120
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            Alignment = taRightJustify
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'AHORROS'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = [fsBold]
-            HeaderAlignment = taCenter
-            Caption = 'EN APORTES'
-            Color = clWhite
-            Width = 120
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            Alignment = taRightJustify
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'APORTES'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = []
-            Caption = 'COMPROMISO'
-            Color = clWhite
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'COMPROMISO'
+            Visible = True
           end
           item
-            HeaderFont.Charset = DEFAULT_CHARSET
-            HeaderFont.Color = clBlack
-            HeaderFont.Height = -11
-            HeaderFont.Name = 'MS Sans Serif'
-            HeaderFont.Style = []
-            Caption = 'CENTRO'
-            Color = clWhite
-            Width = 150
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clBlack
-            Font.Height = -11
-            Font.Name = 'MS Sans Serif'
-            Font.Style = []
-            EditorInheritsCellProps = False
+            Expanded = False
+            FieldName = 'CENTRO'
+            Width = 240
+            Visible = True
           end>
-        MultiLine = False
-        ImmediateEditMode = False
-        ColWidths = (
-          181
-          250
-          222
-          120
-          72
-          72
-          171
-          136
-          117
-          100
-          120
-          120
-          120
-          64
-          150)
       end
     end
   end
@@ -1385,7 +1200,7 @@ object frmControlCobroCartera: TfrmControlCobroCartera
   object Panel6: TPanel
     Left = 0
     Top = 279
-    Width = 1158
+    Width = 1164
     Height = 33
     Align = alTop
     TabOrder = 3
@@ -1583,7 +1398,7 @@ object frmControlCobroCartera: TfrmControlCobroCartera
             ReadOnly = True
             Title.Alignment = taCenter
             Title.Caption = 'FECHA'
-            Width = 65
+            Width = 147
             Visible = True
           end
           item
@@ -1765,8 +1580,8 @@ object frmControlCobroCartera: TfrmControlCobroCartera
         Width = 89
         Height = 21
         CalAlignment = dtaLeft
-        Date = 40816.3635175463
-        Time = 40816.3635175463
+        Date = 40816
+        Time = 40816
         Color = clWhite
         DateFormat = dfShort
         DateMode = dmComboBox
@@ -1780,8 +1595,8 @@ object frmControlCobroCartera: TfrmControlCobroCartera
         Width = 89
         Height = 21
         CalAlignment = dtaLeft
-        Date = 40816.3635175463
-        Time = 40816.3635175463
+        Date = 40816.9999884259
+        Time = 40816.9999884259
         Color = clWhite
         DateFormat = dfShort
         DateMode = dmComboBox
@@ -1871,8 +1686,8 @@ object frmControlCobroCartera: TfrmControlCobroCartera
       
         'where "col$controlcobro".ID_COLOCACION = :ID_COLOCACION ORDER BY' +
         ' FECHA_OBSERVACION DESC')
-    Left = 578
-    Top = 376
+    Left = 586
+    Top = 392
     ParamData = <
       item
         DataType = ftUnknown
@@ -1891,9 +1706,8 @@ object frmControlCobroCartera: TfrmControlCobroCartera
       FixedChar = True
       Size = 11
     end
-    object IBDataSet1FECHA_OBSERVACION: TDateField
+    object IBDataSet1FECHA_OBSERVACION: TDateTimeField
       FieldName = 'FECHA_OBSERVACION'
-      Origin = 'col$controlcobro.FECHA_OBSERVACION'
     end
     object IBDataSet1OBSERVACION: TMemoField
       FieldName = 'OBSERVACION'
@@ -1939,7 +1753,7 @@ object frmControlCobroCartera: TfrmControlCobroCartera
     SQL.Strings = (
       'select * from "gen$agencia"')
     Left = 644
-    Top = 352
+    Top = 392
   end
   object DataSource2: TDataSource
     AutoEdit = False
@@ -3326,7 +3140,7 @@ object frmControlCobroCartera: TfrmControlCobroCartera
     IndexDefs = <>
     Params = <>
     StoreDefs = True
-    Left = 248
+    Left = 240
     Top = 88
     Data = {
       F60100009619E0BD010000001800000010000000000003000000F6010A49445F
@@ -10566,5 +10380,168 @@ object frmControlCobroCartera: TfrmControlCobroCartera
         Name = 'CODIGO'
         ParamType = ptUnknown
       end>
+  end
+  object DSdatacobro: TDataSource
+    DataSet = CDSdatacobro
+    Left = 680
+    Top = 160
+  end
+  object CDSdatacobro: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'ID_COLOCACION'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'NOMBRE'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'SALDO'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'VALOR_CUOTA'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'FECHA_CAPITAL'
+        DataType = ftDate
+      end
+      item
+        Name = 'FECHA_INTERES'
+        DataType = ftDate
+      end
+      item
+        Name = 'ESTADO'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'DIAS'
+        DataType = ftInteger
+      end
+      item
+        Name = 'ID_IDENTIFICACION'
+        DataType = ftInteger
+      end
+      item
+        Name = 'ID_PERSONA'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'TIPO_CUOTA'
+        DataType = ftString
+        Size = 100
+      end
+      item
+        Name = 'AHORROS'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'APORTES'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'COMPROMISO'
+        DataType = ftString
+        Size = 200
+      end
+      item
+        Name = 'CENTRO'
+        DataType = ftString
+        Size = 100
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    AfterScroll = CDSdatacobroAfterScroll
+    Left = 712
+    Top = 160
+    Data = {
+      CF0100009619E0BD01000000180000000F000000000003000000CF010D49445F
+      434F4C4F434143494F4E0100490000000100055749445448020002001400064E
+      4F4D425245010049000000010005574944544802000200C8000553414C444F08
+      0004000000010007535542545950450200490006004D6F6E6579000B56414C4F
+      525F43554F5441080004000000010007535542545950450200490006004D6F6E
+      6579000D46454348415F4341504954414C04000600000000000D46454348415F
+      494E544552455304000600000000000645535441444F01004900000001000557
+      49445448020002001400044449415304000100000000001149445F4944454E54
+      494649434143494F4E04000100000000000A49445F504552534F4E4101004900
+      000001000557494454480200020014000A5449504F5F43554F54410100490000
+      0001000557494454480200020064000741484F52524F53080004000000010007
+      535542545950450200490006004D6F6E6579000741504F525445530800040000
+      00010007535542545950450200490006004D6F6E6579000A434F4D50524F4D49
+      534F010049000000010005574944544802000200C8000643454E54524F010049
+      00000001000557494454480200020064000000}
+    object CDSdatacobroID_COLOCACION: TStringField
+      DisplayWidth = 20
+      FieldName = 'ID_COLOCACION'
+    end
+    object CDSdatacobroNOMBRE: TStringField
+      DisplayWidth = 61
+      FieldName = 'NOMBRE'
+      Size = 200
+    end
+    object CDSdatacobroSALDO: TCurrencyField
+      DisplayWidth = 22
+      FieldName = 'SALDO'
+    end
+    object CDSdatacobroVALOR_CUOTA: TCurrencyField
+      DisplayWidth = 19
+      FieldName = 'VALOR_CUOTA'
+    end
+    object CDSdatacobroFECHA_CAPITAL: TDateField
+      DisplayWidth = 21
+      FieldName = 'FECHA_CAPITAL'
+    end
+    object CDSdatacobroFECHA_INTERES: TDateField
+      DisplayWidth = 22
+      FieldName = 'FECHA_INTERES'
+    end
+    object CDSdatacobroESTADO: TStringField
+      DisplayWidth = 28
+      FieldName = 'ESTADO'
+    end
+    object CDSdatacobroDIAS: TIntegerField
+      DisplayWidth = 15
+      FieldName = 'DIAS'
+    end
+    object CDSdatacobroID_IDENTIFICACION: TIntegerField
+      DisplayWidth = 25
+      FieldName = 'ID_IDENTIFICACION'
+    end
+    object CDSdatacobroID_PERSONA: TStringField
+      DisplayWidth = 29
+      FieldName = 'ID_PERSONA'
+    end
+    object CDSdatacobroTIPO_CUOTA: TStringField
+      DisplayWidth = 43
+      FieldName = 'TIPO_CUOTA'
+      Size = 100
+    end
+    object CDSdatacobroAHORROS: TCurrencyField
+      DisplayWidth = 15
+      FieldName = 'AHORROS'
+    end
+    object CDSdatacobroAPORTES: TCurrencyField
+      DisplayWidth = 15
+      FieldName = 'APORTES'
+    end
+    object CDSdatacobroCOMPROMISO: TStringField
+      DisplayWidth = 121
+      FieldName = 'COMPROMISO'
+      Size = 200
+    end
+    object CDSdatacobroCENTRO: TStringField
+      DisplayWidth = 58
+      FieldName = 'CENTRO'
+      Size = 100
+    end
   end
 end

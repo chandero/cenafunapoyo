@@ -427,7 +427,7 @@ begin
         with IBQuery1 do begin
            Close;
            SQL.Clear;
-           SQL.Add('select count(*) as CONTEO from "col$causaciondiaria" where FECHA_CORTE = :"FECHA_CORTE"');
+           SQL.Add('select count(*) as CONTEO from "col$causaciondiaria" where FECHA_CORTE = :"FECHA_CORTE" AND ID_ESTADO <> 7');
            ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
            try
             Open;
@@ -449,7 +449,7 @@ begin
         with IBQuery1 do begin
            Close;
            SQL.Clear;
-           SQL.Add('select * from "col$causaciondiaria" where FECHA_CORTE = :FECHA_CORTE order by ID_COLOCACION ASC');
+           SQL.Add('select * from "col$causaciondiaria" where FECHA_CORTE = :FECHA_CORTE AND ID_ESTADO <> 7 ORDER BY ID_COLOCACION ASC');
            ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
            try
             Open;

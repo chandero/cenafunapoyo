@@ -78,6 +78,7 @@ type
     SD1: TSaveDialog;
     btnRecalcular: TBitBtn;
     btnReNota: TBitBtn;
+    btnRecProvision: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure CmdCerrarClick(Sender: TObject);
     procedure CmdProcesarClick(Sender: TObject);
@@ -90,6 +91,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure btnRecalcularClick(Sender: TObject);
     procedure btnReNotaClick(Sender: TObject);
+    procedure btnRecProvisionClick(Sender: TObject);
   private
     { Private declarations }
     procedure EvaluarCortoPlazo;
@@ -5062,7 +5064,7 @@ begin
                IBSQL3.SQL.Add('inner join "col$codigospuc" on');
                IBSQL3.SQL.Add('("col$causaciondiaria".ID_CLASIFICACION = "col$codigospuc".ID_CLASIFICACION and');
                IBSQL3.SQL.Add('"col$causaciondiaria".ID_GARANTIA = "col$codigospuc".ID_GARANTIA and');
-               IBSQL3.SQL.Add('"col$causaciondiaria".ID_EDAD_ACT = "col$codigospuc".ID_CATEGORIA)');
+               IBSQL3.SQL.Add('"col$causaciondiaria".ID_ARRASTRE = "col$codigospuc".ID_CATEGORIA)');
                IBSQL3.SQL.Add('where');
                IBSQL3.SQL.Add('"col$causaciondiaria".FECHA_CORTE = :FECHA_CORTE');
                IBSQL3.SQL.Add('group by "col$causaciondiaria".ID_CLASIFICACION,');
@@ -7739,38 +7741,99 @@ end;
 
 procedure TfrmCausacionCarteraDiaria.CalculoProvision;
 var
-    Deuda:Currency;
+    Deuda, ProvisionCapital, ProvisionInteres, ProvisionCostas:Currency;
+    ProvisionCapitalAnhoAnterior, ProvisionInteresAnhoAnterior, ProvisionCostasAnhoAnterior: Currency;
     PCapDiaAnt,PIntDiaAnt,PCosDiaAnt:Currency;
     PCapAcum,PIntAcum,PCosAcum:Currency;
-    FechaAnterior,FechaAnoAnterior : TDate;
+    FechaAnterior,FechaAnhoAnterior : TDate;
     MovCapital,RecCapital,RevGCapital,GCapital:Currency;
     MovInteres,RecInteres,RevGInteres,GInteres:Currency;
     MovCostas,RecCostas,RevGCostas,GCostas:Currency;
+    _iDiasMora,_iIdEstadoCol :Integer;
 begin
           with IBQuery1 do begin
             if Transaction.InTransaction then
                Transaction.Rollback;
            Transaction.StartTransaction;
 
-          //Inicio Proceso para llenar la Temporal de Movimientos
+          // Busco Periodo Anterior
           IBSQL6.Close;
           IBSQL6.SQL.Clear;
-          IBSQL6.SQL.Add('SELECT first 1 FECHA from "col$causacionescontrol" order by FECHA DESC');
+          IBSQL6.SQL.Add('SELECT first 1 FECHA from "col$causacionescontrol" WHERE FECHA < :FECHA_CORTE order by FECHA DESC');
+          IBSQL6.ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
           IBSQL6.ExecQuery;
           FechaAnterior := IBSQL6.FieldByName('FECHA').AsDate;
           IBSQL6.Close;
 
-          IBSQL6.SQL.Clear;
-          IBSQL6.SQL.Add('insert into "col$causaciondiariamovtmp" select * from "col$causaciondiariamov"');
-          IBSQL6.SQL.Add('where (PCAPITAL_ANUAL>0) or (PINTERES_ANUAL>0) or (PCOSTAS_ANUAL>0) or (PCAPITAL_ACT>0) or (PINTERES_ACT>0) or (PCOSTAS_ACT>0)');
-          IBSQL6.ExecQuery;
-          IBSQL6.Transaction.Commit;
-          IBSQL6.Transaction.StartTransaction;
-          //fin de Temporal Movimientos
+          // Establezco periodo final año anterior
+          FechaAnhoAnterior := EncodeDate(YearOf(EdFechaCorte.Date) - 1, 12, 30);
+
+          // Insertar Colocaciones ya Saldadas con Provision, para calcular la recuperacion o reversion
+        Close;
+        SQL.Clear;
+        SQL.Add('INSERT INTO "col$causaciondiariatmp" SELECT ');
+        SQL.Add('cc.ID_AGENCIA, ');
+	SQL.Add('cc.ID_COLOCACION, ');
+	SQL.Add(QuotedStr(FormatDateTime('yyyy/mm/dd', EdFechaCorte.DateTime)) + ' AS FECHA_CORTE, ');
+        SQL.Add('cc.ID_CLASIFICACION, ');
+	SQL.Add('cc.ID_GARANTIA, ');
+	SQL.Add('cc.ID_EDAD_ANT, ');
+	SQL.Add('cc.ID_EDAD_ACT, ');
+	SQL.Add('ID_ARRASTRE, ');
+	SQL.Add('cc.ID_IDENTIFICACION, ');
+	SQL.Add('cc.ID_PERSONA, ');
+	SQL.Add('cc.FECHA_DESEMBOLSO, ');
+	SQL.Add('cc.VALOR, ');
+	SQL.Add('0 AS DEUDA, ');
+	SQL.Add('cc.ID_TIPO_CUOTA, ');
+	SQL.Add('cc.FECHA_CAPITAL, ');
+	SQL.Add('cc.FECHA_INTERES, ');
+	SQL.Add('cc.TIPOC_INTERES, ');
+	SQL.Add('cc.AMORTIZA_CAPITAL, ');
+	SQL.Add('cc.AMORTIZA_INTERES, ');
+	SQL.Add('cc.TIPO_INTERES, ');
+	SQL.Add('cc.TASA_INTERES_CORRIENTE, ');
+	SQL.Add('cc.ID_INTERES, ');
+	SQL.Add('cc.VALOR_ACTUAL_TASA, ');
+	SQL.Add('cc.PUNTOS_INTERES, ');
+	SQL.Add('cc.DIAS, ');
+	SQL.Add('cc.TASA, ');
+	SQL.Add('0 AS ANTICIPADOS, ');
+	SQL.Add('0 AS CAUSADOS, ');
+	SQL.Add('0 AS CONTINGENCIAS, ');
+	SQL.Add('0 AS APORTES, ');
+	SQL.Add('0 AS PCAPITAL, ');
+	SQL.Add('0 AS PINTERES, ');
+	SQL.Add('0 AS PCOSTAS, ');
+	SQL.Add('0 AS CORTO_PL, ');
+	SQL.Add('0 AS LARGO_PL, ');
+	SQL.Add('0 AS COSTAS, ');
+	SQL.Add('7 AS ID_ESTADO, ');
+	SQL.Add('0 AS PCAPITAL_REC, ');
+	SQL.Add('0 AS PINTERES_REC, ');
+	SQL.Add('0 AS PCOSTAS_REC, ');
+	SQL.Add('0 AS PCAPITAL_REV, ');
+	SQL.Add('0 AS PINTERES_REV, ');
+	SQL.Add('0 AS PCOSTAS_REV, ');
+	SQL.Add('0 AS PCAPITAL_GAS, ');
+	SQL.Add('0 AS PINTERES_GAS, ');
+	SQL.Add('0 AS PCOSTAS_GAS, ');
+	SQL.Add('0 AS VALOR_GARANTIA, ');
+	SQL.Add('0 AS GARANTIA_DESCONTADA, ');
+	SQL.Add('0 AS MOROSIDAD ');
+	SQL.Add('FROM "col$causaciondiaria" cc ');
+        SQL.Add('WHERE ');
+        SQL.Add('(cc.PCAPITAL > 0 OR cc.PINTERES > 0 OR cc.PCOSTAS > 0) AND ');
+        SQL.Add('cc.FECHA_CORTE = :FECHA_ANTERIOR AND ');
+        SQL.Add('cc.ID_COLOCACION NOT IN (SELECT cc2.ID_COLOCACION FROM "col$causaciondiariatmp" cc2 WHERE cc2.FECHA_CORTE = :FECHA_ACTUAL) ');
+        ParamByName('FECHA_ANTERIOR').AsDate := FechaAnterior;
+        ParamByName('FECHA_ACTUAL').AsDate := EdFechaCorte.Date;
+        ExecSQL;
+          //Busco total de colocaciones a procesar
 
           Close;
           SQL.Clear;
-          SQL.Add('select count(*) as TOTAL from "col$causaciondiariatmp" where FECHA_CORTE = :FECHA_CORTE AND DEUDA > 0');
+          SQL.Add('select count(*) as TOTAL from "col$causaciondiariatmp" where FECHA_CORTE = :FECHA_CORTE');
           ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
           Open;
           Total := FieldByName('TOTAL').AsInteger;
@@ -7778,15 +7841,17 @@ begin
           frmPantallaProgreso  := TfrmProgreso.Create(Self);
           frmPantallaProgreso.Min := 0;
           frmPantallaProgreso.Max := Total;
-          frmPantallaProgreso.Titulo := 'Calculando Provisión ...';
+          frmPantallaProgreso.Titulo := 'Calculando Provisión...';
           frmPantallaProgreso.Position := 0;
           frmPantallaProgreso.Ejecutar;
 
           Close;
           SQL.Clear;
-          SQL.Add('select * from "col$causaciondiariatmp" WHERE DEUDA > 0 order by ID_IDENTIFICACION,ID_PERSONA,ID_EDAD_ACT DESC,ID_AGENCIA,ID_COLOCACION');
+          SQL.Add('select * from "col$causaciondiariatmp" WHERE FECHA_CORTE = :FECHA_CORTE ORDER BY ID_IDENTIFICACION,ID_PERSONA,ID_ARRASTRE DESC,ID_AGENCIA,ID_COLOCACION');
+          ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
           try
            Open;
+           frmPantallaProgreso.Titulo := 'Calculando Provisión ...'+'- Leyendo Colocaciones';
           except
            MessageDlg('Error al Iniciar la Tabla Temporal para el Segundo proceso',mtError,[mbcancel],0);
            Transaction.Rollback;
@@ -7795,30 +7860,30 @@ begin
           end;
 //          end;
 
-          while not IBQuery1.Eof  do begin
+          while not IBQuery1.Eof do begin
               frmPantallaProgreso.Position := IBQuery1.RecNo;
               frmPantallaProgreso.InfoLabel := IBQuery1.FieldByName('ID_PERSONA').AsString + '-' + IBQuery1.FieldByName('ID_COLOCACION').AsString;
               Application.ProcessMessages;
 
 
-           Capital := 0;
-           Interes := 0;
-           PCostas := 0;
+           ProvisionCapital := 0;
+           ProvisionInteres := 0;
+           ProvisionCostas := 0;
            PCapAcum := 0;
            PIntAcum := 0;
            PCosAcum := 0;
            MovCapital := 0;
            MovInteres := 0;
            MovCostas := 0;
-           RecCapital := 0;
-           RecInteres := 0;
-           RecCostas := 0;
            PCapDiaAnt := 0;
            PIntDiaAnt := 0;
            PCosDiaAnt := 0;
            RevGInteres := 0;
            RevGCapital := 0;
            RevGCostas := 0;
+           RecCapital := 0;
+           RecInteres := 0;
+           RecCostas := 0;           
            GCapital := 0;
            GInteres := 0;
            GCostas := 0;
@@ -7834,23 +7899,63 @@ begin
             ParamByName('ID_EDAD').AsString := IBQuery1.FieldByName('ID_ARRASTRE').AsString;
             try
              ExecQuery;
+             frmPantallaProgreso.Titulo := 'Calculando Provisión ...'+'- Leyendo Porcentajes Provisión';
             except
              MessageDlg('Error al Buscar Datos Para Aplicar Provisión',mtError,[mbcancel],0);
              frmPantallaProgreso.Cerrar;
              raise;
              Exit;
             end; // try
-            Capital := SimpleRoundTo((IBQuery1.FieldByName('DEUDA').AsCurrency - IBQuery1.FieldByName('GARANTIA_DESCONTADA').AsCurrency) * (FieldByName('A_CAPITAL').AsFloat / 100),0);
-            if Capital < 0 then Capital := 0;
-            Interes := SimpleRoundTo(IBQuery1.FieldByName('CAUSADOS').AsCurrency * (FieldByName('A_INTERESES').AsFloat / 100),0);
-            PCostas := SimpleRoundTo(IBQuery1.FieldByName('COSTAS').AsCurrency * (FieldByName('A_COSTAS').AsFloat / 100),0);
+
+            frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Calc Capital';
+            if (IBQuery1.FieldByName('ID_ESTADO').AsInteger = 2) then
+               ProvisionCapital := SimpleRoundTo((IBQuery1.FieldByName('DEUDA').AsCurrency) * (FieldByName('A_CAPITAL').AsFloat / 100),0)
+            else
+               ProvisionCapital := SimpleRoundTo((IBQuery1.FieldByName('DEUDA').AsCurrency - IBQuery1.FieldByName('GARANTIA_DESCONTADA').AsCurrency) * (FieldByName('A_CAPITAL').AsFloat / 100),0);
+            if ProvisionCapital < 0 then ProvisionCapital := 0;
+            frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Calc Interes';
+            ProvisionInteres := SimpleRoundTo(IBQuery1.FieldByName('CAUSADOS').AsCurrency * (FieldByName('A_INTERESES').AsFloat / 100),0);
+            frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Calc Costas';
+            ProvisionCostas := SimpleRoundTo(IBQuery1.FieldByName('COSTAS').AsCurrency * (FieldByName('A_COSTAS').AsFloat / 100),0);
            end; // with
 
+           frmPantallaProgreso.Titulo := 'Calculando Provision Año Anterior';
+           IBSQL6.Close;
+           IBSQL6.SQL.Clear;
+           IBSQL6.SQL.Add('SELECT PCAPITAL, PINTERES, PCOSTAS FROM "col$causaciondiaria" ');
+           IBSQL6.SQL.Add('WHERE ID_AGENCIA = :ID_AGENCIA AND ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE = :FECHA_CORTE');
+           IBSQL6.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
+           IBSQL6.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
+           IBSQL6.ParamByName('FECHA_CORTE').AsDate := FechaAnhoAnterior;
+           IBSQL6.ExecQuery;
+           ProvisionCapitalAnhoAnterior := IBSQL6.FieldByName('PCAPITAL').AsCurrency;
+           ProvisionInteresAnhoAnterior := IBSQL6.FieldByName('PINTERES').AsCurrency;
+           ProvisionCostasAnhoAnterior  := IBSQL6.FieldByName('PCOSTAS').AsCurrency;
 
+           if (FechaAnterior > FechaAnhoAnterior) then
+           begin
+                   IBSQL6.Close;
+                   IBSQL6.SQL.Clear;
+                   IBSQL6.SQL.Add('SELECT SUM(PCAPITAL_REC) AS PCAPITAL_REC, SUM(PINTERES_REC) AS PINTERES_REC, SUM(PCOSTAS_REC) AS PCOSTAS_REC FROM "col$causaciondiaria" ');
+                   IBSQL6.SQL.Add('WHERE ID_AGENCIA = :ID_AGENCIA AND ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE BETWEEN :FECHA_INICIAL AND :FECHA_FINAL');
+                   IBSQL6.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
+                   IBSQL6.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
+                   IBSQL6.ParamByName('FECHA_INICIAL').AsDate := EncodeDate(YearOf(EdFechaCorte.Date), 1, 30);
+                   IBSQL6.ParamByName('FECHA_FINAL').AsDate := FechaAnterior;
+                   IBSQL6.ExecQuery;
+
+                   ProvisionCapitalAnhoAnterior := ProvisionCapitalAnhoAnterior - IBSQL6.FieldByName('PCAPITAL_REC').AsCurrency;
+                   ProvisionInteresAnhoAnterior := ProvisionInteresAnhoAnterior - IBSQL6.FieldByName('PINTERES_REC').AsCurrency;
+                   ProvisionCostasAnhoAnterior  := ProvisionCostasAnhoAnterior - IBSQL6.FieldByName('PCOSTAS_REC').AsCurrency;
+           end;
+
+
+           frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Causacion Anterior';
            IBSQL6.Close;
            IBSQL6.SQL.Clear;
            IBSQL6.SQL.Add('select PCAPITAL, PINTERES, PCOSTAS from "col$causaciondiaria"');
-           IBSQL6.SQL.Add('where ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE = :FECHA_CORTE');
+           IBSQL6.SQL.Add('where ID_AGENCIA = :ID_AGENCIA AND ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE = :FECHA_CORTE');
+           IBSQL6.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
            IBSQL6.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
            IBSQL6.ParamByName('FECHA_CORTE').AsDate := FechaAnterior;
            IBSQL6.ExecQuery;
@@ -7859,209 +7964,102 @@ begin
            PCosAcum := IBSQL6.FieldByName('PCOSTAS').AsCurrency;
            IBSQL6.Close;
 
-           IBSQL6.SQL.Clear;
-           IBSQL6.SQL.Add('select * from "col$causaciondiariamovtmp" where ID_COLOCACION = :ID_COLOCACION');
-           IBSQL6.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-           IBSQL6.ExecQuery;
-
-           if Capital < PCapAcum then
-            begin
-              MovCapital := PCapAcum - Capital;
-              if IBSQL6.FieldByName('PCAPITAL_ANUAL').AsCurrency > 0 then
-                if IBSQL6.FieldByName('PCAPITAL_ANUAL').AsCurrency > MovCapital then
-                  RecCapital := MovCapital
-                else begin
-                  RevGCapital := MovCapital - IBSQL6.FieldByName('PCAPITAL_ANUAL').AsCurrency;
-                  RecCapital := IBSQL6.FieldByName('PCAPITAL_ANUAL').AsCurrency;
+           frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Capital Vs PCapAcum';
+           if ProvisionCapital < PCapAcum then
+            // Caso Reversion o Recuperacion
+           begin
+              MovCapital := PCapAcum - ProvisionCapital;
+              // Revisar si se hace Recuperacion
+              if (ProvisionCapitalAnhoAnterior > 0) then
+              begin
+                if (ProvisionCapitalAnhoAnterior > MovCapital) Then
+                begin
+                    RecCapital := MovCapital;
+                    MovCapital := 0;
                 end
-              else
+                else
+                begin
+                    RecCapital := ProvisionCapitalAnhoAnterior;
+                    MovCapital := MovCapital - RecCapital;
+                end;
+              end;
+              // Reviso si hay reversi{on
+              if (MovCapital > 0) then
+              begin
                 RevGCapital := MovCapital;
+              end;
             end
            else
-            begin
-              MovCapital := Capital - PCapAcum;
+           begin
+              MovCapital := ProvisionCapital - PCapAcum;
               GCapital := MovCapital;
-            end;
+           end;
 
-           if Interes < PIntAcum then
-            begin
-              MovInteres := PIntAcum - Interes;
-              if IBSQL6.FieldByName('PINTERES_ANUAL').AsCurrency > 0 then
-                if IBSQL6.FieldByName('PINTERES_ANUAL').AsCurrency > MovInteres then
-                  RecInteres := MovInteres
-                else begin
-                  RevGInteres := MovInteres - IBSQL6.FieldByName('PINTERES_ANUAL').AsCurrency;
-                  RecInteres := IBSQL6.FieldByName('PINTERES_ANUAL').AsCurrency;
+           frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Interes Vs PIntAcum';
+           if ProvisionInteres < PIntAcum then
+            // Caso Reversion o Recuperacion
+           begin
+              MovInteres := PIntAcum - ProvisionInteres;
+              // Revisar si se hace Recuperacion
+              if (ProvisionInteresAnhoAnterior > 0) then
+              begin
+                if (ProvisionInteresAnhoAnterior > MovInteres) Then
+                begin
+                    RecInteres := MovInteres;
+                    MovInteres := 0;
                 end
-              else
+                else
+                begin
+                    RecInteres := ProvisionInteresAnhoAnterior;
+                    MovInteres := MovInteres - RecInteres;
+                end;
+              end;
+              // Reviso si hay reversion
+              if (MovInteres > 0) then
+              begin
                 RevGInteres := MovInteres;
+              end;
             end
            else
-            begin
-              MovInteres := Interes  - PIntAcum;
+           begin
+              MovInteres := ProvisionInteres - PIntAcum;
               GInteres := MovInteres;
-            end;
+           end;
 
-
-           if PCostas < PCosAcum then
-             begin
-               MovCostas := PCosAcum - PCostas;
-               if IBSQL6.FieldByName('PCOSTAS_ANUAL').AsCurrency > 0 then
-                 if IBSQL6.FieldByName('PCOSTAS_ANUAL').AsCurrency > MovCostas then
-                   RecCostas := MovCostas
-                 else begin
-                   RevGCostas := MovCostas - IBSQL6.FieldByName('PCOSTAS_ANUAL').AsCurrency;
-                   RecCostas := IBSQL6.FieldByName('PCOSTAS_ANUAL').AsCurrency;
-                 end
-               else
-                 RevGCostas := MovCostas;
-             end
-            else
-             begin
-               MovCostas := PCostas - PCosAcum;
-               GCostas := MovCostas;
-             end;
-
-            if RecCapital > 0 then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PCAPITAL_ANUAL = PCAPITAL_ANUAL - :REC');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('REC').AsCurrency := RecCapital;
-              IBSQL3.ExecQuery;
-              IBSQL3.Close;
-            end;
-
-            if RecInteres > 0  then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PINTERES_ANUAL = PINTERES_ANUAL - :REC');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('REC').AsCurrency := RecInteres;
-              IBSQL3.ExecQuery;
-              IBSQL3.Close;
-            end;
-
-            if RecCostas > 0  then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PCOSTAS_ANUAL = PCOSTAS_ANUAL - :REC');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('REC').AsCurrency := RecCostas;
-              IBSQL3.ExecQuery;
-              IBSQL3.Close;
-            end;
-
-            if RevGCapital > 0  then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PCAPITAL_ACT = PCAPITAL_ACT - :REC');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('REC').AsCurrency := RevGCapital;
-              IBSQL3.ExecQuery;
-              IBSQL3.Close;
-            end;
-
-            if RevGInteres > 0  then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PINTERES_ACT = PINTERES_ACT - :REC');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('REC').AsCurrency := RevGInteres;
-              IBSQL3.ExecQuery;
-              IBSQL3.Close;
-            end;
-
-            if RevGCostas > 0  then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PCOSTAS_ACT = PCOSTAS_ACT - :REC');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('REC').AsCurrency := RevGCostas;
-              IBSQL3.ExecQuery;
-              IBSQL3.Close;
-            end;
-
-            if GCapital > 0  then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PCAPITAL_ACT = PCAPITAL_ACT + :GASTO');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('GASTO').AsCurrency := GCapital;
-              IBSQL3.ExecQuery;
-              if IBSQL3.RowsAffected <= 0 then begin
-                IBSQL3.Close;
-                IBSQL3.SQL.Clear;
-                IBSQL3.SQL.Add('insert into "col$causaciondiariamovtmp" (ID_AGENCIA,ID_COLOCACION,PCAPITAL_ACT)');
-                IBSQL3.SQL.Add('values (:ID_AGENCIA,:ID_COLOCACION,:PCAPITAL_ACT)');
-                IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-                IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-                IBSQL3.ParamByName('PCAPITAL_ACT').AsCurrency := GCapital;
-                IBSQL3.Close;
+           frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Costas Vs PCosAcum';
+           if ProvisionCostas < PCosAcum then
+            // Caso Reversion o Recuperacion
+           begin
+              MovCostas := PCosAcum - ProvisionCostas;
+              // Revisar si se hace Recuperacion
+              if (ProvisionCostasAnhoAnterior > 0) then
+              begin
+                if (ProvisionCostasAnhoAnterior > MovCostas) Then
+                begin
+                    RecCostas := MovCostas;
+                    MovCostas := 0;
+                end
+                else
+                begin
+                    RecCostas := ProvisionCostasAnhoAnterior;
+                    MovCostas := MovCostas - RecCostas;
+                end;
               end;
-              IBSQL3.Close;
-            end;
-
-            if GInteres > 0  then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PINTERES_ACT = PINTERES_ACT + :GASTO');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('GASTO').AsCurrency := GInteres;
-              IBSQL3.ExecQuery;
-              if IBSQL3.RowsAffected <= 0 then begin
-                IBSQL3.Close;
-                IBSQL3.SQL.Clear;
-                IBSQL3.SQL.Add('insert into "col$causaciondiariamovtmp" (ID_AGENCIA,ID_COLOCACION,PINTERES_ACT)');
-                IBSQL3.SQL.Add('values (:ID_AGENCIA,:ID_COLOCACION,:PINTERES_ACT)');
-                IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-                IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-                IBSQL3.ParamByName('PINTERES_ACT').AsCurrency := GInteres;
-                IBSQL3.Close;
+              // Reviso si hay reversi{on
+              if (MovCostas > 0) then
+              begin
+                RevGCostas := MovCostas;
               end;
-              IBSQL3.Close;
-            end;
-
-            if GCostas > 0  then begin
-              IBSQL3.Close;
-              IBSQL3.SQL.Clear;
-              IBSQL3.SQL.Add('update "col$causaciondiariamovtmp" set PCOSTAS_ACT = PCOSTAS_ACT + :GASTO');
-              IBSQL3.SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
-              IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-              IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              IBSQL3.ParamByName('GASTO').AsCurrency := GCostas;
-              IBSQL3.ExecQuery;
-              if IBSQL3.RowsAffected <= 0 then begin
-                IBSQL3.Close;
-                IBSQL3.SQL.Clear;
-                IBSQL3.SQL.Add('insert into "col$causaciondiariamovtmp" (ID_AGENCIA,ID_COLOCACION,PCOSTAS_ACT)');
-                IBSQL3.SQL.Add('values (:ID_AGENCIA,:ID_COLOCACION,:PCOSTAS_ACT)');
-                IBSQL3.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
-                IBSQL3.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-                IBSQL3.ParamByName('PCOSTAS_ACT').AsCurrency := GCostas;
-                IBSQL3.Close;
-              end;
-              IBSQL3.Close;
-            end;
+            end
+           else
+           begin
+              MovCostas := ProvisionCostas - PCosAcum;
+              GCostas := MovCostas;
+           end;
 
            // Actualizar Provision
-            with IBSQL3 do begin
+
+           with IBSQL3 do begin
               Close;
               SQL.Clear;
               SQL.Add('update "col$causaciondiariatmp" SET ');
@@ -8069,12 +8067,12 @@ begin
               SQL.Add('PCAPITAL_REC = :PCAPITAL_REC, PINTERES_REC = :PINTERES_REC, PCOSTAS_REC = :PCOSTAS_REC,');
               SQL.Add('PCAPITAL_REV = :PCAPITAL_REV, PINTERES_REV = :PINTERES_REV, PCOSTAS_REV = :PCOSTAS_REV,');
               SQL.Add('PCAPITAL_GAS = :PCAPITAL_GAS, PINTERES_GAS = :PINTERES_GAS, PCOSTAS_GAS = :PCOSTAS_GAS');
-              SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION');
+              SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE = :FECHA_CORTE');
               ParamByName('ID_AGENCIA').AsInteger := IBQuery1.fieldbyname('ID_AGENCIA').AsInteger;
               ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
-              ParamByName('PCAPITAL').AsCurrency := Capital;
-              ParamByName('PINTERES').AsCurrency := Interes;
-              ParamByName('PCOSTAS').AsCurrency := PCostas;
+              ParamByName('PCAPITAL').AsCurrency := ProvisionCapital;
+              ParamByName('PINTERES').AsCurrency := ProvisionInteres;
+              ParamByName('PCOSTAS').AsCurrency := ProvisionCostas;
               ParamByName('PCAPITAL_REC').AsCurrency := RecCapital;
               ParamByName('PINTERES_REC').AsCurrency := RecInteres;
               ParamByName('PCOSTAS_REC').AsCurrency := RecCostas;
@@ -8084,14 +8082,15 @@ begin
               ParamByName('PCAPITAL_GAS').AsCurrency := GCapital;
               ParamByName('PINTERES_GAS').AsCurrency := GInteres;
               ParamByName('PCOSTAS_GAS').AsCurrency := GCostas;
+              ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
               try
                ExecQuery;
               except
-               frmPantallaProgreso.Cerrar;
-               MessageDlg('Error Actualizando Tabla Temporal',mtError,[mbcancel],0);
-               Transaction.Rollback;
-               raise;
-               Exit;
+               //frmPantallaProgreso.Cerrar;
+               //MessageDlg('Error Actualizando Tabla Temporal',mtError,[mbcancel],0);
+               //Transaction.Rollback;
+               //raise;
+               //Exit;
               end;
             end; // with
             IBQuery1.Next;
@@ -8099,8 +8098,8 @@ begin
          end; //fin with Principal IBQuery1
          frmPantallaProgreso.Cerrar;
          IBSQL3.Transaction.Commit;
-         MessageDlg('Provisión Terminada con Exito!!',mtInformation,[mbok],0);
-       // Fin Actualización
+       // MessageDlg('Provision Terminada con Exito!!',mtInformation,[mbok],0);
+       // Fin Actualizacion
 end;
 
 procedure TfrmCausacionCarteraDiaria.Button1Click(Sender: TObject);
@@ -8311,10 +8310,15 @@ begin
           Lista.Clear;
         end;
 
-        SegundoPC;  // Ajustar Calificacion
-        TercerPC;   // Causacion de Intereses
-        CuartoPC;   // Provision de Capital de Colocaciones
-        QuintoPC;   // Provision de Interes de Colocaciones y Costas Judiciales
+        // PrimerPC;   // verificarCuadre('Corto y Largo Plazo');
+        SegundoPC;  // verificarCuadre('Ajustar Calificacion');
+        TercerPC;   // verificarCuadre('Causacion de Intereses');
+        CuartoPC;   // verificarCuadre('Provision de Capital de Colocaciones');
+        QuintoPC;   // verificarCuadre('Provision de Interes de Colocaciones y Costas Judiciales');
+        // SextoPC;    // verificarCuadre('Provision General');
+        // SeptimoPC;  // verificarCuadre('Traslado de Intereses Anticipados');
+        // OctavoPC;   // verificarCuadre('Contingencias');
+
 
       Consecutivo := StrToInt(EdComprobante.Caption);
       FechaComp := EdFechaCorte.Date;
@@ -8401,6 +8405,308 @@ begin
         end;
        end;
 
+
+end;
+
+procedure TfrmCausacionCarteraDiaria.btnRecProvisionClick(Sender: TObject);
+var
+    Deuda, ProvisionCapital, ProvisionInteres, ProvisionCostas:Currency;
+    ProvisionCapitalAnhoAnterior, ProvisionInteresAnhoAnterior, ProvisionCostasAnhoAnterior: Currency;
+    PCapDiaAnt,PIntDiaAnt,PCosDiaAnt:Currency;
+    PCapAcum,PIntAcum,PCosAcum:Currency;
+    FechaAnterior,FechaAnhoAnterior : TDate;
+    MovCapital,RecCapital,RevGCapital,GCapital:Currency;
+    MovInteres,RecInteres,RevGInteres,GInteres:Currency;
+    MovCostas,RecCostas,RevGCostas,GCostas:Currency;
+    _iDiasMora,_iIdEstadoCol :Integer;
+begin
+          with IBQuery1 do begin
+            if Transaction.InTransaction then
+               Transaction.Rollback;
+           Transaction.StartTransaction;
+
+          // Busco Periodo Anterior
+          IBSQL6.Close;
+          IBSQL6.SQL.Clear;
+          IBSQL6.SQL.Add('SELECT first 1 FECHA from "col$causacionescontrol" WHERE FECHA < :FECHA_CORTE order by FECHA DESC');
+          IBSQL6.ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
+          IBSQL6.ExecQuery;
+          FechaAnterior := IBSQL6.FieldByName('FECHA').AsDate;
+          IBSQL6.Close;
+
+          // Establezco periodo final año anterior
+          FechaAnhoAnterior := EncodeDate(YearOf(EdFechaCorte.Date) - 1, 12, 30);
+          //Busco total de colocaciones a procesar
+
+          Close;
+          SQL.Clear;
+          SQL.Add('select count(*) as TOTAL from "col$causaciondiaria" where FECHA_CORTE = :FECHA_CORTE');
+          ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
+          Open;
+          Total := FieldByName('TOTAL').AsInteger;
+
+          frmPantallaProgreso  := TfrmProgreso.Create(Self);
+          frmPantallaProgreso.Min := 0;
+          frmPantallaProgreso.Max := Total;
+          frmPantallaProgreso.Titulo := 'Calculando Provisión...';
+          frmPantallaProgreso.Position := 0;
+          frmPantallaProgreso.Ejecutar;
+
+          Close;
+          SQL.Clear;
+          SQL.Add('select * from "col$causaciondiaria" WHERE FECHA_CORTE = :FECHA_CORTE ORDER BY ID_IDENTIFICACION,ID_PERSONA,ID_ARRASTRE DESC,ID_AGENCIA,ID_COLOCACION');
+          ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
+          try
+           Open;
+           frmPantallaProgreso.Titulo := 'Calculando Provisión ...'+'- Leyendo Colocaciones';
+          except
+           MessageDlg('Error al Iniciar la Tabla Temporal para el Segundo proceso',mtError,[mbcancel],0);
+           Transaction.Rollback;
+           raise;
+           Exit;
+          end;
+//          end;
+
+          while not IBQuery1.Eof do begin
+              frmPantallaProgreso.Position := IBQuery1.RecNo;
+              frmPantallaProgreso.InfoLabel := IBQuery1.FieldByName('ID_PERSONA').AsString + '-' + IBQuery1.FieldByName('ID_COLOCACION').AsString;
+              Application.ProcessMessages;
+
+
+           ProvisionCapital := 0;
+           ProvisionInteres := 0;
+           ProvisionCostas := 0;
+           PCapAcum := 0;
+           PIntAcum := 0;
+           PCosAcum := 0;
+           MovCapital := 0;
+           MovInteres := 0;
+           MovCostas := 0;
+           PCapDiaAnt := 0;
+           PIntDiaAnt := 0;
+           PCosDiaAnt := 0;
+           RevGInteres := 0;
+           RevGCapital := 0;
+           RevGCostas := 0;
+           RecCapital := 0;
+           RecInteres := 0;
+           RecCostas := 0;           
+           GCapital := 0;
+           GInteres := 0;
+           GCostas := 0;
+
+           with IBSQL3 do begin
+            Close;
+            SQL.Clear;
+            SQL.Add('SELECT A_CAPITAL,A_INTERESES,A_COSTAS from "col$porccausacion" where');
+            SQL.Add('ID_CLASIFICACION = :ID_CLASIFICACION and ID_GARANTIA = :ID_GARANTIA and');
+            SQL.Add('ID_EDAD = :ID_EDAD');
+            ParamByName('ID_CLASIFICACION').AsInteger := IBQuery1.FieldByName('ID_CLASIFICACION').AsInteger;
+            ParamByName('ID_GARANTIA').AsInteger := IBQuery1.fieldbyname('ID_GARANTIA').AsInteger;
+            ParamByName('ID_EDAD').AsString := IBQuery1.FieldByName('ID_ARRASTRE').AsString;
+            try
+             ExecQuery;
+             frmPantallaProgreso.Titulo := 'Calculando Provisión ...'+'- Leyendo Porcentajes Provisión';
+            except
+             MessageDlg('Error al Buscar Datos Para Aplicar Provisión',mtError,[mbcancel],0);
+             frmPantallaProgreso.Cerrar;
+             raise;
+             Exit;
+            end; // try
+
+            frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Calc Capital';
+            if (IBQuery1.FieldByName('ID_ESTADO').AsInteger = 2) then
+               ProvisionCapital := SimpleRoundTo((IBQuery1.FieldByName('DEUDA').AsCurrency) * (FieldByName('A_CAPITAL').AsFloat / 100),0)
+            else
+               ProvisionCapital := SimpleRoundTo((IBQuery1.FieldByName('DEUDA').AsCurrency - IBQuery1.FieldByName('GARANTIA_DESCONTADA').AsCurrency) * (FieldByName('A_CAPITAL').AsFloat / 100),0);
+            if ProvisionCapital < 0 then ProvisionCapital := 0;
+            frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Calc Interes';
+            ProvisionInteres := SimpleRoundTo(IBQuery1.FieldByName('CAUSADOS').AsCurrency * (FieldByName('A_INTERESES').AsFloat / 100),0);
+            frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Calc Costas';
+            ProvisionCostas := SimpleRoundTo(IBQuery1.FieldByName('COSTAS').AsCurrency * (FieldByName('A_COSTAS').AsFloat / 100),0);
+           end; // with
+
+           frmPantallaProgreso.Titulo := 'Calculando Provision Año Anterior';
+           IBSQL6.Close;
+           IBSQL6.SQL.Clear;
+           IBSQL6.SQL.Add('SELECT PCAPITAL, PINTERES, PCOSTAS FROM "col$causaciondiaria" ');
+           IBSQL6.SQL.Add('WHERE ID_AGENCIA = :ID_AGENCIA AND ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE = :FECHA_CORTE');
+           IBSQL6.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
+           IBSQL6.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
+           IBSQL6.ParamByName('FECHA_CORTE').AsDate := FechaAnhoAnterior;
+           IBSQL6.ExecQuery;
+           ProvisionCapitalAnhoAnterior := IBSQL6.FieldByName('PCAPITAL').AsCurrency;
+           ProvisionInteresAnhoAnterior := IBSQL6.FieldByName('PINTERES').AsCurrency;
+           ProvisionCostasAnhoAnterior  := IBSQL6.FieldByName('PCOSTAS').AsCurrency;
+
+           if (FechaAnterior > FechaAnhoAnterior) then
+           begin
+                   IBSQL6.Close;
+                   IBSQL6.SQL.Clear;
+                   IBSQL6.SQL.Add('SELECT SUM(PCAPITAL_REC) AS PCAPITAL_REC, SUM(PINTERES_REC) AS PINTERES_REC, SUM(PCOSTAS_REC) AS PCOSTAS_REC FROM "col$causaciondiaria" ');
+                   IBSQL6.SQL.Add('WHERE ID_AGENCIA = :ID_AGENCIA AND ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE BETWEEN :FECHA_INICIAL AND :FECHA_FINAL');
+                   IBSQL6.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
+                   IBSQL6.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
+                   IBSQL6.ParamByName('FECHA_INICIAL').AsDate := EncodeDate(YearOf(EdFechaCorte.Date), 1, 30);
+                   IBSQL6.ParamByName('FECHA_FINAL').AsDate := FechaAnterior;
+                   IBSQL6.ExecQuery;
+
+                   ProvisionCapitalAnhoAnterior := ProvisionCapitalAnhoAnterior - IBSQL6.FieldByName('PCAPITAL_REC').AsCurrency;
+                   ProvisionInteresAnhoAnterior := ProvisionInteresAnhoAnterior - IBSQL6.FieldByName('PINTERES_REC').AsCurrency;
+                   ProvisionCostasAnhoAnterior  := ProvisionCostasAnhoAnterior - IBSQL6.FieldByName('PCOSTAS_REC').AsCurrency;
+           end;
+
+
+           frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Causacion Anterior';
+           IBSQL6.Close;
+           IBSQL6.SQL.Clear;
+           IBSQL6.SQL.Add('select PCAPITAL, PINTERES, PCOSTAS from "col$causaciondiaria"');
+           IBSQL6.SQL.Add('where ID_AGENCIA = :ID_AGENCIA AND ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE = :FECHA_CORTE');
+           IBSQL6.ParamByName('ID_AGENCIA').AsInteger := IBQuery1.FieldByName('ID_AGENCIA').AsInteger;
+           IBSQL6.ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
+           IBSQL6.ParamByName('FECHA_CORTE').AsDate := FechaAnterior;
+           IBSQL6.ExecQuery;
+           PCapAcum := IBSQL6.FieldByName('PCAPITAL').AsCurrency;
+           PIntAcum := IBSQL6.FieldByName('PINTERES').AsCurrency;
+           PCosAcum := IBSQL6.FieldByName('PCOSTAS').AsCurrency;
+           IBSQL6.Close;
+
+           frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Capital Vs PCapAcum';
+           if ProvisionCapital < PCapAcum then
+            // Caso Reversion o Recuperacion
+           begin
+              MovCapital := PCapAcum - ProvisionCapital;
+              // Revisar si se hace Recuperacion
+              if (ProvisionCapitalAnhoAnterior > 0) then
+              begin
+                if (ProvisionCapitalAnhoAnterior > MovCapital) Then
+                begin
+                    RecCapital := MovCapital;
+                    MovCapital := 0;
+                end
+                else
+                begin
+                    RecCapital := ProvisionCapitalAnhoAnterior;
+                    MovCapital := MovCapital - RecCapital;
+                end;
+              end;
+              // Reviso si hay reversi{on
+              if (MovCapital > 0) then
+              begin
+                RevGCapital := MovCapital;
+              end;
+            end
+           else
+           begin
+              MovCapital := ProvisionCapital - PCapAcum;
+              GCapital := MovCapital;
+           end;
+
+           frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Interes Vs PIntAcum';
+           if ProvisionInteres < PIntAcum then
+            // Caso Reversion o Recuperacion
+           begin
+              MovInteres := PIntAcum - ProvisionInteres;
+              // Revisar si se hace Recuperacion
+              if (ProvisionInteresAnhoAnterior > 0) then
+              begin
+                if (ProvisionInteresAnhoAnterior > MovInteres) Then
+                begin
+                    RecInteres := MovInteres;
+                    MovInteres := 0;
+                end
+                else
+                begin
+                    RecInteres := ProvisionInteresAnhoAnterior;
+                    MovInteres := MovInteres - RecInteres;
+                end;
+              end;
+              // Reviso si hay reversion
+              if (MovInteres > 0) then
+              begin
+                RevGInteres := MovInteres;
+              end;
+            end
+           else
+           begin
+              MovInteres := ProvisionInteres - PIntAcum;
+              GInteres := MovInteres;
+           end;
+
+           frmPantallaProgreso.Titulo := 'Calculando Provision ...'+'- Costas Vs PCosAcum';
+           if ProvisionCostas < PCosAcum then
+            // Caso Reversion o Recuperacion
+           begin
+              MovCostas := PCosAcum - ProvisionCostas;
+              // Revisar si se hace Recuperacion
+              if (ProvisionCostasAnhoAnterior > 0) then
+              begin
+                if (ProvisionCostasAnhoAnterior > MovCostas) Then
+                begin
+                    RecCostas := MovCostas;
+                    MovCostas := 0;
+                end
+                else
+                begin
+                    RecCostas := ProvisionCostasAnhoAnterior;
+                    MovCostas := MovCostas - RecCostas;
+                end;
+              end;
+              // Reviso si hay reversi{on
+              if (MovCostas > 0) then
+              begin
+                RevGCostas := MovCostas;
+              end;
+            end
+           else
+           begin
+              MovCostas := ProvisionCostas - PCosAcum;
+              GCostas := MovCostas;
+           end;
+
+           // Actualizar Provision
+
+           with IBSQL3 do begin
+              Close;
+              SQL.Clear;
+              SQL.Add('update "col$causaciondiaria" SET ');
+              SQL.Add('PCAPITAL = :PCAPITAL, PINTERES = :PINTERES, PCOSTAS = :PCOSTAS,');
+              SQL.Add('PCAPITAL_REC = :PCAPITAL_REC, PINTERES_REC = :PINTERES_REC, PCOSTAS_REC = :PCOSTAS_REC,');
+              SQL.Add('PCAPITAL_REV = :PCAPITAL_REV, PINTERES_REV = :PINTERES_REV, PCOSTAS_REV = :PCOSTAS_REV,');
+              SQL.Add('PCAPITAL_GAS = :PCAPITAL_GAS, PINTERES_GAS = :PINTERES_GAS, PCOSTAS_GAS = :PCOSTAS_GAS');
+              SQL.Add('where ID_AGENCIA = :ID_AGENCIA and ID_COLOCACION = :ID_COLOCACION AND FECHA_CORTE = :FECHA_CORTE');
+              ParamByName('ID_AGENCIA').AsInteger := IBQuery1.fieldbyname('ID_AGENCIA').AsInteger;
+              ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
+              ParamByName('PCAPITAL').AsCurrency := ProvisionCapital;
+              ParamByName('PINTERES').AsCurrency := ProvisionInteres;
+              ParamByName('PCOSTAS').AsCurrency := ProvisionCostas;
+              ParamByName('PCAPITAL_REC').AsCurrency := RecCapital;
+              ParamByName('PINTERES_REC').AsCurrency := RecInteres;
+              ParamByName('PCOSTAS_REC').AsCurrency := RecCostas;
+              ParamByName('PCAPITAL_REV').AsCurrency := RevGCapital;
+              ParamByName('PINTERES_REV').AsCurrency := RevGInteres;
+              ParamByName('PCOSTAS_REV').AsCurrency := RevGCostas;
+              ParamByName('PCAPITAL_GAS').AsCurrency := GCapital;
+              ParamByName('PINTERES_GAS').AsCurrency := GInteres;
+              ParamByName('PCOSTAS_GAS').AsCurrency := GCostas;
+              ParamByName('FECHA_CORTE').AsDate := EdFechaCorte.Date;
+              try
+               ExecQuery;
+              except
+               //frmPantallaProgreso.Cerrar;
+               //MessageDlg('Error Actualizando Tabla Temporal',mtError,[mbcancel],0);
+               //Transaction.Rollback;
+               //raise;
+               //Exit;
+              end;
+            end; // with
+            IBQuery1.Next;
+           end; //fin While Principal
+         end; //fin with Principal IBQuery1
+         frmPantallaProgreso.Cerrar;
+         IBSQL3.Transaction.Commit;
+         MessageDlg('Provision Terminada con Exito!!',mtInformation,[mbok],0);
+       // Fin Actualizacion
 
 end;
 

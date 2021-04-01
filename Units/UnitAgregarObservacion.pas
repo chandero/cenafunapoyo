@@ -24,12 +24,12 @@ type
   private
     { Private declarations }
     FMemo:string;
-    FFechaObs:TDate;
+    FFechaObs:TDateTime;
     FEsCompromiso:Boolean;
     FFechaCom:TDate;
   public
     { Public declarations }
-    property FechaObs:TDate read FFechaObs Write FFechaObs;
+    property FechaObs:TDateTime read FFechaObs Write FFechaObs;
     property FechaCom:TDate read FFechaCom Write FFechaCom;
     property EsCompromiso:Boolean read FEsCompromiso Write FEsCompromiso;
     property Memo:string read FMemo Write FMemo;
@@ -46,13 +46,13 @@ uses UnitGlobales;
 
 procedure TfrmAgregarObservacionCobro.FormShow(Sender: TObject);
 begin
-        EdFechaObservacion.Date := fFechaActual;
+        EdFechaObservacion.DateTime := fFechaHoraActual;
         EdFechaCompromiso.Date := fFechaActual;
 end;
 
 procedure TfrmAgregarObservacionCobro.CmdAceptarClick(Sender: TObject);
 begin
-        FFechaObs := EdFechaObservacion.Date;
+        FFechaObs := EdFechaObservacion.DateTime;
         FFechaCom := EdFechaCompromiso.Date;
         FEsCompromiso := ChkCompromiso.Checked;
         FMemo := Memo1.Text;

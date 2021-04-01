@@ -21,11 +21,20 @@ type
     IBQPuc: TIBQuery;
     IBQSaldoAct: TIBQuery;
     IBQuery1: TIBQuery;
+    IBQSaldoAnt: TIBQuery;
+    frCSVExport1: TfrCSVExport;
+    frOLEExcelExport1: TfrOLEExcelExport;
+    frDBDatos: TfrDBDataSet;
+    IBQsaldo: TIBQuery;
     IBQTabla: TClientDataSet;
     IBQTablaCODIGO: TStringField;
     IBQTablaNOMBRE: TStringField;
+    IBQTablaDEBITOANT: TCurrencyField;
+    IBQTablaCREDITOANT: TCurrencyField;
     IBQTablaDEBITOMOV: TCurrencyField;
     IBQTablaCREDITOMOV: TCurrencyField;
+    IBQTablaDEBITOACT: TCurrencyField;
+    IBQTablaCREDITOACT: TCurrencyField;
     IBQTablaDESCRIPCION_AGENCIA: TStringField;
     IBQTabla1: TClientDataSet;
     StringField1: TStringField;
@@ -34,11 +43,8 @@ type
     CurrencyField2: TCurrencyField;
     CurrencyField3: TCurrencyField;
     CurrencyField4: TCurrencyField;
-    IBQSaldoAnt: TIBQuery;
-    frCSVExport1: TfrCSVExport;
-    frOLEExcelExport1: TfrOLEExcelExport;
-    frDBDatos: TfrDBDataSet;
-    IBQTablaSALDOANTERIOR: TCurrencyField;
+    IBQTabla1DEBITOACT: TCurrencyField;
+    IBQTabla1CREDITOACT: TCurrencyField;
     procedure CmdAceptarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure CmdCerrarClick(Sender: TObject);
@@ -106,6 +112,16 @@ begin
        DebitMov := 0;
        CrediMov := 0;
        SaldoAct := 0;
+
+       with IBQsaldo do begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT SUM(a.DEBITO) AS DEBITO, SUM(a.CREDITO) AS CREDITO FROM "con$comprobante" c');
+          SQL.Add('INNER JOIN "con$auxiliar" a ON a.TIPO_COMPROBANTE = c.TIPO_COMPROBANTE and a.ID_COMPROBANTE = c.ID_COMPROBANTE');
+          SQL.Add('WHERE a.FECHA BETWEEN :FECHA_INI and :FECHA_FIN and a.CODIGO LIKE :CODIGO');
+          SQL.Add(' and a.ESTADOAUX = :ESTADO');
+          ParamByName('ESTADO').AsString := 'C';
+       end;
 
        with IBQSaldoAnt do
         Begin
@@ -225,12 +241,15 @@ begin
         dmGeneral.getConnected;
         IBQPuc.Database := dmGeneral.IBDatabase1;
         IBQSaldoAct.Database := dmGeneral.IBDatabase1;
+        IBQSaldo.Database := dmGeneral.IBDatabase1;
         IBQuery1.Database := dmGeneral.IBDatabase1;
         IBQSaldoAnt.Database := dmGeneral.IBDatabase1;
         IBQPuc.Transaction := dmGeneral.IBTransaction1;
         IBQSaldoAct.Transaction := dmGeneral.IBTransaction1;
+        IBQSaldo.Transaction := dmGeneral.IBTransaction1;
         IBQuery1.Transaction := dmGeneral.IBTransaction1;
         IBQSaldoAnt.Transaction := dmGeneral.IBTransaction1;
+
 end;
 
 procedure TfrmInformeEstadoIngresosGastos.CmdCerrarClick(Sender: TObject);
@@ -247,7 +266,7 @@ end;
 
 procedure TfrmInformeEstadoIngresosGastos.FormShow(Sender: TObject);
 begin
-        EdAno.Text := IntToStr(YearOf(fFechaActual));
+        EdAno.Text := IntToStr(DBAnho);
 end;
 
 function TfrmInformeEstadoIngresosGastos.removeLeadingZeros(const Value: string): string;

@@ -80,24 +80,13 @@ object frmBalance: TfrmBalance
         'Noviembre'
         'Diciembre')
     end
-    object EdAno: TMaskEdit
-      Left = 264
-      Top = 8
-      Width = 31
-      Height = 21
-      EditMask = '!9999;1;_'
-      MaxLength = 4
-      ReadOnly = True
-      TabOrder = 1
-      Text = '    '
-    end
     object CBNivel: TComboBox
       Left = 128
       Top = 30
       Width = 105
       Height = 21
       ItemHeight = 13
-      TabOrder = 2
+      TabOrder = 1
       Text = '1'
       Items.Strings = (
         '1'
@@ -110,6 +99,21 @@ object frmBalance: TfrmBalance
         '8'
         '9'
         '10')
+    end
+    object edAno: TJvYearEdit
+      Left = 264
+      Top = 8
+      Width = 49
+      Height = 21
+      Alignment = taRightJustify
+      ReadOnly = False
+      TabOrder = 2
+      Value = 2000
+      MaxValue = 9999
+      MinValue = 0
+      HasMaxValue = True
+      HasMinValue = True
+      WindowsillYear = 71
     end
   end
   object ProgressBar1: TProgressBar

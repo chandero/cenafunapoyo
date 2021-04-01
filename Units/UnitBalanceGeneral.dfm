@@ -1,8 +1,8 @@
 object frmBalanceGeneral: TfrmBalanceGeneral
-  Left = 293
-  Top = 269
-  Width = 352
-  Height = 116
+  Left = 264
+  Top = 186
+  Width = 925
+  Height = 341
   Caption = 'Mayor y Balance'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -76,18 +76,18 @@ object frmBalanceGeneral: TfrmBalanceGeneral
   end
   object Panel2: TPanel
     Left = 0
-    Top = 49
-    Width = 344
+    Top = 274
+    Width = 917
     Height = 33
     Align = alBottom
     Color = clOlive
     TabOrder = 1
     object CmdAceptar: TBitBtn
-      Left = 167
+      Left = 7
       Top = 5
       Width = 81
       Height = 25
-      Caption = '&Aceptar'
+      Caption = '&Procesar'
       TabOrder = 0
       OnClick = CmdAceptarClick
       Glyph.Data = {
@@ -135,7 +135,7 @@ object frmBalanceGeneral: TfrmBalanceGeneral
         1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B1B}
     end
     object CmdCerrar: TBitBtn
-      Left = 254
+      Left = 838
       Top = 5
       Width = 75
       Height = 25
@@ -186,6 +186,132 @@ object frmBalanceGeneral: TfrmBalanceGeneral
         3625013C3D3D3D3B031A1A1A03032E33392C013C3D3D3D3B031A1A1A1A1A0306
         1B1C010303030303031A1A1A1A1A1A1A0303011A1A1A1A1A1A1A}
     end
+    object btnReporte: TBitBtn
+      Left = 91
+      Top = 5
+      Width = 84
+      Height = 25
+      Caption = '&Reporte'
+      Enabled = False
+      TabOrder = 2
+      OnClick = btnReporteClick
+    end
+    object btnAExcel: TBitBtn
+      Left = 179
+      Top = 5
+      Width = 91
+      Height = 25
+      Caption = 'A Excel'
+      Enabled = False
+      TabOrder = 3
+      OnClick = btnAExcelClick
+      Glyph.Data = {
+        36050000424D3605000000000000360400002800000010000000100000000100
+        08000000000000010000320B0000320B00000001000000010000EFA54A00C684
+        6B00BD8C7300CE947300EFB57300FFC67300BD847B00C6947B00B5848400B58C
+        8400CE9C8400EFCE94009C9C9C00C6A59C00EFCE9C00F7D69C00C6ADA500F7D6
+        A500CEB5AD00D6B5AD00C6BDAD00F7D6AD00D6BDB500DEBDB500DEC6B500E7C6
+        B500EFCEB500F7D6B500F7DEB500EFCEBD00F7DEBD00527BC600E7DEC600F7DE
+        C600F7E7C600E7CECE00E7D6CE00F7E7D600FFEFD600DEDEDE00FFEFE700FFF7
+        E700FFF7EF00FFF7F700FFFFF700FF00FF0039A5FF0000F7FF0094FFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF002D2D08080808
+        0808080808080808082D2D2D0D261F1F1C15110E0B0B0B0F082D2D2D0D262F1F
+        1F0C0C0C0C0C0C0E082D2D2D10282E2F1F1F1F150E0E0B0E082D2D2D1029252E
+        302F1F1F150E0E0B082D2D2D121F1F1F1F302F1F1F0C0C0E082D2D2D132E302F
+        2F2F2F2F1F1F1111082D2D2D16312E302F1F1F22211E1B15082D2D2D1631272E
+        302F1F1F0C0C0C1C082D2D2D1731312E302F2F1F1F21211B082D2D2D18313131
+        2E302F2F1F1F2014082D2D2D1931270C0C2E302F2F1F1F09082D2D2D19313131
+        3131312C23020400012D2D2D1D31313131313131240705032D2D2D2D192B2A2A
+        2A2A2A2A23070A2D2D2D2D2D191A1A1A1A19191A16062D2D2D2D}
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 72
+    Width = 905
+    Height = 193
+    DataSource = DSdata
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clBlack
+    TitleFont.Height = -11
+    TitleFont.Name = 'MS Sans Serif'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'CODIGO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOMBRE'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DEBITOANT'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CREDITOANT'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DEBITOMOV'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CREDITOMOV'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DEBITOACT'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CREDITOACT'
+        Visible = True
+      end>
+  end
+  object ProgressBar1: TProgressBar
+    Left = 1
+    Top = 50
+    Width = 344
+    Height = 17
+    Min = 0
+    Max = 100
+    TabOrder = 3
   end
   object IBQPuc: TIBQuery
     Database = dmGeneral.IBDatabase1
@@ -2456,42 +2582,58 @@ object frmBalanceGeneral: TfrmBalanceGeneral
       end
     end
   end
-  object IBQSaldoAct: TIBQuery
-    Database = dmGeneral.IBDatabase1
-    Transaction = dmGeneral.IBTransaction1
-    SQL.Strings = (
-      'Select'
-      '"con$saldoscuenta".DEBITO,'
-      '"con$saldoscuenta".CREDITO'
-      'from "con$saldoscuenta"'
-      'where'
-      '"con$saldoscuenta".CODIGO =:"CODIGO" and'
-      '"con$saldoscuenta".ID_AGENCIA =:"ID_AGENCIA" and'
-      '"con$saldoscuenta".MES =:"MES"')
-    Left = 24
-    Top = 24
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'CODIGO'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'ID_AGENCIA'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'MES'
-        ParamType = ptUnknown
-      end>
-  end
   object IBQuery1: TIBQuery
     Database = dmGeneral.IBDatabase1
     Transaction = dmGeneral.IBTransaction1
     Left = 52
     Top = 24
+  end
+  object frDBDataSet1: TfrDBDataSet
+    DataSet = IBQTabla
+    Left = 184
+    Top = 32
+  end
+  object frDBDataSet2: TfrDBDataSet
+    DataSet = IBQTabla1
+    Left = 216
+    Top = 32
+  end
+  object frOLEExcelExport1: TfrOLEExcelExport
+    Left = 248
+    Top = 32
+  end
+  object frReport1: TfrReport
+    Dataset = frDBDataSet1
+    InitialZoom = pzDefault
+    PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit]
+    RebuildPrinter = False
+    Left = 280
+    Top = 32
+    ReportForm = {19000000}
+  end
+  object DSdata: TDataSource
+    DataSet = IBQTabla
+    Left = 352
+    Top = 40
+  end
+  object IBQsaldo: TIBQuery
+    Left = 24
+    Top = 24
+  end
+  object SD1: TSaveDialog
+    Left = 240
+    Top = 56
+  end
+  object frTIFFExport1: TfrTIFFExport
+    Left = 272
+    Top = 56
+  end
+  object frCSVExport1: TfrCSVExport
+    ScaleX = 1
+    ScaleY = 1
+    Delimiter = ';'
+    Left = 296
+    Top = 56
   end
   object IBQTabla: TClientDataSet
     Active = True
@@ -2500,7 +2642,7 @@ object frmBalanceGeneral: TfrmBalanceGeneral
       item
         Name = 'CODIGO'
         DataType = ftString
-        Size = 4
+        Size = 18
       end
       item
         Name = 'NOMBRE'
@@ -2524,6 +2666,14 @@ object frmBalanceGeneral: TfrmBalanceGeneral
         DataType = ftCurrency
       end
       item
+        Name = 'DEBITOACT'
+        DataType = ftCurrency
+      end
+      item
+        Name = 'CREDITOACT'
+        DataType = ftCurrency
+      end
+      item
         Name = 'DESCRIPCION_AGENCIA'
         DataType = ftString
         Size = 100
@@ -2537,50 +2687,57 @@ object frmBalanceGeneral: TfrmBalanceGeneral
     Params = <>
     StoreDefs = True
     OnCalcFields = IBQTablaCalcFields
-    Left = 82
-    Top = 26
+    Left = 58
+    Top = 42
     Data = {
-      120100009619E0BD010000001800000007000000000003000000120106434F44
-      49474F0100490000000100055749445448020002000400064E4F4D4252450100
+      5F0100009619E0BD0100000018000000090000000000030000005F0106434F44
+      49474F0100490000000100055749445448020002001200064E4F4D4252450100
       4900000001000557494454480200020064000944454249544F414E5408000400
       0000010007535542545950450200490006004D6F6E6579000A4352454449544F
       414E54080004000000010007535542545950450200490006004D6F6E65790009
       44454249544F4D4F56080004000000010007535542545950450200490006004D
       6F6E6579000A4352454449544F4D4F5608000400000001000753554254595045
-      0200490006004D6F6E657900134445534352495043494F4E5F4147454E434941
-      01004900000001000557494454480200020064000000}
+      0200490006004D6F6E6579000944454249544F41435408000400000001000753
+      5542545950450200490006004D6F6E6579000A4352454449544F414354080004
+      000000010007535542545950450200490006004D6F6E65790013444553435249
+      5043494F4E5F4147454E43494101004900000001000557494454480200020064
+      000000}
     object IBQTablaCODIGO: TStringField
-      DisplayWidth = 4
+      DisplayWidth = 19
       FieldName = 'CODIGO'
-      Size = 4
+      Size = 18
     end
     object IBQTablaNOMBRE: TStringField
+      DisplayWidth = 59
       FieldName = 'NOMBRE'
       Size = 100
     end
     object IBQTablaDEBITOANT: TCurrencyField
+      DisplayWidth = 13
       FieldName = 'DEBITOANT'
     end
     object IBQTablaCREDITOANT: TCurrencyField
+      DisplayWidth = 14
       FieldName = 'CREDITOANT'
     end
     object IBQTablaDEBITOMOV: TCurrencyField
+      DisplayWidth = 13
       FieldName = 'DEBITOMOV'
     end
     object IBQTablaCREDITOMOV: TCurrencyField
+      DisplayWidth = 15
       FieldName = 'CREDITOMOV'
     end
-    object IBQTablaDEBITOACT: TBCDField
-      FieldKind = fkCalculated
+    object IBQTablaDEBITOACT: TCurrencyField
+      DisplayWidth = 12
       FieldName = 'DEBITOACT'
-      Calculated = True
     end
     object IBQTablaCREDITOACT: TCurrencyField
-      FieldKind = fkCalculated
+      DisplayWidth = 14
       FieldName = 'CREDITOACT'
-      Calculated = True
     end
     object IBQTablaDESCRIPCION_AGENCIA: TStringField
+      DisplayWidth = 26
       FieldName = 'DESCRIPCION_AGENCIA'
       Size = 100
     end
@@ -2624,8 +2781,8 @@ object frmBalanceGeneral: TfrmBalanceGeneral
     Params = <>
     StoreDefs = True
     OnCalcFields = IBQTabla1CalcFields
-    Left = 110
-    Top = 26
+    Left = 86
+    Top = 42
     Data = {
       EA0000009619E0BD010000001800000006000000000003000000EA0006434F44
       49474F0100490000000100055749445448020002000400064E4F4D4252450100
@@ -2666,59 +2823,5 @@ object frmBalanceGeneral: TfrmBalanceGeneral
       FieldName = 'CREDITOACT'
       Calculated = True
     end
-  end
-  object IBQSaldoAnt: TIBQuery
-    Database = dmGeneral.IBDatabase1
-    Transaction = dmGeneral.IBTransaction1
-    SQL.Strings = (
-      'Select'
-      '"con$saldoscuenta".DEBITO,'
-      '"con$saldoscuenta".CREDITO'
-      'from "con$saldoscuenta"'
-      'where'
-      '"con$saldoscuenta".CODIGO =:"CODIGO" and'
-      '"con$saldoscuenta".ID_AGENCIA =:"ID_AGENCIA" and'
-      '"con$saldoscuenta".MES =:"MES"')
-    Left = 26
-    Top = 50
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'CODIGO'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'ID_AGENCIA'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'MES'
-        ParamType = ptUnknown
-      end>
-  end
-  object frDBDataSet1: TfrDBDataSet
-    DataSet = IBQTabla
-    Left = 184
-    Top = 32
-  end
-  object frDBDataSet2: TfrDBDataSet
-    DataSet = IBQTabla1
-    Left = 216
-    Top = 32
-  end
-  object frOLEExcelExport1: TfrOLEExcelExport
-    Left = 248
-    Top = 32
-  end
-  object frReport1: TfrReport
-    Dataset = frDBDataSet1
-    InitialZoom = pzDefault
-    PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit]
-    RebuildPrinter = False
-    Left = 280
-    Top = 32
-    ReportForm = {19000000}
   end
 end

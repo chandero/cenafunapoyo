@@ -28,7 +28,6 @@ type
     CmdProcesar: TBitBtn;
     Panel2: TPanel;
     GroupBox3: TGroupBox;
-    GridColocaciones: TXStringGrid;
     DataSource1: TDataSource;
     Panel3: TPanel;
     IBSQL1: TIBQuery;
@@ -38,7 +37,6 @@ type
     CmdOtraBusqueda: TBitBtn;
     IBDataSet1ID_AGENCIA: TSmallintField;
     IBDataSet1ID_COLOCACION: TIBStringField;
-    IBDataSet1FECHA_OBSERVACION: TDateField;
     IBDataSet1OBSERVACION: TMemoField;
     IBDataSet1ES_OBSERVACION: TSmallintField;
     IBDataSet1ES_COMPROMISO: TSmallintField;
@@ -233,11 +231,28 @@ type
     frxReport2: TfrxReport;
     IBQcodigo: TIBQuery;
     AcuerdosdePago1: TMenuItem;
+    DBGdatacobro: TDBGrid;
+    DSdatacobro: TDataSource;
+    CDSdatacobro: TClientDataSet;
+    CDSdatacobroID_COLOCACION: TStringField;
+    CDSdatacobroNOMBRE: TStringField;
+    CDSdatacobroSALDO: TCurrencyField;
+    CDSdatacobroVALOR_CUOTA: TCurrencyField;
+    CDSdatacobroFECHA_CAPITAL: TDateField;
+    CDSdatacobroFECHA_INTERES: TDateField;
+    CDSdatacobroESTADO: TStringField;
+    CDSdatacobroDIAS: TIntegerField;
+    CDSdatacobroID_IDENTIFICACION: TIntegerField;
+    CDSdatacobroID_PERSONA: TStringField;
+    CDSdatacobroTIPO_CUOTA: TStringField;
+    CDSdatacobroAHORROS: TCurrencyField;
+    CDSdatacobroAPORTES: TCurrencyField;
+    CDSdatacobroCOMPROMISO: TStringField;
+    IBDataSet1FECHA_OBSERVACION: TDateTimeField;
+    CDSdatacobroCENTRO: TStringField;
     procedure CmdProcesarClick(Sender: TObject);
     procedure CmdCerrarClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure GridColocacionesSelectCell(Sender: TObject; ACol,
-      ARow: Integer; var CanSelect: Boolean);
     procedure IBDataSet1OBSERVACIONGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
     procedure IBDataSet1FECHA_OBSERVACIONGetText(Sender: TField;
@@ -298,6 +313,11 @@ type
     procedure Certificacin1Click(Sender: TObject);
     procedure EnviarSMS1Click(Sender: TObject);
     procedure AcuerdosdePago1Click(Sender: TObject);
+    procedure DBGdatacobroDrawColumnCell(Sender: TObject;
+      const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
+    procedure CDSdatacobroAfterScroll(DataSet: TDataSet);
+    procedure DBGdatacobroCellClick(Column: TColumn);
   private
     { Private declarations }
     FAgencia:Integer;
@@ -555,31 +575,51 @@ begin
                 begin
                    ActualizarGrid := True;
                    Conteo := Conteo + 1;
-                   GridColocaciones.RowCount := Conteo + 1;
-                   GridColocaciones.Cells[0,Conteo] := FieldByName('ID_COLOCACION').AsString;
-                   GridColocaciones.Cells[1,Conteo] := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
-                                                       FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
-                                                       FieldByName('NOMBRE').AsString;
-                   GridColocaciones.Cells[2,Conteo] := FormatCurr('$#,##0',FieldByName('SALDO').AsCurrency);
-                   TotalDeuda := TotalDeuda + FieldByName('SALDO').AsCurrency;
-                   GridColocaciones.Cells[3,Conteo] := FormatCurr('$#,##0',FieldByName('VALOR_CUOTA').AsCurrency);
-                   GridColocaciones.Cells[4,Conteo] := DateToStr(FieldByName('FECHA_CAPITAL').AsDateTime);
-                   GridColocaciones.Cells[5,Conteo] := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
-                   GridColocaciones.Cells[6,Conteo] := FieldByName('COLOR').AsString + '-' +FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
-                   GridColocaciones.Cells[7,Conteo] := IntToStr(Dias);
-                   GridColocaciones.Cells[8,Conteo] := IntToStr(FieldByName('ID_IDENTIFICACION').AsInteger);
-                   GridColocaciones.Cells[9,Conteo] := FieldByName('ID_PERSONA').AsString;
-                   GridColocaciones.Cells[10,Conteo] := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
-                   Id := FieldByName('ID_IDENTIFICACION').AsInteger;
-                   Documento := FieldByName('ID_PERSONA').AsString;
-                   //Aportes := BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano);
-                   Aportes := 0;
-                   Ahorros := 0;
-                   //Ahorros := BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano);
-                   GridColocaciones.Cells[11,Conteo] := FormatCurr('$#,#0.00',Ahorros);
-                   GridColocaciones.Cells[12,Conteo] := FormatCurr('$#,#0.00',Aportes);
-                   GridColocaciones.Cells[13,Conteo] := FieldByName('COMP_DESCRIPCION').AsString;
-                   GridColocaciones.Cells[14,Conteo] := FieldByName('DESCRIPCION_AGENCIA').AsString;
+                // GridColocaciones.RowCount := Conteo + 1;
+                CDSdatacobro.Append;
+                // GridColocaciones.Cells[0,Conteo] := FieldByName('ID_COLOCACION').AsString;
+                CDSdatacobroID_COLOCACION.Value := FieldByName('ID_COLOCACION').AsString;
+                // GridColocaciones.Cells[1,Conteo] := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
+                //                                    FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
+                //                                    FieldByName('NOMBRE').AsString;
+                CDSdatacobroNOMBRE.Value := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
+                                                    FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
+                                                    FieldByName('NOMBRE').AsString;
+                // GridColocaciones.Cells[2,Conteo] := FormatCurr('$#,##0',FieldByName('SALDO').AsCurrency);
+                CDSdatacobroSALDO.Value := FieldByName('SALDO').AsCurrency;
+                TotalDeuda := TotalDeuda + FieldByName('SALDO').AsCurrency;
+                // GridColocaciones.Cells[3,Conteo] := FormatCurr('$#,##0',FieldByName('VALOR_CUOTA').AsCurrency);
+                CDSdatacobroVALOR_CUOTA.Value := FieldByName('VALOR_CUOTA').AsCurrency;
+                // GridColocaciones.Cells[4,Conteo] := DateToStr(FieldByName('FECHA_CAPITAL').AsDateTime);
+                CDSdatacobroFECHA_CAPITAL.Value := FieldByName('FECHA_CAPITAL').AsDateTime;
+                // GridColocaciones.Cells[5,Conteo] := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
+                CDSdatacobroFECHA_INTERES.Value := FieldByName('FECHA_INTERES').AsDateTime;
+                // GridColocaciones.Cells[6,Conteo] := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
+                CDSdatacobroESTADO.Value := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
+                // GridColocaciones.Cells[7,Conteo] := IntToStr(Dias);
+                CDSdatacobroDIAS.Value := Dias;
+                // GridColocaciones.Cells[8,Conteo] := IntToStr(FieldByName('ID_IDENTIFICACION').AsInteger);
+                CDSdatacobroID_IDENTIFICACION.Value := FieldByName('ID_IDENTIFICACION').AsInteger;
+                // GridColocaciones.Cells[9,Conteo] := FieldByName('ID_PERSONA').AsString;
+                CDSdatacobroID_PERSONA.Value := FieldByName('ID_PERSONA').AsString;
+                // GridColocaciones.Cells[10,Conteo] := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
+                CDSdatacobroTIPO_CUOTA.Value := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
+                Id := FieldByName('ID_IDENTIFICACION').AsInteger;
+                Documento := FieldByName('ID_PERSONA').AsString;
+                // GridColocaciones.Cells[11,Conteo] := FormatCurr('$#,#0.00',BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano));
+                CDSdatacobroAHORROS.Value := BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano);
+                // GridColocaciones.Cells[12,Conteo] := FormatCurr('$#,#0.00',BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano));
+                CDSdatacobroAPORTES.Value := BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano);
+                // GridColocaciones.Cells[13,Conteo] := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobroCOMPROMISO.Value := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobroCENTRO.Value := FieldByName('DESCRIPCION_AGENCIA').AsString;
+                // if (FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'VIGENTE') then
+                  // GridColocaciones.Canvas.Brush.Color := clMoneyGreen
+                // else if ((FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'JURIDICO') or (FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'CASTIGADO')) then
+                  //GridColocaciones.Canvas.Brush.Color := cl3DLight;
+                // GridColocaciones.Canvas.Refresh;
+                // ActualizarGrid := False;
+                CDSdatacobro.Post;
                    //INFORMACION PARA EL REGISTRO DE CARTAS
                    CdCarta.Append;
                    CdCarta.FieldByName('ID_COLOCACION').AsString := FieldByName('ID_COLOCACION').AsString;
@@ -651,31 +691,6 @@ begin
         EnterTabs(Key,Self);
 end;
 
-procedure TfrmControlCobroCartera.GridColocacionesSelectCell(
-  Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
-begin
-       if ARow < 1 then Exit;
-       GroupBox4.Caption := 'Observaciones y Compromisos Colocación No.:' + GridColocaciones.Cells[0,ARow];
-       Colocacion := GridColocaciones.Cells[0,ARow];
-       Id := StrToInt(GridColocaciones.Cells[8,ARow]);
-       Documento := GridColocaciones.Cells[9,ARow];
-       Nombres1 := GridColocaciones.Cells[1,ARow];
-
-       with IBDataSet1 do begin
-         Close;
-         ParamByName('ID_COLOCACION').AsString := GridColocaciones.Cells[0,ARow];
-         try
-           Open;
-           CmdAgregar.Enabled := True;
-           CmdImprimir.Enabled := True;
-         except
-           MessageDlg('Error al buscar datos de la colocación',mtError,[mbcancel],0);
-           Exit;
-         end;
-       end;
-
-end;
-
 procedure TfrmControlCobroCartera.IBDataSet1OBSERVACIONGetText(
   Sender: TField; var Text: String; DisplayText: Boolean);
 begin
@@ -715,7 +730,7 @@ begin
            IBSQL1.SQL.Add(':ID_USUARIO)');
            IBSQL1.ParamByName('ID_AGENCIA').AsInteger := vAgencia;
            IBSQL1.ParamByName('ID_COLOCACION').AsString := Colocacion;
-           IBSQL1.ParamByName('FECHA_OBSERVACION').AsDate := FechaObs;
+           IBSQL1.ParamByName('FECHA_OBSERVACION').AsDateTime := FechaObs;
            IBSQL1.ParamByName('OBSERVACION').AsString := Memo;
            IBSQL1.ParamByName('ES_OBSERVACION').AsInteger := BooleanoToInt(Not EsCompromiso);
            IBSQL1.ParamByName('ES_COMPROMISO').AsInteger := BooleanoToInt(EsCompromiso);
@@ -891,26 +906,44 @@ begin
                 Dias := DiasEntre(Fecha,FechaHoy);
                    ActualizarGrid := True;
                    Conteo := Conteo + 1;
-                   GridColocaciones.RowCount := Conteo + 1;
-                   GridColocaciones.Cells[0,Conteo] := FieldByName('ID_COLOCACION').AsString;
-                   GridColocaciones.Cells[1,Conteo] := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
-                                                       FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
-                                                       FieldByName('NOMBRE').AsString;
-                   GridColocaciones.Cells[2,Conteo] := FormatCurr('$#,##0',FieldByName('SALDO').AsCurrency);
-                   TotalDeuda := TotalDeuda + FieldByName('SALDO').AsCurrency;
-                   GridColocaciones.Cells[3,Conteo] := FormatCurr('$#,##0',FieldByName('VALOR_CUOTA').AsCurrency);
-                   GridColocaciones.Cells[4,Conteo] := DateToStr(FieldByName('FECHA_CAPITAL').AsDateTime);
-                   GridColocaciones.Cells[5,Conteo] := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
-                   GridColocaciones.Cells[6,Conteo] := FieldByName('COLOR').AsString + '-'+ FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
-                   GridColocaciones.Cells[7,Conteo] := IntToStr(Dias);
-                   GridColocaciones.Cells[8,Conteo] := IntToStr(FieldByName('ID_IDENTIFICACION').AsInteger);
-                   GridColocaciones.Cells[9,Conteo] := FieldByName('ID_PERSONA').AsString;
-                   GridColocaciones.Cells[10,Conteo] := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
-                   Id := FieldByName('ID_IDENTIFICACION').AsInteger;
-                   Documento := FieldByName('ID_PERSONA').AsString;
-                   GridColocaciones.Cells[11,Conteo] := FormatCurr('$#,#0.00',BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano));
-                   GridColocaciones.Cells[12,Conteo] := FormatCurr('$#,#0.00',BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano));
-                   GridColocaciones.Cells[13,Conteo] := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobro.Append;
+                // GridColocaciones.Cells[0,Conteo] := FieldByName('ID_COLOCACION').AsString;
+                CDSdatacobroID_COLOCACION.Value := FieldByName('ID_COLOCACION').AsString;
+                // GridColocaciones.Cells[1,Conteo] := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
+                //                                    FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
+                //                                    FieldByName('NOMBRE').AsString;
+                CDSdatacobroNOMBRE.Value := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
+                                                    FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
+                                                    FieldByName('NOMBRE').AsString;
+                // GridColocaciones.Cells[2,Conteo] := FormatCurr('$#,##0',FieldByName('SALDO').AsCurrency);
+                CDSdatacobroSALDO.Value := FieldByName('SALDO').AsCurrency;
+                TotalDeuda := TotalDeuda + FieldByName('SALDO').AsCurrency;
+                // GridColocaciones.Cells[3,Conteo] := FormatCurr('$#,##0',FieldByName('VALOR_CUOTA').AsCurrency);
+                CDSdatacobroVALOR_CUOTA.Value := FieldByName('VALOR_CUOTA').AsCurrency;
+                // GridColocaciones.Cells[4,Conteo] := DateToStr(FieldByName('FECHA_CAPITAL').AsDateTime);
+                CDSdatacobroFECHA_CAPITAL.Value := FieldByName('FECHA_CAPITAL').AsDateTime;
+                // GridColocaciones.Cells[5,Conteo] := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
+                CDSdatacobroFECHA_INTERES.Value := FieldByName('FECHA_INTERES').AsDateTime;
+                // GridColocaciones.Cells[6,Conteo] := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
+                CDSdatacobroESTADO.Value := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
+                // GridColocaciones.Cells[7,Conteo] := IntToStr(Dias);
+                CDSdatacobroDIAS.Value := Dias;
+                // GridColocaciones.Cells[8,Conteo] := IntToStr(FieldByName('ID_IDENTIFICACION').AsInteger);
+                CDSdatacobroID_IDENTIFICACION.Value := FieldByName('ID_IDENTIFICACION').AsInteger;
+                // GridColocaciones.Cells[9,Conteo] := FieldByName('ID_PERSONA').AsString;
+                CDSdatacobroID_PERSONA.Value := FieldByName('ID_PERSONA').AsString;
+                // GridColocaciones.Cells[10,Conteo] := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
+                CDSdatacobroTIPO_CUOTA.Value := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
+                Id := FieldByName('ID_IDENTIFICACION').AsInteger;
+                Documento := FieldByName('ID_PERSONA').AsString;
+                // GridColocaciones.Cells[11,Conteo] := FormatCurr('$#,#0.00',BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano));
+                CDSdatacobroAHORROS.Value := BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano);
+                // GridColocaciones.Cells[12,Conteo] := FormatCurr('$#,#0.00',BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano));
+                CDSdatacobroAPORTES.Value := BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano);
+                // GridColocaciones.Cells[13,Conteo] := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobroCOMPROMISO.Value := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobroCENTRO.Value := FieldByName('DESCRIPCION_AGENCIA').AsString;
+
                    ActualizarGrid := False;
                 Next;
               end;
@@ -963,20 +996,6 @@ begin
          RGTipoCuota.ItemIndex := 0;
          EdDiasIni.Value := 0;
          EdDiasFin.Value := 0;
-         with GridColocaciones do begin
-           RowCount := 2;
-           Cells[0,1] := '';
-           Cells[1,1] := '';
-           Cells[2,1] := '';
-           Cells[3,1] := '';
-           Cells[4,1] := '';
-           Cells[5,1] := '';
-           Cells[6,1] := '';
-           Cells[7,1] := '';
-           Cells[8,1] := '';
-           Cells[9,1] := '';
-           Cells[10,1] := '';
-         end;
 //         RGEstado.SetFocus;
          CmdProcesar.Enabled := True;
          CmdCompromisos.Enabled := True;
@@ -1004,6 +1023,8 @@ begin
          FechaFinal := EncodeDate(YearOf(FechaHoy),12,31);
          EdFechaAEvaluarI.Date := FechaHoy;
          EdFechaAEvaluarF.Date := FechaHoy;
+         CDSdatacobro.Open;
+         CDSdatacobro.EmptyDataSet;
 end;
 
 procedure TfrmControlCobroCartera.IBDataSet1COMPLETOGetText(Sender: TField;
@@ -1101,7 +1122,7 @@ begin
      frmAgregarObservacionCobro := TfrmAgregarObservacionCobro.Create(Self);
      with frmAgregarObservacionCobro do begin
        if IBDataSet1.RecordCount > 0 then begin
-        EdFechaObservacion.Date  := IBDataSet1.FieldByName('FECHA_OBSERVACION').AsDateTime;
+        EdFechaObservacion.DateTime  := IBDataSet1.FieldByName('FECHA_OBSERVACION').AsDateTime;
         EdFechaCompromiso.Date := IBDataSet1.FieldByName('FECHA_COMPROMISO').AsDateTime;
         Memo1.Text := IBDataSet1.FieldByName('OBSERVACION').AsString;
         ChkCompromiso.Checked := InttoBoolean(IBDataSet1.FieldByName('ES_COMPROMISO').AsInteger);
@@ -1257,13 +1278,15 @@ begin
           SQL.Add('"col$tiposcuota".DESCRIPCION_TIPO_CUOTA,');
           SQL.Add('"col$tiposcuota".CAPITAL,');
           SQL.Add('"col$tiposcuota".INTERES,');
-          SQL.Add('"col$compromiso".COMP_DESCRIPCION');
+          SQL.Add('"col$compromiso".COMP_DESCRIPCION,');
+          SQL.Add('"gen$agencia".DESCRIPCION_AGENCIA');
           SQL.Add('FROM');
           SQL.Add('"col$colocacion"');
           SQL.Add('LEFT JOIN "gen$persona" ON ("col$colocacion".ID_IDENTIFICACION = "gen$persona".ID_IDENTIFICACION) AND ("col$colocacion".ID_PERSONA = "gen$persona".ID_PERSONA)');
           SQL.Add('INNER JOIN "col$estado" ON ("col$colocacion".ID_ESTADO_COLOCACION = "col$estado".ID_ESTADO_COLOCACION)');
           SQL.Add('INNER JOIN "col$tiposcuota" ON ("col$colocacion".ID_TIPO_CUOTA = "col$tiposcuota".ID_TIPOS_CUOTA)');
           SQL.Add('LEFT JOIN "col$compromiso" ON ("col$colocacion".ID_COLOCACION = "col$compromiso".ID_COLOCACION and "col$compromiso".COMP_ACTIVO = 1)');
+          SQL.Add('LEFT JOIN "gen$agencia" ON "gen$agencia".ID_AGENCIA = "col$colocacion".ID_AGENCIA');
           SQL.Add('WHERE');
           SQL.Add('"col$colocacion".ID_IDENTIFICACION = :ID_IDENTIFICACION and "col$colocacion".ID_PERSONA = :ID_PERSONA');
           SQL.Add('order by "col$colocacion".ID_ESTADO_COLOCACION');
@@ -1308,32 +1331,51 @@ begin
                 if Dias < 0 then Dias := 0;
                 ActualizarGrid := True;
                 Conteo := Conteo + 1;
-                GridColocaciones.RowCount := Conteo + 1;
-                GridColocaciones.Cells[0,Conteo] := FieldByName('ID_COLOCACION').AsString;
-                GridColocaciones.Cells[1,Conteo] := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
+                // GridColocaciones.RowCount := Conteo + 1;
+                CDSdatacobro.Append;
+                // GridColocaciones.Cells[0,Conteo] := FieldByName('ID_COLOCACION').AsString;
+                CDSdatacobroID_COLOCACION.Value := FieldByName('ID_COLOCACION').AsString;
+                // GridColocaciones.Cells[1,Conteo] := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
+                //                                    FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
+                //                                    FieldByName('NOMBRE').AsString;
+                CDSdatacobroNOMBRE.Value := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
                                                     FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
                                                     FieldByName('NOMBRE').AsString;
-                GridColocaciones.Cells[2,Conteo] := FormatCurr('$#,##0',FieldByName('SALDO').AsCurrency);
+                // GridColocaciones.Cells[2,Conteo] := FormatCurr('$#,##0',FieldByName('SALDO').AsCurrency);
+                CDSdatacobroSALDO.Value := FieldByName('SALDO').AsCurrency;
                 TotalDeuda := TotalDeuda + FieldByName('SALDO').AsCurrency;
-                GridColocaciones.Cells[3,Conteo] := FormatCurr('$#,##0',FieldByName('VALOR_CUOTA').AsCurrency);
-                GridColocaciones.Cells[4,Conteo] := DateToStr(FieldByName('FECHA_CAPITAL').AsDateTime);
-                GridColocaciones.Cells[5,Conteo] := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
-                GridColocaciones.Cells[6,Conteo] := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
-                GridColocaciones.Cells[7,Conteo] := IntToStr(Dias);
-                GridColocaciones.Cells[8,Conteo] := IntToStr(FieldByName('ID_IDENTIFICACION').AsInteger);
-                GridColocaciones.Cells[9,Conteo] := FieldByName('ID_PERSONA').AsString;
-                GridColocaciones.Cells[10,Conteo] := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
+                // GridColocaciones.Cells[3,Conteo] := FormatCurr('$#,##0',FieldByName('VALOR_CUOTA').AsCurrency);
+                CDSdatacobroVALOR_CUOTA.Value := FieldByName('VALOR_CUOTA').AsCurrency;
+                // GridColocaciones.Cells[4,Conteo] := DateToStr(FieldByName('FECHA_CAPITAL').AsDateTime);
+                CDSdatacobroFECHA_CAPITAL.Value := FieldByName('FECHA_CAPITAL').AsDateTime;
+                // GridColocaciones.Cells[5,Conteo] := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
+                CDSdatacobroFECHA_INTERES.Value := FieldByName('FECHA_INTERES').AsDateTime;
+                // GridColocaciones.Cells[6,Conteo] := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
+                CDSdatacobroESTADO.Value := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
+                // GridColocaciones.Cells[7,Conteo] := IntToStr(Dias);
+                CDSdatacobroDIAS.Value := Dias;
+                // GridColocaciones.Cells[8,Conteo] := IntToStr(FieldByName('ID_IDENTIFICACION').AsInteger);
+                CDSdatacobroID_IDENTIFICACION.Value := FieldByName('ID_IDENTIFICACION').AsInteger;
+                // GridColocaciones.Cells[9,Conteo] := FieldByName('ID_PERSONA').AsString;
+                CDSdatacobroID_PERSONA.Value := FieldByName('ID_PERSONA').AsString;
+                // GridColocaciones.Cells[10,Conteo] := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
+                CDSdatacobroTIPO_CUOTA.Value := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
                 Id := FieldByName('ID_IDENTIFICACION').AsInteger;
                 Documento := FieldByName('ID_PERSONA').AsString;
-                GridColocaciones.Cells[11,Conteo] := FormatCurr('$#,#0.00',BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano));
-                GridColocaciones.Cells[12,Conteo] := FormatCurr('$#,#0.00',BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano));
-                GridColocaciones.Cells[13,Conteo] := FieldByName('COMP_DESCRIPCION').AsString;
-                if (FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'VIGENTE') then
-                  GridColocaciones.Canvas.Brush.Color := clMoneyGreen
-                else if ((FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'JURIDICO') or (FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'CASTIGADO')) then
-                  GridColocaciones.Canvas.Brush.Color := cl3DLight;
-                GridColocaciones.Canvas.Refresh;
-                ActualizarGrid := False;
+                // GridColocaciones.Cells[11,Conteo] := FormatCurr('$#,#0.00',BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano));
+                CDSdatacobroAHORROS.Value := BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano);
+                // GridColocaciones.Cells[12,Conteo] := FormatCurr('$#,#0.00',BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano));
+                CDSdatacobroAPORTES.Value := BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano);
+                // GridColocaciones.Cells[13,Conteo] := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobroCOMPROMISO.Value := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobroCENTRO.Value := FieldByName('DESCRIPCION_AGENCIA').AsString;
+                // if (FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'VIGENTE') then
+                  // GridColocaciones.Canvas.Brush.Color := clMoneyGreen
+                // else if ((FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'JURIDICO') or (FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'CASTIGADO')) then
+                  //GridColocaciones.Canvas.Brush.Color := cl3DLight;
+                // GridColocaciones.Canvas.Refresh;
+                // ActualizarGrid := False;
+                CDSdatacobro.Post;
                 Next;
               end;
               TotalColocaciones := Conteo;
@@ -1342,6 +1384,7 @@ begin
               EdNombre.Caption := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
                                 FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
                                 FieldByName('NOMBRE').AsString;
+              btnAExcel.Enabled := True;
             end;
           except
             Close;
@@ -1366,6 +1409,7 @@ begin
         Id := CBtiposid.KeyValue;
         Documento := EdNumeroIdentificacion.Text;
         BuscarColocaciones;
+        CDSdatacobro.First;
 end;
 
 procedure TfrmControlCobroCartera.CmdActualizar2Click(Sender: TObject);
@@ -1521,87 +1565,6 @@ var Atributos:Smallint;
     Recuadro:TRect;
     i:Integer;
 begin
-        Recuadro.Left := Rect.Left + 2;
-        Recuadro.Top := Rect.Top + 4;
-        Recuadro.Right := Rect.Right - 4;
-        Recuadro.Bottom := Rect.Bottom - 2;
-        Recuadro.TopLeft := Rect.TopLeft;
-        Recuadro.BottomRight := Rect.BottomRight;
-
-        Color := clBtnFace;
-
-        if ARow=0 then begin
-           Atributos := DT_VCENTER or DT_CENTER or DT_SINGLELINE;
-           GridColocaciones.Canvas.Font.Style := [fsBold];
-           GridColocaciones.Canvas.Font.Color := clBlack;
-           GridColocaciones.Canvas.Brush.Color := clBtnFace;
-         end  
-        else
-          begin
-           case ACol of
-           0..1: Atributos := DT_VCENTER or DT_LEFT or DT_SINGLELINE;
-           2..3: Atributos := DT_VCENTER or DT_RIGHT or DT_SINGLELINE;
-           4..10: Atributos := DT_VCENTER or DT_LEFT or DT_SINGLELINE;
-           11..12: Atributos := DT_VCENTER or DT_RIGHT or DT_SINGLELINE;
-           end;
-
-        end;
-
-        with GridColocaciones do begin
-         if (ARow > 0)  and (GridColocaciones.Cells[6,ARow] <> '') then
-         begin
-//         Canvas.Font.Style := [];
-         case StrToInt(LeftStr(GridColocaciones.Cells[6,ARow],1)) of
-          0 : begin
-                Canvas.Brush.Color := clWhite;
-                Canvas.Font.Color := clBlack;
-              end;
-
-          1 : begin
-                Canvas.Brush.Color := clGreen;
-                Canvas.Font.Color := clWhite;
-              end;
-          2 : begin
-                Canvas.Brush.Color := $0000D2D2;
-                Canvas.Font.Color := clBlack;
-              end;
-          3 : begin
-                Canvas.Brush.Color := clRed;
-                Canvas.Font.Color := clWhite;
-              end;
-          4 : begin
-                Canvas.Brush.Color := clBlue;
-                Canvas.Font.Color := clWhite;
-              end;
-          5 : begin
-                Canvas.Brush.Color := clltGray;
-                Canvas.Font.Color := clWhite;
-              end;
-
-          6 : begin
-                Canvas.Brush.Color := clMaroon;
-                Canvas.Font.Color := clWhite;
-              end;
-          7 : begin
-                Canvas.Brush.Color := clGray;
-                Canvas.Font.Color := clWhite;
-              end;
-          8 : begin
-                Canvas.Brush.Color := clFuchsia;
-                Canvas.Font.Color := clWhite;
-              end;                 
-         end;
-         end;
-
-        if (gdSelected in State) then begin
-          Canvas.Brush.Color := clHighlight;
-          Canvas.Font.Color := clHighlightText;
-        end;
-
-        Canvas.FillRect(Rect);
-        DrawText(Canvas.Handle,PChar(Cells[Acol,ARow]),-1,Recuadro,
-                  Atributos);
-       end;
 
 end;
 
@@ -2133,30 +2096,51 @@ begin
                  begin
                    ActualizarGrid := True;
                    Conteo := Conteo + 1;
-                   GridColocaciones.RowCount := Conteo + 1;
-                   GridColocaciones.Cells[0,Conteo] := FieldByName('ID_COLOCACION').AsString;
-                   GridColocaciones.Cells[1,Conteo] := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
-                                                       FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
-                                                       FieldByName('NOMBRE').AsString;
-                   GridColocaciones.Cells[2,Conteo] := FormatCurr('$#,##0',FieldByName('SALDO').AsCurrency);
-                   TotalDeuda := TotalDeuda + FieldByName('SALDO').AsCurrency;
-                   GridColocaciones.Cells[3,Conteo] := FormatCurr('$#,##0',FieldByName('VALOR_CUOTA').AsCurrency);
-                   GridColocaciones.Cells[4,Conteo] := DateToStr(FieldByName('FECHA_CAPITAL').AsDateTime);
-                   GridColocaciones.Cells[5,Conteo] := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
-                   GridColocaciones.Cells[6,Conteo] := FieldByName('COLOR').AsString + '-' +FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
-                   GridColocaciones.Cells[7,Conteo] := IntToStr(Dias);
-                   GridColocaciones.Cells[8,Conteo] := IntToStr(FieldByName('ID_IDENTIFICACION').AsInteger);
-                   GridColocaciones.Cells[9,Conteo] := FieldByName('ID_PERSONA').AsString;
-                   GridColocaciones.Cells[10,Conteo] := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
-                   Id := FieldByName('ID_IDENTIFICACION').AsInteger;
-                   Documento := FieldByName('ID_PERSONA').AsString;
-                   //Aportes := BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano);
-                   Aportes := 0;
-                   Ahorros := 0;
-                   //Ahorros := BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano);
-                   GridColocaciones.Cells[11,Conteo] := FormatCurr('$#,#0.00',Ahorros);
-                   GridColocaciones.Cells[12,Conteo] := FormatCurr('$#,#0.00',Aportes);
-                   GridColocaciones.Cells[13,Conteo] := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobro.Append;
+                // GridColocaciones.Cells[0,Conteo] := FieldByName('ID_COLOCACION').AsString;
+                CDSdatacobroID_COLOCACION.Value := FieldByName('ID_COLOCACION').AsString;
+                // GridColocaciones.Cells[1,Conteo] := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
+                //                                    FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
+                //                                    FieldByName('NOMBRE').AsString;
+                CDSdatacobroNOMBRE.Value := FieldByName('PRIMER_APELLIDO').AsString + ' ' +
+                                                    FieldByName('SEGUNDO_APELLIDO').AsString + ' ' +
+                                                    FieldByName('NOMBRE').AsString;
+                // GridColocaciones.Cells[2,Conteo] := FormatCurr('$#,##0',FieldByName('SALDO').AsCurrency);
+                CDSdatacobroSALDO.Value := FieldByName('SALDO').AsCurrency;
+                TotalDeuda := TotalDeuda + FieldByName('SALDO').AsCurrency;
+                // GridColocaciones.Cells[3,Conteo] := FormatCurr('$#,##0',FieldByName('VALOR_CUOTA').AsCurrency);
+                CDSdatacobroVALOR_CUOTA.Value := FieldByName('VALOR_CUOTA').AsCurrency;
+                // GridColocaciones.Cells[4,Conteo] := DateToStr(FieldByName('FECHA_CAPITAL').AsDateTime);
+                CDSdatacobroFECHA_CAPITAL.Value := FieldByName('FECHA_CAPITAL').AsDateTime;
+                // GridColocaciones.Cells[5,Conteo] := DateToStr(FieldByName('FECHA_INTERES').AsDateTime);
+                CDSdatacobroFECHA_INTERES.Value := FieldByName('FECHA_INTERES').AsDateTime;
+                // GridColocaciones.Cells[6,Conteo] := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
+                CDSdatacobroESTADO.Value := FieldByName('COLOR').AsString + '-' + FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString;
+                // GridColocaciones.Cells[7,Conteo] := IntToStr(Dias);
+                CDSdatacobroDIAS.Value := Dias;
+                // GridColocaciones.Cells[8,Conteo] := IntToStr(FieldByName('ID_IDENTIFICACION').AsInteger);
+                CDSdatacobroID_IDENTIFICACION.Value := FieldByName('ID_IDENTIFICACION').AsInteger;
+                // GridColocaciones.Cells[9,Conteo] := FieldByName('ID_PERSONA').AsString;
+                CDSdatacobroID_PERSONA.Value := FieldByName('ID_PERSONA').AsString;
+                // GridColocaciones.Cells[10,Conteo] := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
+                CDSdatacobroTIPO_CUOTA.Value := FieldByName('DESCRIPCION_TIPO_CUOTA').AsString;
+                Id := FieldByName('ID_IDENTIFICACION').AsInteger;
+                Documento := FieldByName('ID_PERSONA').AsString;
+                // GridColocaciones.Cells[11,Conteo] := FormatCurr('$#,#0.00',BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano));
+                CDSdatacobroAHORROS.Value := BuscarAhorros(Id,Documento,FechaInicial,FechaFinal,Ano);
+                // GridColocaciones.Cells[12,Conteo] := FormatCurr('$#,#0.00',BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano));
+                CDSdatacobroAPORTES.Value := BuscarAportes(Id,Documento,FechaInicial,FechaFinal,Ano);
+                // GridColocaciones.Cells[13,Conteo] := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobroCOMPROMISO.Value := FieldByName('COMP_DESCRIPCION').AsString;
+                CDSdatacobroCENTRO.Value := FieldByName('DESCRIPCION_AGENCIA').AsString;
+
+                // if (FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'VIGENTE') then
+                  // GridColocaciones.Canvas.Brush.Color := clMoneyGreen
+                // else if ((FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'JURIDICO') or (FieldByName('DESCRIPCION_ESTADO_COLOCACION').AsString = 'CASTIGADO')) then
+                  //GridColocaciones.Canvas.Brush.Color := cl3DLight;
+                // GridColocaciones.Canvas.Refresh;
+                // ActualizarGrid := False;
+                CDSdatacobro.Post;
                    //INFORMACION PARA EL REGISTRO DE CARTAS
                    CdCarta.Append;
                    CdCarta.FieldByName('ID_COLOCACION').AsString := FieldByName('ID_COLOCACION').AsString;
@@ -2527,9 +2511,9 @@ begin
           SD1.Title := 'Nombre Para El Archivo de Control de Cobro';
           if (SD1.Execute) then
           begin
-           IBTabla.Filtered := False;
-           IBTabla.First;
-           ExcelFile := TDataSetToExcel.Create(IBTabla,SD1.FileName);
+           CDSdatacobro.Filtered := False;
+           CDSdatacobro.First;
+           ExcelFile := TDataSetToExcel.Create(CDSdatacobro,SD1.FileName);
            ExcelFile.WriteFile;
            ExcelFile.Free;
            ShowMessage('Archivo Guardado...!');
@@ -2730,6 +2714,105 @@ begin
       frmAcuerdoPago := TfrmAcuerdoPago.Create(Self);
       frmAcuerdoPago.Colocacion := Colocacion;
       frmAcuerdoPago.ShowModal;
+end;
+
+procedure TfrmControlCobroCartera.DBGdatacobroDrawColumnCell(
+  Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+        if LeftStr(CDSdatacobroESTADO.Value, 1) <> '' then
+         with DBGdatacobro do
+         case StrToInt(LeftStr(CDSdatacobroESTADO.Value, 1)) of
+          0 : begin
+                Canvas.Brush.Color := clWhite;
+                Canvas.Font.Color := clBlack;
+              end;
+
+          1 : begin
+                Canvas.Brush.Color := clGreen;
+                Canvas.Font.Color := clWhite;
+              end;
+          2 : begin
+                Canvas.Brush.Color := $0000D2D2;
+                Canvas.Font.Color := clBlack;
+              end;
+          3 : begin
+                Canvas.Brush.Color := clRed;
+                Canvas.Font.Color := clWhite;
+              end;
+          4 : begin
+                Canvas.Brush.Color := clBlue;
+                Canvas.Font.Color := clWhite;
+              end;
+          5 : begin
+                Canvas.Brush.Color := clltGray;
+                Canvas.Font.Color := clWhite;
+              end;
+
+          6 : begin
+                Canvas.Brush.Color := clMaroon;
+                Canvas.Font.Color := clWhite;
+              end;
+          7 : begin
+                Canvas.Brush.Color := clGray;
+                Canvas.Font.Color := clWhite;
+              end;
+          8 : begin
+                Canvas.Brush.Color := clFuchsia;
+                Canvas.Font.Color := clWhite;
+              end;                 
+         end;
+         DBGdatacobro.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+end;
+
+procedure TfrmControlCobroCartera.CDSdatacobroAfterScroll(
+  DataSet: TDataSet);
+begin
+       GroupBox4.Caption := 'Observaciones y Compromisos Colocación No.:' + DataSet.FieldByName('ID_COLOCACION').AsString;
+       Colocacion := DataSet.FieldByName('ID_COLOCACION').AsString;
+       Id := DataSet.FieldByName('ID_IDENTIFICACION').AsInteger;
+       Documento := DataSet.FieldByName('ID_PERSONA').AsString;
+       Nombres1 := DataSet.FieldByName('NOMBRE').AsString;
+
+       if Colocacion <> '' then
+       with IBDataSet1 do begin
+         Close;
+         ParamByName('ID_COLOCACION').AsString := Colocacion;
+         try
+           Open;
+           CmdAgregar.Enabled := True;
+           CmdImprimir.Enabled := True;
+         except
+           MessageDlg('Error al buscar datos de la colocación',mtError,[mbcancel],0);
+           Exit;
+         end;
+       end;
+end;
+
+procedure TfrmControlCobroCartera.DBGdatacobroCellClick(Column: TColumn);
+begin
+        if (CDSdatacobro.FieldByName('ID_COLOCACION').AsString <> '') then
+        begin
+           GroupBox4.Caption := 'Observaciones y Compromisos Colocación No.:' + CDSdatacobro.FieldByName('ID_COLOCACION').AsString;
+           Colocacion := CDSdatacobro.FieldByName('ID_COLOCACION').AsString;
+           Id := CDSdatacobro.FieldByName('ID_IDENTIFICACION').AsInteger;
+           Documento := CDSdatacobro.FieldByName('ID_PERSONA').AsString;
+           Nombres1 := CDSdatacobro.FieldByName('NOMBRE').AsString;
+          if Colocacion <> '' then
+          with IBDataSet1 do begin
+          Close;
+          ParamByName('ID_COLOCACION').AsString := Colocacion;
+          try
+            Open;
+            CmdAgregar.Enabled := True;
+            CmdImprimir.Enabled := True;
+          except
+            MessageDlg('Error al buscar datos de la colocación',mtError,[mbcancel],0);
+            Exit;
+          end;
+        end;
+      end;
 end;
 
 end.

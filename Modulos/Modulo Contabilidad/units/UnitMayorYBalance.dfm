@@ -59,16 +59,20 @@ object frmMayorYBalance: TfrmMayorYBalance
         'Noviembre'
         'Diciembre')
     end
-    object EdAno: TMaskEdit
-      Left = 264
+    object edAno: TJvYearEdit
+      Left = 266
       Top = 8
-      Width = 31
+      Width = 65
       Height = 21
-      EditMask = '!9999;1;_'
-      MaxLength = 4
-      ReadOnly = True
+      Alignment = taRightJustify
+      ReadOnly = False
       TabOrder = 1
-      Text = '    '
+      Value = 2000
+      MaxValue = 9999
+      MinValue = 0
+      HasMaxValue = True
+      HasMinValue = True
+      WindowsillYear = 71
     end
   end
   object Panel2: TPanel

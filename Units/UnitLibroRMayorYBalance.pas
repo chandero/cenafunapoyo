@@ -295,12 +295,14 @@ end;
 
 procedure TfrmLibroMayorYBalance.FormShow(Sender: TObject);
 begin
+        {
         IBQPagina.Open;
         IBQPagina.Last;
         _pagina := IBQPagina.FieldByName('LIRE_PAGINA').AsInteger;
         _consecutivo := IBQPagina.FieldByName('LIRE_CONSECUTIVO').AsInteger;
         _pagina := _pagina + 1;
         _consecutivo := _consecutivo + 1;
+        }
 end;
 
 procedure TfrmLibroMayorYBalance.frReport1GetValue(const ParName: String;

@@ -2,8 +2,8 @@ object dmColocacion: TdmColocacion
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 641
-  Top = 127
+  Left = 272
+  Top = 22
   Height = 435
   Width = 509
   object IBDSclasificacion: TIBDataSet

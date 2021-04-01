@@ -292,7 +292,7 @@ object frmReporteCambioEstadoColocacion: TfrmReporteCambioEstadoColocacion
     Left = 110
     Top = 424
     SystemInfo = (
-      'OS: WIN32_NT 5.1.2600 Service Pack 2'
+      'OS: WIN32_NT 5.1.2600 Service Pack 3'
       ''
       'PageSize: 4096'
       'ActiveProcessorMask: $1000'

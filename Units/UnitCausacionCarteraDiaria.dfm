@@ -1,11 +1,11 @@
 object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
-  Left = 452
+  Left = 175
   Top = 190
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Causaci'#243'n de Colocaciones'
   ClientHeight = 391
-  ClientWidth = 767
+  ClientWidth = 1044
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clBlack
@@ -21,13 +21,13 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
   object Panel2: TPanel
     Left = 0
     Top = 358
-    Width = 767
+    Width = 1044
     Height = 33
     Align = alBottom
     Color = clOlive
     TabOrder = 0
     object CmdCerrar: TBitBtn
-      Left = 666
+      Left = 962
       Top = 4
       Width = 80
       Height = 25
@@ -396,7 +396,7 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
         1818181818363A34230218181818181818181818181818362202}
     end
     object btnReNota: TBitBtn
-      Left = 571
+      Left = 867
       Top = 4
       Width = 94
       Height = 25
@@ -448,11 +448,20 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
         0909090009090909090000090900090909090900090909090900000000000000
         0000000000000000000008080808080808080808080808080808}
     end
+    object btnRecProvision: TBitBtn
+      Left = 781
+      Top = 4
+      Width = 85
+      Height = 25
+      Caption = 'Recal.Prov'
+      TabOrder = 8
+      OnClick = btnRecProvisionClick
+    end
   end
   object Panel3: TPanel
     Left = 0
     Top = 321
-    Width = 767
+    Width = 1044
     Height = 37
     Align = alBottom
     TabOrder = 1
@@ -525,7 +534,7 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 767
+    Width = 1044
     Height = 321
     ActivePage = TabSheet2
     Align = alClient
@@ -687,7 +696,7 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
       object XSauxiliar: TXStringGrid
         Left = 0
         Top = 0
-        Width = 759
+        Width = 1036
         Height = 251
         Align = alTop
         Color = clWhite
@@ -772,7 +781,7 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
       object Panel4: TPanel
         Left = 0
         Top = 263
-        Width = 759
+        Width = 1036
         Height = 30
         Align = alBottom
         TabOrder = 1

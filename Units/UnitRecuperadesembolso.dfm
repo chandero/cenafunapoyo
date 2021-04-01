@@ -1,6 +1,6 @@
 object FrmRecuperarInforme: TFrmRecuperarInforme
-  Left = 557
-  Top = 202
+  Left = 413
+  Top = 188
   Width = 336
   Height = 198
   BorderIcons = [biSystemMenu]

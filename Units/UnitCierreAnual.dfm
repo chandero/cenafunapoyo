@@ -1,6 +1,6 @@
 object frmcierreanual: Tfrmcierreanual
-  Left = 365
-  Top = 233
+  Left = 733
+  Top = 253
   Width = 363
   Height = 310
   Caption = 'Cierre Anual'

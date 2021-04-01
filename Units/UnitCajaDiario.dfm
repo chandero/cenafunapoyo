@@ -1,10 +1,10 @@
 object frmCajaDiario: TfrmCajaDiario
-  Left = 303
-  Top = 192
+  Left = 580
+  Top = 263
   BorderStyle = bsDialog
   Caption = 'Informe Caja Diario'
-  ClientHeight = 83
-  ClientWidth = 345
+  ClientHeight = 106
+  ClientWidth = 367
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clBlack
@@ -63,21 +63,26 @@ object frmCajaDiario: TfrmCajaDiario
         'Noviembre'
         'Diciembre')
     end
-    object EdAno: TMaskEdit
+    object edAno: TJvYearEdit
       Left = 264
       Top = 8
-      Width = 31
+      Width = 57
       Height = 21
-      EditMask = '!9999;1;_'
-      MaxLength = 4
+      Alignment = taRightJustify
+      ReadOnly = False
       TabOrder = 1
-      Text = '    '
+      Value = 2000
+      MaxValue = 9999
+      MinValue = 0
+      HasMaxValue = True
+      HasMinValue = True
+      WindowsillYear = 71
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 50
-    Width = 345
+    Top = 73
+    Width = 367
     Height = 33
     Align = alBottom
     Color = clOlive
@@ -374,10 +379,10 @@ object frmCajaDiario: TfrmCajaDiario
     ToLine = 0
     ExportFromLine = 0
     ExportToLine = 0
-    Left = 313
+    Left = 321
     Top = 3
     SystemInfo = (
-      'OS: WIN32_NT 5.1.2600 Service Pack 2'
+      'OS: WIN32_NT 5.1.2600 Service Pack 3'
       ''
       'PageSize: 4096'
       'ActiveProcessorMask: $1000'
@@ -1556,80 +1561,76 @@ object frmCajaDiario: TfrmCajaDiario
     Left = 30
     Top = 24
   end
-  object IBQTemp: TClientDataSet
-    Active = True
-    Aggregates = <>
-    FieldDefs = <
-      item
-        Name = 'CODIGO'
-        DataType = ftString
-        Size = 18
-      end
-      item
-        Name = 'DIA'
-        DataType = ftInteger
-      end
-      item
-        Name = 'MES'
-        DataType = ftInteger
-      end
-      item
-        Name = 'DEBITO'
-        DataType = ftCurrency
-      end
-      item
-        Name = 'CREDITO'
-        DataType = ftCurrency
-      end
-      item
-        Name = 'NOMBRE'
-        DataType = ftString
-        Size = 100
-      end>
-    IndexDefs = <
-      item
-        Name = 'IBQTempIndex1'
-        Fields = 'MES;DIA;CODIGO'
-      end>
-    IndexFieldNames = 'MES;DIA;CODIGO'
-    Params = <>
-    StoreDefs = True
-    Left = 66
-    Top = 26
-    Data = {
-      AF0000009619E0BD010000001800000006000000000003000000AF0006434F44
-      49474F0100490000000100055749445448020002001200034449410400010000
-      000000034D455304000100000000000644454249544F08000400000001000753
-      5542545950450200490006004D6F6E657900074352454449544F080004000000
-      010007535542545950450200490006004D6F6E657900064E4F4D425245010049
-      00000001000557494454480200020064000000}
-    object IBQTempCODIGO: TStringField
-      FieldName = 'CODIGO'
-      Size = 18
-    end
-    object IBQTempDIA: TIntegerField
-      FieldName = 'DIA'
-    end
-    object IBQTempMES: TIntegerField
-      FieldName = 'MES'
-    end
-    object IBQTempDEBITO: TCurrencyField
-      FieldName = 'DEBITO'
-    end
-    object IBQTempCREDITO: TCurrencyField
-      FieldName = 'CREDITO'
-    end
-    object IBQTempNOMBRE: TStringField
-      DisplayWidth = 100
-      FieldName = 'NOMBRE'
-      Size = 100
-    end
-  end
   object SDArchivo: TSaveDialog
     DefaultExt = '*.csv'
     Filter = 'Archivo Separado por Comas (*.csv)|*.csv'
     InitialDir = 'C:\Planos\Balance'
     Left = 98
     Top = 28
+  end
+  object frDBDataSet2: TfrDBDataSet
+    DataSet = IBQTemp1
+    Left = 144
+    Top = 32
+  end
+  object frDBDataSet1: TfrDBDataSet
+    DataSet = IBQTemp
+    Left = 176
+    Top = 32
+  end
+  object frOLEExcelExport1: TfrOLEExcelExport
+    Left = 208
+    Top = 24
+  end
+  object frReport1: TfrReport
+    Dataset = frDBDataSet1
+    InitialZoom = pzDefault
+    PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit]
+    RebuildPrinter = False
+    Left = 240
+    Top = 24
+    ReportForm = {19000000}
+  end
+  object IBQTemp: TIBQuery
+    Database = dmGeneral.IBDatabase1
+    Transaction = dmGeneral.IBTransaction1
+    SQL.Strings = (
+      
+        'SELECT EXTRACT(DAY FROM a.FECHA) AS DIA, a.CODIGO, p.NOMBRE, SUM' +
+        '(a.DEBITO) AS DEBITO, SUM(a.CREDITO) AS CREDITO FROM "con$auxili' +
+        'ar" a'
+      'INNER JOIN "con$puc" p ON a.CODIGO = p.CODIGO'
+      'WHERE'
+      'EXTRACT(MONTH FROM a.FECHA) = :MES and a.ESTADOAUX = '#39'C'#39
+      'GROUP BY DIA, CODIGO, NOMBRE'
+      'ORDER BY DIA')
+    Left = 28
+    Top = 32
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'MES'
+        ParamType = ptUnknown
+      end>
+  end
+  object IBQTemp1: TIBQuery
+    Database = dmGeneral.IBDatabase1
+    Transaction = dmGeneral.IBTransaction1
+    SQL.Strings = (
+      
+        'SELECT a.CODIGO, p.NOMBRE, SUM(a.DEBITO) AS DEBITO, SUM(a.CREDIT' +
+        'O) AS CREDITO FROM "con$auxiliar" a'
+      'INNER JOIN "con$puc" p ON a.CODIGO = p.CODIGO'
+      'WHERE EXTRACT(MONTH FROM a.FECHA) = :MES and a.ESTADOAUX = '#39'C'#39
+      'GROUP BY a.CODIGO, p.NOMBRE'
+      'ORDER BY CODIGO ASC')
+    Left = 58
+    Top = 32
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'MES'
+        ParamType = ptUnknown
+      end>
   end
 end

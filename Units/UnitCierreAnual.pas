@@ -238,7 +238,7 @@ begin
 
           IBpuc.Next;
         end;
-                       if valor_c <> valor_d then
+               if valor_c <> valor_d then
                begin
                   if valor_c > valor_d then
                      tipo := 'd'
@@ -246,7 +246,7 @@ begin
                      tipo := 'c';
                   total := abs(valor_c - valor_d);
                end;
-               credito := 0;credito := 0;
+               debito := 0;credito := 0;
                if tipo = 'c' then
                   credito := total
                else
