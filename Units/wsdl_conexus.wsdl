@@ -1,0 +1,635 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="Service" targetNamespace="http://tempuri.org/">
+<wsp:Policy wsu:Id="BasicHttpsBinding_IService_policy">
+<wsp:ExactlyOne>
+<wsp:All>
+<sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+<wsp:Policy>
+<sp:TransportToken>
+<wsp:Policy>
+<sp:HttpsToken RequireClientCertificate="false"/>
+</wsp:Policy>
+</sp:TransportToken>
+<sp:AlgorithmSuite>
+<wsp:Policy>
+<sp:Basic256/>
+</wsp:Policy>
+</sp:AlgorithmSuite>
+<sp:Layout>
+<wsp:Policy>
+<sp:Strict/>
+</wsp:Policy>
+</sp:Layout>
+</wsp:Policy>
+</sp:TransportBinding>
+</wsp:All>
+</wsp:ExactlyOne>
+</wsp:Policy>
+<wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+<xs:import namespace="http://schemas.datacontract.org/2004/07/WCFServiceData"/>
+<xs:element name="SetDocument">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/WCFServiceData" minOccurs="0" name="Invoice" nillable="true" type="q1:DocumentType"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="SetDocumentResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/WCFServiceData" minOccurs="0" name="SetDocumentResult" nillable="true" type="q2:ResponseType"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="GetTransaccion">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="CUFE" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="periodo" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="GetTransaccionResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/WCFServiceData" minOccurs="0" name="GetTransaccionResult" nillable="true" type="q3:ResponseType"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="GetTransaccionbyIdentificacion">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="nroDocumento" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="periodo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="emisorNit" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="GetTransaccionbyIdentificacionResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/WCFServiceData" minOccurs="0" name="GetTransaccionbyIdentificacionResult" nillable="true" type="q4:ResponseType"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="SetDocumentJson">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="DocJson" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="SetDocumentJsonResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="SetDocumentJsonResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="GetTransaccionJson">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="CUFE" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="periodo" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="GetTransaccionJsonResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="GetTransaccionJsonResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="GetTransaccionbyIdentificacionJson">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="nroDocumento" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="periodo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="emisorNit" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="GetTransaccionbyIdentificacionJsonResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="GetTransaccionbyIdentificacionJsonResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="Status">
+<xs:complexType>
+<xs:sequence/>
+</xs:complexType>
+</xs:element>
+<xs:element name="StatusResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element minOccurs="0" name="StatusResult" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/">
+<xs:element name="anyType" nillable="true" type="xs:anyType"/>
+<xs:element name="anyURI" nillable="true" type="xs:anyURI"/>
+<xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
+<xs:element name="boolean" nillable="true" type="xs:boolean"/>
+<xs:element name="byte" nillable="true" type="xs:byte"/>
+<xs:element name="dateTime" nillable="true" type="xs:dateTime"/>
+<xs:element name="decimal" nillable="true" type="xs:decimal"/>
+<xs:element name="double" nillable="true" type="xs:double"/>
+<xs:element name="float" nillable="true" type="xs:float"/>
+<xs:element name="int" nillable="true" type="xs:int"/>
+<xs:element name="long" nillable="true" type="xs:long"/>
+<xs:element name="QName" nillable="true" type="xs:QName"/>
+<xs:element name="short" nillable="true" type="xs:short"/>
+<xs:element name="string" nillable="true" type="xs:string"/>
+<xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte"/>
+<xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt"/>
+<xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/>
+<xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort"/>
+<xs:element name="char" nillable="true" type="tns:char"/>
+<xs:simpleType name="char">
+<xs:restriction base="xs:int"/>
+</xs:simpleType>
+<xs:element name="duration" nillable="true" type="tns:duration"/>
+<xs:simpleType name="duration">
+<xs:restriction base="xs:duration">
+<xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/>
+<xs:minInclusive value="-P10675199DT2H48M5.4775808S"/>
+<xs:maxInclusive value="P10675199DT2H48M5.4775807S"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="guid" nillable="true" type="tns:guid"/>
+<xs:simpleType name="guid">
+<xs:restriction base="xs:string">
+<xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:attribute name="FactoryType" type="xs:QName"/>
+<xs:attribute name="Id" type="xs:ID"/>
+<xs:attribute name="Ref" type="xs:IDREF"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/WCFServiceData" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WCFServiceData">
+<xs:import namespace="http://schemas.datacontract.org/2004/07/"/>
+<xs:complexType name="DocumentType">
+<xs:sequence>
+<xs:element minOccurs="0" name="AutorizacionFactura" nillable="true" type="tns:AutorizacionType"/>
+<xs:element minOccurs="0" name="CompradorFactura" nillable="true" type="tns:CompradorType"/>
+<xs:element minOccurs="0" name="EmisorData" nillable="true" type="tns:EmisorType"/>
+<xs:element minOccurs="0" name="EncabezadoData" nillable="true" type="tns:EncabezadoType"/>
+<xs:element minOccurs="0" name="InfoMonetarioData" nillable="true" type="tns:InfoMonetarioType"/>
+<xs:element minOccurs="0" name="LsAdicionales" nillable="true" type="tns:ArrayOfAdicionalesType"/>
+<xs:element minOccurs="0" name="LsDetalle" nillable="true" type="tns:ArrayOfDetalleType"/>
+<xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/" minOccurs="0" name="LsDetalleCargos" nillable="true" type="q1:ArrayOfDetalleCargosType"/>
+<xs:element minOccurs="0" name="LsDetalleImpuesto" nillable="true" type="tns:ArrayOfImpuestoDetalleType"/>
+<xs:element minOccurs="0" name="LsImpuestos" nillable="true" type="tns:ArrayOfImpuestoType"/>
+<xs:element minOccurs="0" name="ReferenciaFactura" nillable="true" type="tns:ReferenciaType"/>
+<xs:element minOccurs="0" name="SoftwareSeguridad" nillable="true" type="tns:SoftwareSeguridadType"/>
+<xs:element minOccurs="0" name="lsAnticipos" nillable="true" type="tns:ArrayOfAnticipoType"/>
+<xs:element minOccurs="0" name="lsCargos" nillable="true" type="tns:ArrayOfCargosType"/>
+<xs:element minOccurs="0" name="lsDetalleNotas" nillable="true" type="tns:ArrayOfDetalleNotaType"/>
+<xs:element minOccurs="0" name="lsFormaPago" nillable="true" type="tns:ArrayOfFormaPagoType"/>
+<xs:element minOccurs="0" name="lsNotas" nillable="true" type="tns:ArrayOfNotaType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="DocumentType" nillable="true" type="tns:DocumentType"/>
+<xs:complexType name="AutorizacionType">
+<xs:sequence>
+<xs:element minOccurs="0" name="AutFechaFinal" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="AutFechaInicio" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="AutNumAutorizacion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="AutPrefijo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="AutSecuenciaFinal" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="AutSecuenciaInicio" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="AutorizacionType" nillable="true" type="tns:AutorizacionType"/>
+<xs:complexType name="CompradorType">
+<xs:sequence>
+<xs:element minOccurs="0" name="CompradorApellidos" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorCiudad" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorCodCiudad" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorCodDepartamento" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorCodPostal" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorCorreoElectronico" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorDVIdentificacion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorDepartamento" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorDireccion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorEnviarCorreo" type="xs:boolean"/>
+<xs:element minOccurs="0" name="CompradorIdentificacion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorImpuesto" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorNombreCompleto" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorNombrePais" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorNotaCont" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorPais" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorPrimerNombre" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorRazonSocial" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorRespFiscal" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorSector" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorSegundoNombre" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorTelefonoCont" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorTipoIdentificacion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorTipoPersona" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CompradorTipoRegimen" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="CompradorType" nillable="true" type="tns:CompradorType"/>
+<xs:complexType name="EmisorType">
+<xs:sequence>
+<xs:element minOccurs="0" name="EmiDVIdentificacion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="EmiIdentificacion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="EmiTipoIdentificacion" type="xs:int"/>
+<xs:element minOccurs="0" name="EmiTipoPersona" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="EmisorType" nillable="true" type="tns:EmisorType"/>
+<xs:complexType name="EncabezadoType">
+<xs:sequence>
+<xs:element minOccurs="0" name="FacCodOperacion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacFechaContingencia" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacFechaFin" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacFechaHoraFactura" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacFechaIni" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacRefContingencia" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTipoFactura" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTipoRefContingencia" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="EncabezadoType" nillable="true" type="tns:EncabezadoType"/>
+<xs:complexType name="InfoMonetarioType">
+<xs:sequence>
+<xs:element minOccurs="0" name="FacCodMoneda" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTotalAnticipos" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTotalBaseImponible" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTotalBrutoMasImp" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTotalCargos" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTotalDescuentos" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTotalFactura" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacTotalImporteBruto" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="InfoMonetarioType" nillable="true" type="tns:InfoMonetarioType"/>
+<xs:complexType name="ArrayOfAdicionalesType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="AdicionalesType" nillable="true" type="tns:AdicionalesType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfAdicionalesType" nillable="true" type="tns:ArrayOfAdicionalesType"/>
+<xs:complexType name="AdicionalesType">
+<xs:sequence>
+<xs:element minOccurs="0" name="Secuencia" type="xs:int"/>
+<xs:element minOccurs="0" name="ValorAtributo" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="AdicionalesType" nillable="true" type="tns:AdicionalesType"/>
+<xs:complexType name="ArrayOfDetalleType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="DetalleType" nillable="true" type="tns:DetalleType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfDetalleType" nillable="true" type="tns:ArrayOfDetalleType"/>
+<xs:complexType name="DetalleType">
+<xs:sequence>
+<xs:element minOccurs="0" name="Cantidad" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Codificacion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Codigo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CodigoEstandar" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Descripcion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DetFacConsecutivo" type="xs:int"/>
+<xs:element minOccurs="0" name="Marca" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Modelo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PrecioSinImpuestos" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PrecioTotal" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PrecioUnitario" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="TamañoPaquete" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="UnidadMedida" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Vencimiento" type="xs:dateTime"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="DetalleType" nillable="true" type="tns:DetalleType"/>
+<xs:complexType name="ArrayOfImpuestoDetalleType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="ImpuestoDetalleType" nillable="true" type="tns:ImpuestoDetalleType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfImpuestoDetalleType" nillable="true" type="tns:ArrayOfImpuestoDetalleType"/>
+<xs:complexType name="ImpuestoDetalleType">
+<xs:sequence>
+<xs:element minOccurs="0" name="BaseImponible" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CodigoImpuesto" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="EsRetencionImpuesto" type="xs:boolean"/>
+<xs:element minOccurs="0" name="NombreImpuesto" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Porcentaje" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Secuencia" type="xs:int"/>
+<xs:element minOccurs="0" name="ValorImpuesto" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ImpuestoDetalleType" nillable="true" type="tns:ImpuestoDetalleType"/>
+<xs:complexType name="ArrayOfImpuestoType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="ImpuestoType" nillable="true" type="tns:ImpuestoType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfImpuestoType" nillable="true" type="tns:ArrayOfImpuestoType"/>
+<xs:complexType name="ImpuestoType">
+<xs:sequence>
+<xs:element minOccurs="0" name="BaseImponible" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CodigoImpuesto" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="EsRetencionImpuesto" type="xs:boolean"/>
+<xs:element minOccurs="0" name="NombreImpuesto" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Porcentaje" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="ValorImpuesto" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ImpuestoType" nillable="true" type="tns:ImpuestoType"/>
+<xs:complexType name="ReferenciaType">
+<xs:sequence>
+<xs:element minOccurs="0" name="ConceptoNota" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CufeFactura" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DescNatCorreccion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FechaFactura" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="NumeroFactura" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ReferenciaType" nillable="true" type="tns:ReferenciaType"/>
+<xs:complexType name="SoftwareSeguridadType">
+<xs:sequence>
+<xs:element minOccurs="0" name="ClaveTecnica" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="CodigoErp" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="GuidEmpresa" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="GuidOrigen" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="HashSeguridad" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="NumeroDocumento" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="TipoDocumento" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="SoftwareSeguridadType" nillable="true" type="tns:SoftwareSeguridadType"/>
+<xs:complexType name="ArrayOfAnticipoType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="AnticipoType" nillable="true" type="tns:AnticipoType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfAnticipoType" nillable="true" type="tns:ArrayOfAnticipoType"/>
+<xs:complexType name="AnticipoType">
+<xs:sequence>
+<xs:element minOccurs="0" name="FacAnticipoFecha" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacAnticipoSec" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacAnticipoTotal" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="AnticipoType" nillable="true" type="tns:AnticipoType"/>
+<xs:complexType name="ArrayOfCargosType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="CargosType" nillable="true" type="tns:CargosType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfCargosType" nillable="true" type="tns:ArrayOfCargosType"/>
+<xs:complexType name="CargosType">
+<xs:sequence>
+<xs:element minOccurs="0" name="FacCargoBase" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacCargoPorc" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacCargoRazon" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacCargoSecuencia" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacCargoTipo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacCargoTotal" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacCodDescuento" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="CargosType" nillable="true" type="tns:CargosType"/>
+<xs:complexType name="ArrayOfDetalleNotaType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="DetalleNotaType" nillable="true" type="tns:DetalleNotaType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfDetalleNotaType" nillable="true" type="tns:ArrayOfDetalleNotaType"/>
+<xs:complexType name="DetalleNotaType">
+<xs:sequence>
+<xs:element minOccurs="0" name="DetSecuencia" type="xs:int"/>
+<xs:element minOccurs="0" name="Nota" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Secuencia" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="DetalleNotaType" nillable="true" type="tns:DetalleNotaType"/>
+<xs:complexType name="ArrayOfFormaPagoType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="FormaPagoType" nillable="true" type="tns:FormaPagoType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfFormaPagoType" nillable="true" type="tns:ArrayOfFormaPagoType"/>
+<xs:complexType name="FormaPagoType">
+<xs:sequence>
+<xs:element minOccurs="0" name="FacFormaPago" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacMetodoPago" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="FacVencimientoFac" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="FormaPagoType" nillable="true" type="tns:FormaPagoType"/>
+<xs:complexType name="ArrayOfNotaType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="NotaType" nillable="true" type="tns:NotaType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfNotaType" nillable="true" type="tns:ArrayOfNotaType"/>
+<xs:complexType name="NotaType">
+<xs:sequence>
+<xs:element minOccurs="0" name="DescripcionCabecera" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="NotaType" nillable="true" type="tns:NotaType"/>
+<xs:complexType name="ResponseType">
+<xs:sequence>
+<xs:element minOccurs="0" name="CodigoTransaccion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DetalleRespuesta" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Detalles" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="NumeroTransaccion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="PDFBase64" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Proceso" nillable="true" type="tns:ArrayOfProcesoType"/>
+<xs:element minOccurs="0" name="TipoTransaccion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="XML" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ResponseType" nillable="true" type="tns:ResponseType"/>
+<xs:complexType name="ArrayOfProcesoType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="ProcesoType" nillable="true" type="tns:ProcesoType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfProcesoType" nillable="true" type="tns:ArrayOfProcesoType"/>
+<xs:complexType name="ProcesoType">
+<xs:sequence>
+<xs:element minOccurs="0" name="FechaHoraAccion" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Mensaje" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="Order" type="xs:decimal"/>
+<xs:element minOccurs="0" name="Proceso" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ProcesoType" nillable="true" type="tns:ProcesoType"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/">
+<xs:complexType name="ArrayOfDetalleCargosType">
+<xs:sequence>
+<xs:element minOccurs="0" maxOccurs="unbounded" name="DetalleCargosType" nillable="true" type="tns:DetalleCargosType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="ArrayOfDetalleCargosType" nillable="true" type="tns:ArrayOfDetalleCargosType"/>
+<xs:complexType name="DetalleCargosType">
+<xs:sequence>
+<xs:element minOccurs="0" name="DetCargoBase" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DetCargoPorc" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DetCargoRazon" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DetCargoSecuencia" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DetCargoTipo" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DetCargoTotal" nillable="true" type="xs:string"/>
+<xs:element minOccurs="0" name="DetSecuencia" nillable="true" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="DetalleCargosType" nillable="true" type="tns:DetalleCargosType"/>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="IService_SetDocument_InputMessage">
+<wsdl:part name="parameters" element="tns:SetDocument"/>
+</wsdl:message>
+<wsdl:message name="IService_SetDocument_OutputMessage">
+<wsdl:part name="parameters" element="tns:SetDocumentResponse"/>
+</wsdl:message>
+<wsdl:message name="IService_GetTransaccion_InputMessage">
+<wsdl:part name="parameters" element="tns:GetTransaccion"/>
+</wsdl:message>
+<wsdl:message name="IService_GetTransaccion_OutputMessage">
+<wsdl:part name="parameters" element="tns:GetTransaccionResponse"/>
+</wsdl:message>
+<wsdl:message name="IService_GetTransaccionbyIdentificacion_InputMessage">
+<wsdl:part name="parameters" element="tns:GetTransaccionbyIdentificacion"/>
+</wsdl:message>
+<wsdl:message name="IService_GetTransaccionbyIdentificacion_OutputMessage">
+<wsdl:part name="parameters" element="tns:GetTransaccionbyIdentificacionResponse"/>
+</wsdl:message>
+<wsdl:message name="IService_SetDocumentJson_InputMessage">
+<wsdl:part name="parameters" element="tns:SetDocumentJson"/>
+</wsdl:message>
+<wsdl:message name="IService_SetDocumentJson_OutputMessage">
+<wsdl:part name="parameters" element="tns:SetDocumentJsonResponse"/>
+</wsdl:message>
+<wsdl:message name="IService_GetTransaccionJson_InputMessage">
+<wsdl:part name="parameters" element="tns:GetTransaccionJson"/>
+</wsdl:message>
+<wsdl:message name="IService_GetTransaccionJson_OutputMessage">
+<wsdl:part name="parameters" element="tns:GetTransaccionJsonResponse"/>
+</wsdl:message>
+<wsdl:message name="IService_GetTransaccionbyIdentificacionJson_InputMessage">
+<wsdl:part name="parameters" element="tns:GetTransaccionbyIdentificacionJson"/>
+</wsdl:message>
+<wsdl:message name="IService_GetTransaccionbyIdentificacionJson_OutputMessage">
+<wsdl:part name="parameters" element="tns:GetTransaccionbyIdentificacionJsonResponse"/>
+</wsdl:message>
+<wsdl:message name="IService_Status_InputMessage">
+<wsdl:part name="parameters" element="tns:Status"/>
+</wsdl:message>
+<wsdl:message name="IService_Status_OutputMessage">
+<wsdl:part name="parameters" element="tns:StatusResponse"/>
+</wsdl:message>
+<wsdl:portType name="IService">
+<wsdl:operation name="SetDocument">
+<wsdl:input wsaw:Action="http://tempuri.org/IService/SetDocument" message="tns:IService_SetDocument_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/IService/SetDocumentResponse" message="tns:IService_SetDocument_OutputMessage"/>
+</wsdl:operation>
+<wsdl:operation name="GetTransaccion">
+<wsdl:input wsaw:Action="http://tempuri.org/IService/GetTransaccion" message="tns:IService_GetTransaccion_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/IService/GetTransaccionResponse" message="tns:IService_GetTransaccion_OutputMessage"/>
+</wsdl:operation>
+<wsdl:operation name="GetTransaccionbyIdentificacion">
+<wsdl:input wsaw:Action="http://tempuri.org/IService/GetTransaccionbyIdentificacion" message="tns:IService_GetTransaccionbyIdentificacion_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/IService/GetTransaccionbyIdentificacionResponse" message="tns:IService_GetTransaccionbyIdentificacion_OutputMessage"/>
+</wsdl:operation>
+<wsdl:operation name="SetDocumentJson">
+<wsdl:input wsaw:Action="http://tempuri.org/IService/SetDocumentJson" message="tns:IService_SetDocumentJson_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/IService/SetDocumentJsonResponse" message="tns:IService_SetDocumentJson_OutputMessage"/>
+</wsdl:operation>
+<wsdl:operation name="GetTransaccionJson">
+<wsdl:input wsaw:Action="http://tempuri.org/IService/GetTransaccionJson" message="tns:IService_GetTransaccionJson_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/IService/GetTransaccionJsonResponse" message="tns:IService_GetTransaccionJson_OutputMessage"/>
+</wsdl:operation>
+<wsdl:operation name="GetTransaccionbyIdentificacionJson">
+<wsdl:input wsaw:Action="http://tempuri.org/IService/GetTransaccionbyIdentificacionJson" message="tns:IService_GetTransaccionbyIdentificacionJson_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/IService/GetTransaccionbyIdentificacionJsonResponse" message="tns:IService_GetTransaccionbyIdentificacionJson_OutputMessage"/>
+</wsdl:operation>
+<wsdl:operation name="Status">
+<wsdl:input wsaw:Action="http://tempuri.org/IService/Status" message="tns:IService_Status_InputMessage"/>
+<wsdl:output wsaw:Action="http://tempuri.org/IService/StatusResponse" message="tns:IService_Status_OutputMessage"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="BasicHttpsBinding_IService" type="tns:IService">
+<wsp:PolicyReference URI="#BasicHttpsBinding_IService_policy"/>
+<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="SetDocument">
+<soap:operation soapAction="http://tempuri.org/IService/SetDocument" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="GetTransaccion">
+<soap:operation soapAction="http://tempuri.org/IService/GetTransaccion" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="GetTransaccionbyIdentificacion">
+<soap:operation soapAction="http://tempuri.org/IService/GetTransaccionbyIdentificacion" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="SetDocumentJson">
+<soap:operation soapAction="http://tempuri.org/IService/SetDocumentJson" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="GetTransaccionJson">
+<soap:operation soapAction="http://tempuri.org/IService/GetTransaccionJson" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="GetTransaccionbyIdentificacionJson">
+<soap:operation soapAction="http://tempuri.org/IService/GetTransaccionbyIdentificacionJson" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="Status">
+<soap:operation soapAction="http://tempuri.org/IService/Status" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="Service">
+<wsdl:port name="BasicHttpsBinding_IService" binding="tns:BasicHttpsBinding_IService">
+<soap:address location="https://demo.conexusit.com/ServicioWCF/Service.svc"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

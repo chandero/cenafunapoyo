@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TfrxReport Version="4.15.13" DotMatrixReport="False" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42921.3757326505" ReportOptions.Description.Text="" ReportOptions.LastChange="42928.4256293403" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end." PropData="044C65667403980003546F70027008446174617365747301010C3400000020446174615365743D22667278444244617461736574312220446174615365744E616D653D2266727844424461746173657431220000095661726961626C65730100055374796C650100">
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxReportPage Name="Page1" PaperWidth="215.9" PaperHeight="279.4" PaperSize="1" LeftMargin="2.64583333333333" RightMargin="2.64583333333333" TopMargin="10.00125" BottomMargin="10.00125" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="">
+    <TfrxPageHeader Name="PageHeader1" Height="64" Left="0" Top="16" Width="796.000514083333">
+      <TfrxMemoView Name="Memo1" Left="0" Top="0" Width="716" Height="20" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="1" HAlign="haCenter" ParentFont="False" Text="REPORTE DE ASESORES EXTERNOS"/>
+      <TfrxMemoView Name="Memo10" Left="4" Top="44" Width="112" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="COLOCACION"/>
+      <TfrxMemoView Name="Memo11" Left="120" Top="44" Width="220" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="CLIENTE"/>
+      <TfrxMemoView Name="Memo12" Left="340" Top="44" Width="92" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="AÑO"/>
+      <TfrxMemoView Name="Memo13" Left="432" Top="44" Width="88" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="MES"/>
+      <TfrxMemoView Name="Memo14" Left="520" Top="44" Width="88" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="INTERES"/>
+      <TfrxMemoView Name="Memo15" Left="608" Top="44" Width="88" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="COMISION"/>
+      <TfrxMemoView Name="Memo16" Left="696" Top="44" Width="88" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="0" HAlign="haCenter" ParentFont="False" Text="SE PAGA"/>
+    </TfrxPageHeader>
+    <TfrxMasterData Name="MasterData1" Height="20" Left="0" Top="180" Width="796.000514083333" ColumnWidth="0" ColumnGap="0" DataSet="frxDBDataset1" DataSetName="frxDBDataset1" RowCount="0">
+      <TfrxMemoView Name="Memo5" Left="120" Top="0" Width="224" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[(&#60;frxDBDataset1.&#34;CLIENTE&#34;&#62;)]"/>
+      <TfrxMemoView Name="Memo6" Left="344" Top="0" Width="88" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[(&#60;frxDBDataset1.&#34;ANHO&#34;&#62;)]"/>
+      <TfrxMemoView Name="Memo7" Left="432" Top="0" Width="88" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[(&#60;frxDBDataset1.&#34;PERIODO&#34;&#62;)]"/>
+      <TfrxMemoView Name="Memo8" Left="520" Top="0" Width="88" Height="16" ShowHint="False" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="[(&#60;frxDBDataset1.&#34;INTERES&#34;&#62;)]"/>
+      <TfrxMemoView Name="Memo9" Left="608" Top="0" Width="92" Height="16" ShowHint="False" DisplayFormat.FormatStr="%2.2n" DisplayFormat.Kind="fkNumeric" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" HAlign="haRight" ParentFont="False" Text="[(&#60;frxDBDataset1.&#34;COMISION&#34;&#62;)]"/>
+      <TfrxCheckBoxView Name="CheckBox1" Left="701" Top="0" Width="90.89765" Height="14.89765" ShowHint="False" CheckColor="0" CheckStyle="csCross" DataField="PAGA" DataSet="frxDBDataset1" DataSetName="frxDBDataset1"/>
+      <TfrxMemoView Name="Memo4" Left="0" Top="0" Width="116" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="0" ParentFont="False" Text="[(&#60;frxDBDataset1.&#34;ID_COLOCACION&#34;&#62;)]"/>
+    </TfrxMasterData>
+    <TfrxGroupHeader Name="GroupHeader1" Height="20" Left="0" Top="140" Width="796.000514083333" Condition="frxDBDataset1.&#34;ID_ASESOR&#34;">
+      <TfrxMemoView Name="Memo2" Left="4" Top="0" Width="64" Height="16" ShowHint="False" Text="ASESOR:"/>
+      <TfrxMemoView Name="Memo3" Left="244" Top="0" Width="548" Height="16" ShowHint="False" Text="[(&#60;frxDBDataset1.&#34;ASESOR&#34;&#62;)]"/>
+      <TfrxMemoView Name="Memo19" Left="72" Top="0" Width="168" Height="16" ShowHint="False" Text="[frxDBDataset1.&#34;DOCUMENTO&#34;]"/>
+    </TfrxGroupHeader>
+    <TfrxGroupFooter Name="GroupFooter1" Height="17" Left="0" Top="220" Width="796.000514083333">
+      <TfrxMemoView Name="Memo17" Left="384" Top="1" Width="200" Height="16" ShowHint="False" Font.Charset="1" Font.Color="0" Font.Height="-13" Font.Name="Arial" Font.Style="1" ParentFont="False" Text="TOTAL COMISION A PAGAR"/>
+      <TfrxMemoView Name="Memo18" Left="588" Top="0" Width="112" Height="16" ShowHint="False" DisplayFormat.FormatStr="%2.2m" DisplayFormat.Kind="fkNumeric" Font.Charset="1" Font.Color="0" Font.Height="-11" Font.Name="Arial" Font.Style="1" HAlign="haRight" ParentFont="False" Text="[SUM(&#60;frxDBDataset1.&#34;COMISION&#34;&#62;,MasterData1)]"/>
+    </TfrxGroupFooter>
+  </TfrxReportPage>
+</TfrxReport>

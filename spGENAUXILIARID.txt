@@ -1,0 +1,28 @@
+INSERT INTO "con$auxiliarext" (ID, DETALLE, CHEQUE,ID_COMPROBANTE, TIPO_COMPROBANTE,ID_AGENCIA) VALUES (:ID,:DETALLE,:CHEQUE,:ID_COMPROBANTE,:TIPO_COMPROBANTE,:ID_AGENCIA)           
+
+
+ IBQinsauxiliarext.Close;
+            IBQinsauxiliarext.ParamByName('ID').AsInteger := idauxiliar;
+            IBQinsauxiliarext.ParamByName('DETALLE').AsString := Arecord^.detalle;
+            IBQinsauxiliarext.ParamByName('CHEQUE').AsString := Arecord^.cheque;
+            IBQinsauxiliarext.ParamByName('TIPO_COMPROBANTE').AsInteger := dblcbtipo.KeyValue;
+            IBQinsauxiliarext.ParamByName('ID_COMPROBANTE').AsString := vid_comprobante;
+            IBQinsauxiliarext.ParamByName('ID_AGENCIA').AsInteger:= Agencia;            
+            IBQinsauxiliarext.ExecSQL;
+
+
+
+            spGetAuxiliarID.ExecProc;
+            idauxiliar :=  spGetAuxiliarID.ParamByName('ID').AsInteger;
+
+            Close;
+            SQL.Clear;
+            SQL.Add('INSERT INTO "con$auxiliarext" (ID, DETALLE, CHEQUE,ID_COMPROBANTE, TIPO_COMPROBANTE,ID_AGENCIA) VALUES (:ID,:DETALLE,:CHEQUE,:ID_COMPROBANTE,:TIPO_COMPROBANTE,:ID_AGENCIA)');
+            ParamByName('ID').AsInteger := idauxiliar;
+            ParamByName('DETALLE').AsString := 'AJUSTE CALIFICACION, CAUSACION Y PROVISION DE CARTERA EN LA FECHA';
+            ParamByName('CHEQUE').AsString := '';
+            ParamByName('TIPO_COMPROBANTE').AsInteger := 1;
+            ParamByName('ID_COMPROBANTE').AsInteger := Consecutivo;
+            ParamByName('ID_AGENCIA').AsInteger:= Agencia;
+            ExecQuery;
+
