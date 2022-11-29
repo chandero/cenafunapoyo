@@ -155,7 +155,11 @@ begin
         else
         begin
            FechaInicialSaldoInicial := EncodeDate(DBAnho,01,01);
+<<<<<<< HEAD
            FechaFinalSaldoInicial := IncDay(EdFechaInicial.Date, -1);
+=======
+           FechaFinalSaldoInicial := Int(IncDay(EdFechaInicial.Date, -1));
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
            IBQsaldoanterior.ParamByName('FECHA_INICIAL').AsDate := FechaInicialSaldoInicial;
            IBQsaldoanterior.ParamByName('FECHA_FINAL').AsDate := FechaFinalSaldoInicial;
            IBQsaldoanterior.ParamByName('ESTADO').AsString := 'N'; 
@@ -217,7 +221,10 @@ begin
             IBQmovimiento.ParamByName('ID_IDENTIFICACION').AsInteger := CBtiposid.KeyValue;
             IBQmovimiento.ParamByName('ID_PERSONA').AsString := EdNumeroIdentificacion.Text;
         end;
+<<<<<<< HEAD
         
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
         CDSauxiliar.EmptyDataSet;
         CDSauxiliarext.EmptyDataSet;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [FileVersion]
 Version=6.0
 [Compiler]
@@ -74,3 +75,7 @@ Private=0
 DLL=0
 Locale=3082
 CodePage=1252
+=======
+[FileVersion]
+Version=6.0
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee

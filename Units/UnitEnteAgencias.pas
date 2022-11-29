@@ -307,7 +307,11 @@ implementation
 uses UnitDmSolicitud, UnitAnalisisPago, UnitDesreferencias,
   UnitCreditosFianzas, UnitDescObservacion, UnitInfGeneral, UnitImpresion,
   UnitMain, UnitConsultaProductos, unitGlobales, UnitProgreso,
+<<<<<<< HEAD
   UnitPantallaProgreso, UnitInformacionBancoldexEnte, UnitGlobalesCol;
+=======
+  UnitPantallaProgreso,ZLibEx, UnitInformacionBancoldexEnte, UnitGlobalesCol;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 {$R *.dfm}
 

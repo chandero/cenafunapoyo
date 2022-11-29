@@ -119,11 +119,15 @@ uses
   UnitAuxiliarCentro in 'units\UnitAuxiliarCentro.pas' {frmAuxiliarCentro},
   UnitInformeRecaudoCartera in 'units\UnitInformeRecaudoCartera.pas' {frmInformeRecaudoCartera},
   UnitSendEmail in '\\VBoxSvr\cena\cenafunapoyo\Units\UnitSendEmail.pas',
+<<<<<<< HEAD
   EASendMailObjLib_TLB in 'C:\Archivos de programa\EASendMail\Include\delphi\EASendMailObjLib_TLB.pas',
   UnitBalanceGralDetalladoAnyo in '\\VBOXSVR\cena\cenafunapoyo\Modulos\Modulo Contabilidad\units\UnitBalanceGralDetalladoAnyo.pas' {frmBalanceGralDetalladoAnyo},
   UnitDocumentoSoporte in 'units\UnitDocumentoSoporte.pas' {frmDocumentoSoporte},
   UnitFacturar in '\\VBOXSVR\cena\cenafunapoyo\Units\UnitFacturar.pas',
   wsdl_conexus in '\\VBOXSVR\cena\cenafunapoyo\Units\wsdl_conexus.pas';
+=======
+  EASendMailObjLib_TLB in 'C:\Archivos de programa\EASendMail\Include\delphi\EASendMailObjLib_TLB.pas';
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 {$R *.res}
 

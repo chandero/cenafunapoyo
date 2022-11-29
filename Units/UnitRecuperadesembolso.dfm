@@ -610,10 +610,13 @@ object FrmRecuperarInforme: TFrmRecuperarInforme
     Left = 24
     Top = 96
   end
+<<<<<<< HEAD
   object IBSQL4: TIBSQL
     Database = dmGeneral.IBDatabase1
     Transaction = IBtranreporte
     Left = 64
     Top = 96
   end
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end

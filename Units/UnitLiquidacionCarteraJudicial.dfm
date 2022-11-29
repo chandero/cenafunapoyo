@@ -1,6 +1,11 @@
 object frmLiquidacionCarteraJudicial: TfrmLiquidacionCarteraJudicial
+<<<<<<< HEAD
   Left = 726
   Top = 224
+=======
+  Left = 432
+  Top = 19
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   Width = 582
   Height = 642
   Caption = 'Liquidacion Manual de Cartera'

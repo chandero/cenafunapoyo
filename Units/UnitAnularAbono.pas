@@ -172,18 +172,30 @@ begin
 
         _ibquery.Close;
         _ibquery.SQL.Clear;
+<<<<<<< HEAD
         _ibquery.SQL.Add('UPDATE "con$comprobante" SET ESTADO = :ESTADO WHERE ID_COMPROBANTE = :ID_COMPROBANTE and TIPO_COMPROBANTE IN (1,15) AND FECHADIA = :FECHADIA');
         _ibquery.ParamByName('ESTADO').AsString := 'N';
         _ibquery.ParamByName('ID_COMPROBANTE').AsInteger := vComprobante;
         _ibquery.ParamByName('FECHADIA').AsDate := vFecha;
+=======
+        _ibquery.SQL.Add('UPDATE "con$comprobante" SET ESTADO = :ESTADO WHERE ID_COMPROBANTE = :ID_COMPROBANTE and TIPO_COMPROBANTE IN (1,15)');
+        _ibquery.ParamByName('ESTADO').AsString := 'N';
+        _ibquery.ParamByName('ID_COMPROBANTE').AsInteger := vComprobante;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         _ibquery.ExecSQL;
 
         _ibquery.Close;
         _ibquery.SQL.Clear;
+<<<<<<< HEAD
         _ibquery.SQL.Add('UPDATE "con$auxiliar" SET ESTADOAUX = :ESTADO WHERE ID_COMPROBANTE = :ID_COMPROBANTE and TIPO_COMPROBANTE IN (1,15) AND FECHA = :FECHA');
         _ibquery.ParamByName('ESTADO').AsString := 'N';
         _ibquery.ParamByName('ID_COMPROBANTE').AsInteger := vComprobante;
         _ibquery.ParamByName('FECHA').AsDate := vFecha;
+=======
+        _ibquery.SQL.Add('UPDATE "con$auxiliar" SET ESTADOAUX = :ESTADO WHERE ID_COMPROBANTE = :ID_COMPROBANTE and TIPO_COMPROBANTE IN (1,15)');
+        _ibquery.ParamByName('ESTADO').AsString := 'N';
+        _ibquery.ParamByName('ID_COMPROBANTE').AsInteger := vComprobante;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         _ibquery.ExecSQL;
 
         _ibquery.Transaction.Commit;

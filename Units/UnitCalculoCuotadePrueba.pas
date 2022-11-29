@@ -1214,8 +1214,13 @@ begin
      frmMuestroLiquidacionColocacion.Lista := CuotasLiq.Lista;
      frmMuestroLiquidacionColocacion.TotalLiquidacion := vTotalLiquidacion;
      frmMuestroLiquidacionColocacion.Asociado := EdNombre.Caption;
+<<<<<<< HEAD
      frmMuestroLiquidacionColocacion.FechaCorte := EdFechaCorte.Date;
      frmMuestroLiquidacionColocacion.FechaNota := EdFechaNota.Date;
+=======
+//     frmMuestroLiquidacionColocacion.FechaCorte := EdFechaCorte.Date;
+     frmMuestroLiquidacionColocacion.FechaCorte := EdFechaNota.Date;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
      frmMuestroLiquidacionColocacion.ProximaCuota := CuotasLiq.FechaProx;
      frmMuestroLiquidacionColocacion.NuevoSaldo := CuotasLiq.NuevoSaldo;
      frmMuestroLiquidacionColocacion.InteresesHasta := CuotasLiq.InteresesHasta;

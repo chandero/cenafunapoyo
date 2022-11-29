@@ -1,8 +1,15 @@
 object FrmDesembolso: TFrmDesembolso
+<<<<<<< HEAD
   Left = 242
   Top = 131
   Width = 913
   Height = 690
+=======
+  Left = 2
+  Top = 1
+  Width = 638
+  Height = 448
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   BorderIcons = [biSystemMenu]
   Caption = 'Nueva Colocacion'
   Color = clBtnFace
@@ -1220,12 +1227,19 @@ object FrmDesembolso: TFrmDesembolso
       Height = 21
       Alignment = taRightJustify
       Color = clWhite
+<<<<<<< HEAD
       ReadOnly = True
+=======
+      ReadOnly = False
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
       TabOrder = 19
       OnKeyPress = EdValorAporteKeyPress
       HasMaxValue = False
       HasMinValue = False
+<<<<<<< HEAD
       ClipBoardCommands = [caCopy]
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     end
     object EdValorAsobancaria: TJvCurrencyEdit
       Left = 569
@@ -1243,8 +1257,13 @@ object FrmDesembolso: TFrmDesembolso
   end
   object Panel4: TPanel
     Left = 0
+<<<<<<< HEAD
     Top = 627
     Width = 905
+=======
+    Top = 592
+    Width = 653
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     Height = 29
     Align = alBottom
     Color = clOlive

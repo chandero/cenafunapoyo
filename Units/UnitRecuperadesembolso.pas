@@ -3,10 +3,17 @@ unit UnitRecuperadesembolso;
 interface
 
 uses
+<<<<<<< HEAD
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Math,
   Dialogs, DBCtrls, StdCtrls, ExtCtrls, Buttons, DB, IBCustomDataSet,
   IBQuery, FR_DSet, FR_DBSet, FR_Class, IBDatabase, DBClient, UnitDmGeneral,
   NLetra, IBSQL;
+=======
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, DBCtrls, StdCtrls, ExtCtrls, Buttons, DB, IBCustomDataSet,
+  IBQuery, FR_DSet, FR_DBSet, FR_Class, IBDatabase, DBClient, UnitDmGeneral,
+  NLetra;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 type
   TFrmRecuperarInforme = class(TForm)
@@ -59,7 +66,10 @@ type
     CDSADescontarVALOR: TCurrencyField;
     NLetra1: TNLetra;
     IBQDescuento: TIBQuery;
+<<<<<<< HEAD
     IBSQL4: TIBSQL;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -161,8 +171,11 @@ begin
         IBQueryGarPersonal.Database := dmGeneral.IBDatabase1;
         IBQDescuento.Database := dmGeneral.IBDatabase1;
         IBQDescuento.Transaction := IBtranreporte;
+<<<<<<< HEAD
         IBSQL4.Database := dmGeneral.IBDatabase1;
         IBSQL4.Transaction := IBtranreporte;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
         IBtranreporte.StartTransaction;
         IBTransaction6.StartTransaction;
@@ -183,8 +196,13 @@ end;
 procedure TFrmRecuperarInforme.recupera_informe;
 var
 PuntosAdic: Double;
+<<<<<<< HEAD
 Saldo,valor_colocacion,vColocacion, valorAporte, valorTotalAporte, valorAporteCobrado :Currency;
 vAmortizaCapital, vPlazoAporte: Integer;
+=======
+Saldo,valor_colocacion,vColocacion :Currency;
+vAmortizaCapital: Integer;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 begin
         Empleado;
         vAmortizaCapital := vAmortiza;
@@ -240,7 +258,11 @@ begin
                 TasaNominal := TasaNominalVencida(FieldByName('TASA_INTERES_CORRIENTE').AsFloat,FieldByName('AMORTIZA_INTERES').AsInteger) + PuntosAdic;
         end;
         valor_colocacion := Saldo;
+<<<<<<< HEAD
         valorAporteCobrado := 0;
+=======
+
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
           // Cargar descuentos a aplicar en cuotas
              IBQDescuento.Close;
              IBQDescuento.SQL.Clear;
@@ -262,6 +284,7 @@ begin
              CDSDescuento.First;
           // fin
 
+<<<<<<< HEAD
              // Buscar Valor Aporte
             IBSQL4.Close;
             IBSQL4.SQL.Clear;
@@ -277,6 +300,8 @@ begin
              valorAporte := SimpleRoundTo(valorTotalAporte / vPlazoAporte, 0);
             end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         with IBQuerytabla do
         begin
              SQL.Clear;
@@ -288,6 +313,7 @@ begin
              Open;
              Last;
              First;
+<<<<<<< HEAD
              valorAporteCobrado := 0;
              while not Eof do
              begin
@@ -297,12 +323,21 @@ begin
                  valorAporte := valorTotalAporte - valorAporteCobrado;
                end;
                valorAporteCobrado := valorAporteCobrado + valorAporte;
+=======
+             while not Eof do
+             begin
+               valor_colocacion := valor_colocacion - FieldByName('CAPITAL_A_PAGAR').AsCurrency;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                CDliquidacion.Append;
                CDliquidacion.FieldValues['cuota_numero'] := FieldByName('CUOTA_NUMERO').AsInteger;
                CDliquidacion.FieldValues['fecha_a_pagar'] := FieldByName('FECHA_A_PAGAR').AsDateTime;
                CDliquidacion.FieldValues['capital_a_pagar'] := FieldByName('CAPITAL_A_PAGAR').AsCurrency;
                CDliquidacion.FieldValues['interes_a_pagar'] := FieldByName('INTERES_A_PAGAR').AsCurrency;
+<<<<<<< HEAD
                CDliquidacion.FieldValues['otros'] := valorAporte;
+=======
+               CDliquidacion.FieldValues['otros'] := 0;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                CDliquidacion.FieldValues['saldo'] := valor_colocacion ;
                CDliquidacion.FieldValues['totalcuota'] := FieldByName('TOTALCUOTA').AsCurrency;
                CDliquidacion.Post;

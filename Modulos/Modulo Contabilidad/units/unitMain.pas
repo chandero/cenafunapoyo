@@ -117,7 +117,10 @@ type
     BalanceGeneralporCentro1: TMenuItem;
     Auxiliar1: TMenuItem;
     RecaudodeCartera1: TMenuItem;
+<<<<<<< HEAD
     BalanceGeneralDetalladoAo1: TMenuItem;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     procedure Configurar_ImpresoraExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -193,7 +196,10 @@ type
     procedure BalanceGeneralporCentro1Click(Sender: TObject);
     procedure Auxiliar1Click(Sender: TObject);
     procedure RecaudodeCartera1Click(Sender: TObject);
+<<<<<<< HEAD
     procedure BalanceGeneralDetalladoAo1Click(Sender: TObject);
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   private
     { Private declarations }
     SalirMal:Boolean;
@@ -232,8 +238,12 @@ uses unitLogin, IniFiles,
      UnitCreaciondePersona, UnitPlanillaConsolidada, UnitBalanceporOficinas,
      UnitBalanceConsolidadoTxt, UnitExportarSaldos, UnitCambios, UnitExtractoCredito,
      UnitGestionTercero, UnitAuxiliarTercero, unitAuxiliar, unitBalance, unitMayorYBalance, UnitConsultaComprobantes,
+<<<<<<< HEAD
      UnitInformeIngresosGastosporCentro, UnitInformeBalanceGeneralporCentro, UnitAuxiliarCentro, UnitInformeRecaudoCartera,
      UnitBalanceGralDetalladoAnyo;
+=======
+     UnitInformeIngresosGastosporCentro, UnitInformeBalanceGeneralporCentro, UnitAuxiliarCentro, UnitInformeRecaudoCartera;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 procedure TfrmMain.Configurar_ImpresoraExecute(Sender: TObject);
 begin
@@ -969,6 +979,7 @@ begin
 
 end;
 
+<<<<<<< HEAD
 procedure TfrmMain.BalanceGeneralDetalladoAo1Click(Sender: TObject);
 var frmBalanceGralDetalladoAnho: TfrmBalanceGralDetalladoAnyo;
 begin
@@ -976,4 +987,6 @@ begin
         frmBalanceGralDetalladoAnho.ShowModal;
 end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end.

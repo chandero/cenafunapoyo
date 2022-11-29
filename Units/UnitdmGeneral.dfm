@@ -2,8 +2,13 @@ object dmGeneral: TdmGeneral
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
+<<<<<<< HEAD
   Left = 241
   Height = 84
+=======
+  Left = 338
+  Height = 196
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   Width = 273
   object IBDatabase1: TIBDatabase
     DatabaseName = '10.0.2.2:C:\opt\db\funapoyo.fdb'

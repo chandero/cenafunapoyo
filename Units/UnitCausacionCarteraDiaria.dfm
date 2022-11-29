@@ -1,6 +1,11 @@
 object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
+<<<<<<< HEAD
   Left = 211
   Top = 83
+=======
+  Left = 175
+  Top = 190
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Causaci'#243'n de Colocaciones'
@@ -700,6 +705,10 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
         Height = 251
         Align = alTop
         Color = clWhite
+<<<<<<< HEAD
+=======
+        ColCount = 4
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         DefaultRowHeight = 16
         FixedCols = 0
         RowCount = 2
@@ -713,10 +722,15 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
             HeaderFont.Height = -11
             HeaderFont.Name = 'MS Sans Serif'
             HeaderFont.Style = []
+<<<<<<< HEAD
             HeaderAlignment = taCenter
             Caption = 'CODIGO'
             Color = clWhite
             Width = 108
+=======
+            Color = clWhite
+            Width = 65
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -730,10 +744,15 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
             HeaderFont.Height = -11
             HeaderFont.Name = 'MS Sans Serif'
             HeaderFont.Style = []
+<<<<<<< HEAD
             HeaderAlignment = taCenter
             Caption = 'CENTRO'
             Color = clWhite
             Width = 55
+=======
+            Color = clWhite
+            Width = 95
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -747,10 +766,14 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
             HeaderFont.Height = -11
             HeaderFont.Name = 'MS Sans Serif'
             HeaderFont.Style = []
+<<<<<<< HEAD
             HeaderAlignment = taCenter
             Caption = 'CUENTA'
             Color = clWhite
             Width = 336
+=======
+            Color = clWhite
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -765,6 +788,7 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
             HeaderFont.Height = -11
             HeaderFont.Name = 'MS Sans Serif'
             HeaderFont.Style = []
+<<<<<<< HEAD
             HeaderAlignment = taCenter
             Caption = 'DEBITO'
             Color = clWhite
@@ -787,6 +811,11 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
             Caption = 'CREDITO'
             Color = clWhite
             Width = 138
+=======
+            HeaderAlignment = taRightJustify
+            Color = clWhite
+            Width = 103
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -11
@@ -798,11 +827,18 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
         MultiLine = False
         ImmediateEditMode = True
         ColWidths = (
+<<<<<<< HEAD
           108
           55
           336
           138
           138)
+=======
+          65
+          95
+          64
+          103)
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
       end
       object Panel4: TPanel
         Left = 0
@@ -24669,10 +24705,13 @@ object frmCausacionCarteraDiaria: TfrmCausacionCarteraDiaria
     Left = 248
     Top = 368
   end
+<<<<<<< HEAD
   object IBSQL0: TIBSQL
     Database = dmGeneral.IBDatabase1
     Transaction = dmGeneral.IBTransaction1
     Left = 424
     Top = 176
   end
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end

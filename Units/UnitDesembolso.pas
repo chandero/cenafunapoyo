@@ -1440,6 +1440,7 @@ begin
 //                vvalorpuntos := vpuntosadicionales;
 //                EDpuntos.Text := FormatCurr('#0.00',vPuntosAdicionales);
               end;
+<<<<<<< HEAD
 
 
 
@@ -1457,6 +1458,9 @@ begin
              EdValorAporte.Value := FieldByName('VALOR_APORTE').AsCurrency;
 
             vAportes := EdValorAporte.Value;
+=======
+            end;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
         if vdesembolsoparcial then
         begin
@@ -2866,8 +2870,11 @@ procedure TFrmDesembolso.CmdInformeClick(Sender: TObject);
 var
 PuntosAdic : Double;
 valor_colocacion,vHonorarios :Currency;
+<<<<<<< HEAD
 valorAporte, valorAporteCobrado, valorTotalAporte :Currency;
 vPlazoAporte: Integer;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 begin
 //VidColocacion := '20050003598';
         //IBentidad.Close;
@@ -2879,6 +2886,7 @@ begin
         if IBtranreporte.InTransaction then
            IBtranreporte.Commit;
         IBtranreporte.StartTransaction;
+<<<<<<< HEAD
         valorAporte := 0;
 
              // Buscar Valor Aporte
@@ -2900,6 +2908,10 @@ begin
         begin
 
 
+=======
+        with IBQuerytabla do
+        begin
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
              SQL.Clear;
              SQL.Add('select ID_COLOCACION, CUOTA_NUMERO, FECHA_A_PAGAR, CAPITAL_A_PAGAR, ');
              SQL.Add('INTERES_A_PAGAR,(CAPITAL_A_PAGAR + INTERES_A_PAGAR) as TOTALCUOTA ');
@@ -2907,6 +2919,7 @@ begin
              SQL.Add('(ID_COLOCACION = :"ID_COLOCACION") ORDER BY CUOTA_NUMERO');
              ParamByName('ID_COLOCACION').AsString := VidColocacion;
              Open;
+<<<<<<< HEAD
              valorAporteCobrado := 0;
              while not Eof do
              begin
@@ -2916,6 +2929,11 @@ begin
                  valorAporte := valorTotalAporte - valorAporteCobrado;
                end;
                valorAporteCobrado := valorAporteCobrado + valorAporte;
+=======
+             while not Eof do
+             begin
+               valor_colocacion := valor_colocacion - FieldByName('CAPITAL_A_PAGAR').AsCurrency;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                CDliquidacion.Append;
                CDliquidacion.FieldValues['CUOTA_NUMERO'] := FieldByName('CUOTA_NUMERO').AsInteger;
                CDliquidacion.FieldValues['FECHA_A_PAGAR'] := FieldByName('FECHA_A_PAGAR').AsDateTime;
@@ -2923,13 +2941,20 @@ begin
                CDliquidacion.FieldValues['INTERES_A_PAGAR'] := FieldByName('INTERES_A_PAGAR').AsCurrency;
                CDliquidacion.FieldValues['SALDO'] := valor_colocacion;
                CDliquidacion.FieldValues['TOTALCUOTA'] := FieldByName('TOTALCUOTA').AsCurrency;
+<<<<<<< HEAD
                CDliquidacion.FieldValues['OTROS'] := valorAporte;
+=======
+               CDliquidacion.FieldValues['OTROS'] := 0;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                CDliquidacion.Post;
                Next;
              end;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
              CalcularDescuentoPorCuota(CDliquidacion,CDSDescuento, CDSADescontar, vDesembolso, vAmortizaCapital, VvalorDesembolso);
 
              CDSADescontar.First;
@@ -3928,7 +3953,10 @@ begin
         // descuento por solicitudes realizadas en la seccion de creditos
         vAportes := EdValorAporte.Value;
         vAsobancaria := EdValorAsobancaria.Value;
+<<<<<<< HEAD
         { No se Contabilizan aún los aportes
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         if vAportes > 0 then
         begin
            with dmColocacion.IBQuery do begin
@@ -3951,7 +3979,10 @@ begin
             vCaja := vCaja - vAportes;
           end;
         end;
+<<<<<<< HEAD
         }
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         if vAsobancaria > 0 then
         begin
            with dmColocacion.IBQuery do begin
@@ -5049,6 +5080,7 @@ begin
               Result := false;
               dmGeneral.IBTransaction1.Rollback;
            end;
+<<<<<<< HEAD
            // Insertar Colocacion Aporte
            try
              with dmColocacion.IBQuery do
@@ -5067,6 +5099,8 @@ begin
               dmGeneral.IBTransaction1.Rollback;
            end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end;
 
 procedure TFrmDesembolso.EdFechaPagoExit(Sender: TObject);

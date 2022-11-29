@@ -267,8 +267,11 @@ TMiGrid = class(TCustomDBGrid);
     IBTransaction4: TIBTransaction;
     IBSQL5: TIBSQL;
     CDsinobancoldex: TBooleanField;
+<<<<<<< HEAD
     Label25: TLabel;
     JvValorAporte: TJvCurrencyEdit;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     procedure BTbuscarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure BTcreditoClick(Sender: TObject);
@@ -863,6 +866,7 @@ begin
             frminformacionbancoldex.Analisis := True;
             frminformacionbancoldex.Solicitud := MKsolicitud.Text;
             frmInformacionBancoldex.NoBancoldex := NoBancoldex;
+<<<<<<< HEAD
 
          end;
         end;
@@ -885,6 +889,11 @@ begin
             end;
          end;
          
+=======
+          end;
+
+         end;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         if control_actualiza = False then
            actualizar;
         CDcodeudores.IndexFieldNames := 'numero';

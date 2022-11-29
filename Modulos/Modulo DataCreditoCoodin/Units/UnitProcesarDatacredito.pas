@@ -5,7 +5,11 @@ interface
 uses
   Windows, Messages, DateUtils, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, ComCtrls, Buttons, DB, IBCustomDataSet,
+<<<<<<< HEAD
   IBQuery, IBDatabase, IBSQL, StrUtils, DBClient, UnitDmGeneral, UnitGlobalesCol;
+=======
+  IBQuery, IBDatabase, IBSQL, StrUtils, DBClient, UnitDmGeneral;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 type
   TfrmProcesarDatacredito = class(TForm)
@@ -337,8 +341,11 @@ var
     ColocacionAnt:string;
     ColocacionActual:string;
     DiasMora:Integer;
+<<<<<<< HEAD
     ValorMora:Currency;
     _deuda: Deuda;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     NoCod:Integer;
     NovedadLocal:Integer;
     Fecha:TDate;
@@ -356,7 +363,11 @@ implementation
 
 {$R *.dfm}
 
+<<<<<<< HEAD
 uses UnitMuestroArchivoData, UnitGlobales;
+=======
+uses UnitGlobalesCol, UnitMuestroArchivoData, UnitGlobales;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 procedure TfrmProcesarDatacredito.CmdCerrarClick(Sender: TObject);
 begin
@@ -409,10 +420,13 @@ begin
 end;
 
 procedure TfrmProcesarDatacredito.ColActivas;  //Procesar las Colocaciones Causadas
+<<<<<<< HEAD
 var
   _capital_estimado, _capital_diferencia : Currency;
   _dias_liq_mora : Integer;
   _tasa: Double;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 begin
         if dmGeneral.IBTransaction1.InTransaction then
           dmGeneral.IBTransaction1.Rollback;
@@ -557,8 +571,12 @@ begin
               FechaNacimiento := IBPersona.FieldByName('FECHA_NACIMIENTO').AsString;
               Close;
             end;
+<<<<<<< HEAD
              DiasMora := 0;
              ValorMora := 0;
+=======
+
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
              LineaC.FApert := Format('%.4d',[YearOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDateTime)])+Format('%.2d',[monthOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDateTime)]) + Format('%.2d',[dayOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDateTime)]);
              LineaC.FVenci := Format('%.4d',[YearOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDateTime)])+Format('%.2d',[monthOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDateTime)]) + Format('%.2d',[dayOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDateTime)]);
              LineaC.VCuota := Formatcurr('00000000000',IBSClientes.FieldByName('VALOR_CUOTA').ASCurrency);
@@ -566,6 +584,7 @@ begin
              if IBSClientes.FieldByName('INTERES').AsString = 'V' then
                 Fecha := CalculoFecha(Fecha,IBQuery1.FieldByName('AMORTIZA_INTERES').AsInteger);
              Fecha := IncDay(Fecha);
+<<<<<<< HEAD
              // _deuda := ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores);
              // DiasMora := _deuda.Dias;
              // ValorMora := _deuda.Valor;
@@ -609,6 +628,11 @@ begin
              begin
                ValorMora := 0;
              end;
+=======
+ //            DiasMora := ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores).Dias;
+ //            DiasMora := DiasEntre(Fecha,EdFechaCorte.Date);
+             DiasMora := IBQuery1.FieldByName('MOROSIDAD').AsInteger;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
              NovedadLocal := Novedad(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,DiasMora);
              SumaNovedad := SumaNovedad + NovedadLocal;
              LineaC.Noveda := StringReplace(Format('%2s',[IntToStr(Novedadlocal)]),' ','0',[rfReplaceAll]);
@@ -631,10 +655,17 @@ begin
              end;
             LineaC.ValIni := FormatCurr('00000000000',ibquery1.FieldByName('VALOR').AsCurrency);
             LineaC.ValDeu := FormatCurr('00000000000',ibquery1.FieldByName('DEUDA').AsCurrency);
+<<<<<<< HEAD
             // if (IBQuery1.FieldByName('ID_ARRASTRE').AsString = 'A') or (IBQuery1.FieldByName('ID_ARRASTRE').AsString = 'B') then
               LineaC.ValMor := FormatCurr('00000000000',ValorMora);
             //else
              // LineaC.ValMor := FormatCurr('00000000000',IBQuery1.FieldByName('DEUDA').AsCurrency);
+=======
+            if (IBQuery1.FieldByName('ID_ARRASTRE').AsString = 'A') or (IBQuery1.FieldByName('ID_ARRASTRE').AsString = 'B') then
+              LineaC.ValMor := FormatCurr('00000000000',ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores).Valor)
+            else
+              LineaC.ValMor := FormatCurr('00000000000',IBQuery1.FieldByName('DEUDA').AsCurrency);
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             LineaC.ValDis := '00000000000';
             LineaC.TpMone := '1';
             LineaC.TpObli := '2';
@@ -1539,10 +1570,17 @@ begin
              end;
             LineaC.ValIni := FormatCurr('00000000000',ibquery1.FieldByName('VALOR_DESEMBOLSO').AsCurrency);
             LineaC.ValDeu := FormatCurr('00000000000',ibquery1.FieldByName('SALDO').AsCurrency);
+<<<<<<< HEAD
             // if (IBQuery1.FieldByName('ID_ARRASTRE').AsString = 'A') or (IBQuery1.FieldByName('ID_ARRASTRE').AsString = 'B') then
               // LineaC.ValMor := FormatCurr('00000000000',ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores).Valor)
             // else
             LineaC.ValMor := FormatCurr('00000000000',IBQuery1.FieldByName('SALDO').AsCurrency);
+=======
+            if (IBQuery1.FieldByName('ID_ARRASTRE').AsString = 'A') or (IBQuery1.FieldByName('ID_ARRASTRE').AsString = 'B') then
+              LineaC.ValMor := FormatCurr('00000000000',ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores).Valor)
+            else
+              LineaC.ValMor := FormatCurr('00000000000',IBQuery1.FieldByName('DEUDA').AsCurrency);
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             LineaC.ValDis := '00000000000';
             LineaC.TpMone := '1';
             LineaC.TpObli := '2';
@@ -1691,6 +1729,34 @@ begin
               ExecQuery;
             end;
 
+<<<<<<< HEAD
+=======
+            {
+            if IBSClientes.FieldByName('ID_LINEA').AsInteger = 1 then
+               LineaC.Linea := '003'
+            else if IBSClientes.FieldByName('ID_LINEA').AsInteger = 7 then
+               LineaC.Linea := '014'
+            else
+               LineaC.Linea := '007';
+            }
+            // LineaC.FDes := Format('%.4d',[YearOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDate)])+ Format('%.2d',[monthOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDate)]) + Format('%.2d',[dayOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDate)]);
+            // LineaC.FVen := Format('%.4d',[YearOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDate)])+ Format('%.2d',[monthOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDate)]) + Format('%.2d',[dayOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDate)]);
+            {
+            case IBSClientes.FieldByName('ID_IDENTIFICACION').AsInteger of
+               3 : LineaC.TpIdCi := '01';
+               4 : LineaC.TpIdCi := '02';
+               6 : LineaC.TpIdCi := '03';
+               2 : LineaC.TpIdCi := '04';
+               8 : LineaC.TpIdCi := '05';
+               7 : LineaC.TpIdCi := '07';
+               1 : LineaC.TpIdCi := '09';
+               0 : LineaC.TpIdCi := '01';
+            end;
+            }
+
+
+
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             LineaC.SHipotecario := '0';
             LineaC.FSubsidio := '00000000';
             LineaC.TContrato := '1';
@@ -1726,6 +1792,60 @@ begin
             LineaC.CLabor  + LineaC.CLDane  + LineaC.DeptoLabora  + LineaC.DirLabora  + LineaC.TLabor  + LineaC.CCorre  + LineaC.CCDane  + LineaC.DeptoCorre  +
             LineaC.DCorre  + LineaC.Email  + LineaC.Celular  + LineaC.SubDestino  + LineaC.NTarjeta  + LineaC.DGarantia  + LineaC.Rellen);
 
+<<<<<<< HEAD
+=======
+            {
+            DataActual.Open;
+            DataActual.Insert;
+            DataActual.FieldByName('NUMERO').AsString := LineaC.Numero;
+            DataActual.FieldByName('IDENTIFICACION').AsString := LineaC.Identificacion;
+            DataActual.FieldByName('NOMBRE').AsString := LineaC.Nombre;
+            DataActual.FieldByName('NOMBREC').AsString := LineaC.NombreC;
+            DataActual.FieldByName('FNACIM').AsString := LineaC.FNacim;
+            DataActual.FieldByName('FAPERT').AsString := LineaC.FApert;
+            DataActual.FieldByName('FVENCI').AsString := LineaC.FVenci;
+            DataActual.FieldByName('VCUOTA').AsString := LineaC.VCuota;
+            DataActual.FieldByName('NOVEDA').AsString := LineaC.Noveda;
+            DataActual.FieldByName('ADJETI').AsString := LineaC.Adjeti;
+            DataActual.FieldByName('TPIDEN').AsString := LineaC.C001_TpIden;
+            DataActual.FieldByName('VALINI').AsString := LineaC.ValIni;
+            DataActual.FieldByName('VALDEU').AsString := LineaC.ValDeu;
+            DataActual.FieldByName('VALMOR').AsString := LineaC.ValMor;
+            DataActual.FieldByName('VALDIS').AsString := LineaC.ValDis;
+            DataActual.FieldByName('TPMONE').AsString := LineaC.TpMone;
+            DataActual.FieldByName('TPOBLI').AsString := LineaC.TpObli;
+            DataActual.FieldByName('TPGARA').AsString := LineaC.TpGara;
+            DataActual.FieldByName('CALIFI').AsString := LineaC.Califi;
+            DataActual.FieldByName('CRESID').AsString := LineaC.CResid;
+            DataActual.FieldByName('DRESID').AsString := LineaC.DResid;
+            DataActual.FieldByName('TRESID').AsString := LineaC.TResid;
+            DataActual.FieldByName('CLABOR').AsString := LineaC.CLabor;
+            DataActual.FieldByName('TLABOR').AsString := LineaC.TLabor;
+            DataActual.FieldByName('CCORRE').AsString := LineaC.CCorre;
+            DataActual.FieldByName('DCORRE').AsString := LineaC.DCorre;
+            DataActual.FieldByName('CIIU').AsString := LineaC.Ciiu;
+            DataActual.FieldByName('TCUOTA').AsString := LineaC.TCuota;
+            DataActual.FieldByName('CCANCE').AsString := LineaC.CCance;
+            DataActual.FieldByName('CEMORA').AsString := LineaC.CeMora;
+            DataActual.FieldByName('FUPAGO').AsString := LineaC.FUPago;
+            DataActual.FieldByName('OFICIN').AsString := LineaC.Oficin;
+            DataActual.FieldByName('CRADIC').AsString := LineaC.CRadic;
+            DataActual.FieldByName('FOPAGO').AsString := LineaC.FoPago;
+            DataActual.FieldByName('PEPAGO').AsString := LineaC.PePago;
+            DataActual.FieldByName('EDMORA').AsString := LineaC.EdMora;
+            DataActual.FieldByName('FACTUA').AsString := LineaC.FActua;
+            DataActual.FieldByName('RECLAM').AsString := LineaC.Reclam;
+            DataActual.FieldByName('RESPON').AsString := LineaC.Respon;
+            DataActual.FieldByName('ESTRAC').AsString := LineaC.Estrac;
+            DataActual.FieldByName('RELLEN').AsString := LineaC.Rellen;
+            DataActual.FieldByName('LINEA').AsString := LineaC.Linea;
+            DataActual.FieldByName('FECHA_DESEMBOLSO').AsString := LineaC.FDes;
+            DataActual.FieldByName('FECHA_VENCIMIENTO').AsString := LineaC.FVen;
+            DataActual.FieldByName('IDIDENT').AsString := LineaC.TpIdCi;
+            DataActual.Post;
+            DataActual.Close;
+            }
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             SumaRegistros := SumaRegistros + 1;
             // fin de proceso clientes
 
@@ -1768,6 +1888,19 @@ begin
                if DataErrores.Locate('COLOCACION_ERRADO;IDENTIFICACION',VarArrayOf([LineaC.Numero,trim(IBSCodeudores.FieldByName('ID_PERSONA').AsString)]),[locaseinsensitive]) then
                   LineaC.Numero := DataErrores.FieldValues['COLOCACION_CORRECTO'];
 //fin
+<<<<<<< HEAD
+=======
+              {
+               Nombre := IBSCodeudores.FieldByName('PRIMER_APELLIDO').AsString + ' '
+                         + IBSCodeudores.FieldByName('SEGUNDO_APELLIDO').AsString + ' '
+                         + IBSCodeudores.FieldByName('NOMBRE').AsString;
+
+               LineaC.Nombre := Format('%-45s',[trim(IBSCodeudores.FieldByName('PRIMER_APELLIDO').AsString) + ' '
+                       + trim(IBSCodeudores.FieldByName('SEGUNDO_APELLIDO').AsString) + ' '
+                       + trim(IBSCodeudores.FieldByName('NOMBRE').AsString)]);
+               Nombre := '';
+               }
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
                if (IBSCodeudores.FieldByName('ID_IDENTIFICACION').AsInteger <> 2) or (IBSCodeudores.FieldByName('ID_IDENTIFICACION').AsInteger <> 7) then
                 begin
@@ -1783,7 +1916,16 @@ begin
                 end;
 
                LineaC.STitular := '0';
+<<<<<<< HEAD
 
+=======
+               {
+               if (IBSCodeudores.FieldByName('FECHA_NACIMIENTO').AsString = '') or (IBSCodeudores.FieldByName('FECHA_NACIMIENTO').AsString = '1899/12/30') Then
+                LineaC.FNacim := '000000'
+               else
+                LineaC.FNacim := Format('%.4d',[YearOf(IBSCodeudores.FieldByName('FECHA_NACIMIENTO').AsDateTime)])+Format('%.2d',[monthOf(IBSCodeudores.FieldByName('FECHA_NACIMIENTO').AsDateTime)]);
+               }
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                SumaNovedad := SumaNovedad + NovedadLocal;
                case IBSCodeudores.FieldByName('ID_IDENTIFICACION').AsInteger of
                  3 : LineaC.C001_TpIden := '1';
@@ -1838,6 +1980,31 @@ begin
                 ParamByName('ID_COLOCACION').AsString := IBQuery1.FieldByName('ID_COLOCACION').AsString;
                 ExecQuery;
               end;
+<<<<<<< HEAD
+=======
+              {
+              if IBSClientes.FieldByName('ID_LINEA').AsInteger = 1 then
+                 LineaC.Linea := '003'
+              else if IBSClientes.FieldByName('ID_LINEA').AsInteger = 7 then
+                 LineaC.Linea := '014'
+              else
+                 LineaC.Linea := '007';
+              }
+              // LineaC.FDes := Format('%.4d',[YearOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDate)])+ Format('%.2d',[monthOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDate)]) + Format('%.2d',[dayOf(IBSClientes.FieldByName('FECHA_DESEMBOLSO').AsDate)]);
+              // LineaC.FVen := Format('%.4d',[YearOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDate)])+ Format('%.2d',[monthOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDate)]) + Format('%.2d',[dayOf(IBSClientes.FieldByName('FECHA_VENCIMIENTO').AsDate)]);
+              {
+              case IBSCodeudores.FieldByName('ID_IDENTIFICACION').AsInteger of
+                 3 : LineaC.TpIdCi := '01';
+                 4 : LineaC.TpIdCi := '02';
+                 6 : LineaC.TpIdCi := '03';
+                 2 : LineaC.TpIdCi := '04';
+                 8 : LineaC.TpIdCi := '05';
+                 7 : LineaC.TpIdCi := '07';
+                 1 : LineaC.TpIdCi := '09';
+                 0 : LineaC.TpIdCi := '01';
+              end;
+              }
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
             LineaC.SHipotecario := '0';
             LineaC.FSubsidio := '00000000';
@@ -1873,6 +2040,60 @@ begin
             LineaC.CLabor  + LineaC.CLDane  + LineaC.DeptoLabora  + LineaC.DirLabora  + LineaC.TLabor  + LineaC.CCorre  + LineaC.CCDane  + LineaC.DeptoCorre  +
             LineaC.DCorre  + LineaC.Email  + LineaC.Celular  + LineaC.SubDestino  + LineaC.NTarjeta  + LineaC.DGarantia  + LineaC.Rellen);
 
+<<<<<<< HEAD
+=======
+            {
+              DataActual.Open;
+              DataActual.Insert;
+              DataActual.FieldByName('NUMERO').AsString := LineaC.Numero;
+              DataActual.FieldByName('IDENTIFICACION').AsString := LineaC.Identificacion;
+              DataActual.FieldByName('NOMBRE').AsString := LineaC.Nombre;
+              DataActual.FieldByName('NOMBREC').AsString := LineaC.NombreC;
+              DataActual.FieldByName('FNACIM').AsString := LineaC.FNacim;
+              DataActual.FieldByName('FAPERT').AsString := LineaC.FApert;
+              DataActual.FieldByName('FVENCI').AsString := LineaC.FVenci;
+              DataActual.FieldByName('VCUOTA').AsString := LineaC.VCuota;
+              DataActual.FieldByName('NOVEDA').AsString := LineaC.Noveda;
+              DataActual.FieldByName('ADJETI').AsString := LineaC.Adjeti;
+              DataActual.FieldByName('TPIDEN').AsString := LineaC.C001_TpIden;
+              DataActual.FieldByName('VALINI').AsString := LineaC.ValIni;
+              DataActual.FieldByName('VALDEU').AsString := LineaC.ValDeu;
+              DataActual.FieldByName('VALMOR').AsString := LineaC.ValMor;
+              DataActual.FieldByName('VALDIS').AsString := LineaC.ValDis;
+              DataActual.FieldByName('TPMONE').AsString := LineaC.TpMone;
+              DataActual.FieldByName('TPOBLI').AsString := LineaC.TpObli;
+              DataActual.FieldByName('TPGARA').AsString := LineaC.TpGara;
+              DataActual.FieldByName('CALIFI').AsString := LineaC.Califi;
+              DataActual.FieldByName('CRESID').AsString := LineaC.CResid;
+              DataActual.FieldByName('DRESID').AsString := LineaC.DResid;
+              DataActual.FieldByName('TRESID').AsString := LineaC.TResid;
+              DataActual.FieldByName('CLABOR').AsString := LineaC.CLabor;
+              DataActual.FieldByName('TLABOR').AsString := LineaC.TLabor;
+              DataActual.FieldByName('CCORRE').AsString := LineaC.CCorre;
+              DataActual.FieldByName('DCORRE').AsString := LineaC.DCorre;
+              DataActual.FieldByName('CIIU').AsString := LineaC.Ciiu;
+              DataActual.FieldByName('TCUOTA').AsString := LineaC.TCuota;
+              DataActual.FieldByName('CCANCE').AsString := LineaC.CCance;
+              DataActual.FieldByName('CEMORA').AsString := LineaC.CeMora;
+              DataActual.FieldByName('FUPAGO').AsString := LineaC.FUPago;
+              DataActual.FieldByName('OFICIN').AsString := LineaC.Oficin;
+              DataActual.FieldByName('CRADIC').AsString := LineaC.CRadic;
+              DataActual.FieldByName('FOPAGO').AsString := LineaC.FoPago;
+              DataActual.FieldByName('PEPAGO').AsString := LineaC.PePago;
+              DataActual.FieldByName('EDMORA').AsString := LineaC.EdMora;
+              DataActual.FieldByName('FACTUA').AsString := LineaC.FActua;
+              DataActual.FieldByName('RECLAM').AsString := LineaC.Reclam;
+              DataActual.FieldByName('RESPON').AsString := LineaC.Respon;
+              DataActual.FieldByName('ESTRAC').AsString := LineaC.Estrac;
+              DataActual.FieldByName('RELLEN').AsString := LineaC.Rellen;
+              DataActual.FieldByName('LINEA').AsString := LineaC.Linea;
+              DataActual.FieldByName('FECHA_DESEMBOLSO').AsString := LineaC.FDes;
+              DataActual.FieldByName('FECHA_VENCIMIENTO').AsString := LineaC.FVen;
+              DataActual.FieldByName('IDIDENT').AsString := LineaC.TpIdCi;
+              DataActual.Post;
+              DataActual.Close;
+              }
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Application.ProcessMessages;
               SumaRegistros := SumaRegistros + 1;
               IBSCodeudores.Next;
@@ -2041,8 +2262,11 @@ begin
      while not eof do begin
       Bar.Position := RecNo;
       Application.ProcessMessages;
+<<<<<<< HEAD
       DiasMora := 0;
       ValorMora := 0;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
       ColocacionNew := IntToStr(IBQuery1.FieldByName('ID_AGENCIA').AsInteger) + IBQuery1.FieldByName('ID_COLOCACION').AsString;
       ConverColocacion := StrToInt64(ColocacionNew);
@@ -2112,11 +2336,15 @@ begin
       if IBQuery1.FieldByName('INTERES').AsString = 'V' then
         Fecha := CalculoFecha(Fecha,IBQuery1.FieldByName('AMORTIZA_INTERES').AsInteger);
       Fecha := IncDay(Fecha);
+<<<<<<< HEAD
       // _deuda := ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores);
       // DiasMora := _deuda.Dias;
       // ValorMora := _deuda.Valor;
       DiasMora := 0;
       ValorMora := 0;
+=======
+      DiasMora := ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores).Dias;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
       if FieldByName('ID_ESTADO_COLOCACION').AsInteger = 7 THEN
         NovedadLocal := 5
       else
@@ -2143,7 +2371,11 @@ begin
             LineaC.ValIni := FormatCurr('00000000000',ibquery1.FieldByName('VALOR_DESEMBOLSO').AsCurrency);
             LineaC.ValDeu := '00000000000';
             if (IBQuery1.FieldByName('ID_CATEGORIA').AsString = 'A') or (IBQuery1.FieldByName('ID_CATEGORIA').AsString = 'B') then
+<<<<<<< HEAD
               LineaC.ValMor := FormatCurr('00000000000',ValorMora)
+=======
+              LineaC.ValMor := FormatCurr('00000000000',ObtenerDeudaFecha(IBQuery1.FieldByName('ID_AGENCIA').AsInteger,IBQuery1.FieldByName('ID_COLOCACION').AsString,EdFechaCorte.Date,IBSCodeudores).Valor)
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             else
               LineaC.ValMor := FormatCurr('00000000000',0);
             LineaC.ValDis := '00000000000';

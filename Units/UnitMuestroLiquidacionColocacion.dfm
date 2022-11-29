@@ -1,6 +1,11 @@
 object frmMuestroLiquidacionColocacion: TfrmMuestroLiquidacionColocacion
+<<<<<<< HEAD
   Left = 538
   Top = 190
+=======
+  Left = 324
+  Top = 7
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   Width = 783
   Height = 629
   Caption = 'Detalle de la Liquidaci'#243'n'

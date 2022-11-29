@@ -1,0 +1,550 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:st1="urn:schemas-microsoft-com:office:smarttags"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+<link rel=File-List href="readme_files/filelist.xml">
+<title>Delphi SOAP Runtime and Importer Update</title>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="State"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="City"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="place"/>
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]--><!--[if !mso]><object
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui></object>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<style>
+<!--
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+h2
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:14.0pt;
+	font-family:Arial;
+	font-style:italic;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	font-size:13.0pt;
+	font-family:Arial;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:1702127198;
+	mso-list-template-ids:-461713096;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1
+	{mso-list-id:1792748950;
+	mso-list-template-ids:455920308;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2
+	{mso-list-id:1929535158;
+	mso-list-template-ids:-1914284970;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<h2 align=center style='text-align:center'><st1:place w:st="on">Delphi</st1:place>
+SOAP Runtime and Importer Update</h2>
+
+<h3>Introduction</h3>
+
+<p class=MsoNormal>This document describes the files included with this SOAP
+runtime and importer update and provides instructions on how to use the update.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3>Files</h3>
+
+<p class=MsoNormal>The following table lists the runtime files included in the
+update:</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>CompVer.inc</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border:solid windowtext 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Shared include file to detect version of <st1:place w:st="on">Delphi</st1:place>
+  (D2005 and later only)</p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>TypeTrans.pas</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>Rio.pas</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>InvokeRegistry.pas</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>OPToSOAPDomConv.pas</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>WebServExp.pas</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>WSDLPub.pas</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:7'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>XSBuiltIns.pas</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>&nbsp;</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:8'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>PrivateHeap.pas</span></p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>Included for D7 and D2005 users. Resolves DEP issue. </p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:9;mso-yfti-lastrow:yes'>
+  <td width=311 valign=top style='width:233.6pt;border:solid windowtext 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>SoapHTTPTrans.pas</p>
+  </td>
+  <td width=727 valign=top style='width:545.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal>&nbsp;</p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>In addition to the above files, the WSDLImp.exe utility is also
+included in this update. WSDLImp is used to generate <st1:place w:st="on">Delphi</st1:place>
+bindings from a WSDL document describing a WebService.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3>Using with BDS 2006</h3>
+
+<p class=MsoNormal>To use the updated runtime in BDS2006:</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<ul style='margin-top:0in' type=circle>
+ <li class=MsoNormal style='mso-list:l1 level1 lfo1;tab-stops:list .5in'>Unzip
+     the runtime update files. NOTE: Do *NOT* overwrite your SOAP sources (<span
+     style='color:gray'>typically located at $(BDS)\Source\Win32\soap</span>).
+     Or if you do, please make a backup copy of the original files.</li>
+ <li class=MsoNormal style='mso-list:l1 level1 lfo1;tab-stops:list .5in'>Add
+     the location of the runtime update files to your project’s ‘Search Path’
+     options.</li>
+ <li class=MsoNormal style='mso-list:l1 level1 lfo1;tab-stops:list .5in'>Unzip
+     the WSDLImp utility. NOTE: Do *NOT* overwrite your existing WSDLImp.exe
+     typically located in $(BDS)\bin. </li>
+ <li class=MsoNormal style='mso-list:l1 level1 lfo1;tab-stops:list .5in'>Regenerate
+     the .pas files for any previously imported WSDL document using the updated
+     WSDLImp utility.</li>
+ <li class=MsoNormal style='mso-list:l1 level1 lfo1;tab-stops:list .5in'>Rebuild
+     your project.</li>
+</ul>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3>Using with BDS2005/D7</h3>
+
+<ul style='margin-top:0in' type=circle>
+ <li class=MsoNormal style='mso-list:l2 level1 lfo2;tab-stops:list .5in'>Unzip
+     the runtime update files. NOTE: Do *NOT* overwrite your SOAP sources (<span
+     style='color:gray'>typically located in $(<st1:place w:st="on">DELPHI</st1:place>)\Source\soap
+     for D7 and $(BDS)\Source\Win32\Soap for BDS2005</span>). Or if you do,
+     please make a backup copy of the original files.</li>
+ <li class=MsoNormal style='mso-list:l2 level1 lfo2;tab-stops:list .5in'>Add
+     the location of the runtime update files to your project’s ‘Search Path’
+     options.</li>
+ <li class=MsoNormal style='mso-list:l2 level1 lfo2;tab-stops:list .5in'>Unzip
+     the WSDLImp utility. NOTE: Do *NOT* overwrite your existing WSDLImp.exe (<span
+     style='color:gray'>typically located in $(<st1:place w:st="on">DELPHI</st1:place>)\bin
+     for D7 and $(BDS)\bin for BDS2005</span>). </li>
+ <li class=MsoNormal style='mso-list:l2 level1 lfo2;tab-stops:list .5in'>Regenerate
+     the .pas files for any previously imported WSDL document using the updated
+     WSDLImp utility.</li>
+ <li class=MsoNormal style='mso-list:l2 level1 lfo2;tab-stops:list .5in'>If you
+     want to use the runtime update in an interface-compatible mode, rebuild
+     your project and you’re done.</li>
+ <li class=MsoNormal style='mso-list:l2 level1 lfo2;tab-stops:list .5in'>If you
+     want to enable all of D2006/7 SOAP fixes/enhancements:</li>
+ <ul style='margin-top:0in' type=circle>
+  <li class=MsoNormal style='mso-list:l2 level2 lfo2;tab-stops:list 1.0in'>&nbsp;Add
+      the Soap source directory [<span style='color:gray'>$(<st1:place w:st="on">DELPHI</st1:place>)\Source\Soap
+      or $(BDS)\Source\Win32\Soap</span>] to your project’s ‘Search Path’
+      *AFTER* the directory of the runtime update files.</li>
+  <li class=MsoNormal style='mso-list:l2 level2 lfo2;tab-stops:list 1.0in'>For
+      D7 add the following to the ‘Conditional defines’ of your project’s
+      options: CLEANUP_SOAP_HEADERS;FIX_ELEM_NODE_NS</li>
+  <li class=MsoNormal style='mso-list:l2 level2 lfo2;tab-stops:list 1.0in'>For
+      BDS2005 add the following to the ‘Conditional defines’ of your project’s
+      options: FIX_ELEM_NODE_NS</li>
+  <li class=MsoNormal style='mso-list:l2 level2 lfo2;tab-stops:list 1.0in'>Rebuild
+      your project.</li>
+ </ul>
+</ul>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3>Build Errors</h3>
+
+<p class=MsoNormal>This section describes errors you might encounter when
+building your project with the updated runtime:</p>
+
+<ul style='margin-top:0in' type=circle>
+ <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list .5in'>D7 and
+     BDS2005 setups might run into the ‘<b>Unit xxxx was built with a different
+     version of yyyy.zzzz</b>’ error message when enabling all the
+     fixes/enhancements. This error indicates that you have some .dcu that was
+     built with the original Soap interfaces that’s not getting rebuilt. If
+     ‘xxxx’ refers to a Delphi SOAP runtime file that’s not included in the
+     update, make sure that you have added your Soap source directory to the
+     project’s ‘Search Path’ *AFTER* the directory that contains the runtime
+     update files. If ‘xxxx’ refers to a non Delphi SOAP runtime unit, you’ll
+     need to make sure that the source to that unit is in the project’s ‘Search
+     Path’ so it can be rebuilt. If you do not have the source code to the unit
+     you will have to use the updated runtime in the interface-compatible mode
+     – i.e. without enabling all fixes/enhancements.</li>
+</ul>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3>The Updated WSDLImp Utility</h3>
+
+<p class=MsoNormal>The new importer generates code that requires the updated
+runtime because of the way it encodes the traits of an XML element into a
+published property. Previous importers used the ‘stored’ value of ‘property’
+declarations to flag arrays that mapped to unbounded XML elements or simple
+types that should be stored as XML attributes. Since ‘stored’ allows for only a
+Boolean value, this approach did not cater for other traits of an XML element.
+The new importer uses the ‘Index’ value of ‘property’ declarations to tag
+optional, unbounded, text, etc. Note that the updated runtime supports the use
+of the ‘stored’ value generated by earlier importers. </p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<h3>Feedback</h3>
+
+<p class=MsoNormal>Please post any feedback regarding the update to the
+Borland.public.delphi.soap or Borland.public.delphi.wsdl newsgroups. Or feel
+free to email me directly at <a href="mailto:bbabet@codegear.com">bbabet@codegear.com</a>.
+Thank you.</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<h3>Change Log</h3>
+
+<p class=MsoNormal>The following is not an exhaustive list of the changes. It’s
+a list of the ones I could easily spot by running through check-in logs:</p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>QC#7954<span style='mso-spacerun:yes'>   </span>Memory leak
+in WSDL publishing logic for complex types<o:p></o:p></p>
+
+<p class=MsoNormal>QC#9550<span style='mso-spacerun:yes'>   </span>Handle '0'
+and '1' as valid <span class=GramE>boolean</span> values<o:p></o:p></p>
+
+<p class=MsoNormal>QC#9547<span style='mso-spacerun:yes'>   </span>Support for
+time-zones with no transition dates<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>15336<span style='mso-spacerun:yes'> 
+</span>SOAP</span> runtime modifies 'DecimalSeparator' global (Also #QC#5636,
+#30095, #20405)<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>38057<span style='mso-spacerun:yes'> 
+</span>Dynamic</span> array serialization mishandles ref-count (<st1:place
+w:st="on"><st1:City w:st="on">Also</st1:City> <st1:State w:st="on">QC</st1:State></st1:place>#21223)<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>38709<span style='mso-spacerun:yes'> 
+</span>Support</span> for polymorphic types (illustrated using MapPoint.NET) -
+(<st1:place w:st="on"><st1:City w:st="on">Also</st1:City> <st1:State w:st="on">QC</st1:State></st1:place>#32718)<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>28012<span style='mso-spacerun:yes'> 
+</span>Bug</span> in TXSDuration.GetDecimalSecond<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>28003<span style='mso-spacerun:yes'> 
+</span>Incorrect</span> namespace on element nodes (<st1:place w:st="on"><st1:City
+ w:st="on">Also</st1:City> <st1:State w:st="on">QC</st1:State></st1:place>#31185)<o:p></o:p></p>
+
+<p class=MsoNormal>QC#8397<span style='mso-spacerun:yes'>  
+</span>OnBeforeExecute ignores changes to SOAPRequest variable<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>31556<span style='mso-spacerun:yes'> 
+</span>AV</span> on deserializing empty string as dateTime.<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>10969<span style='mso-spacerun:yes'> 
+</span>Handle</span> XML attributes that map to TXSxxxx types<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>26063<span style='mso-spacerun:yes'> 
+</span>Fix</span> performance when handling multiref nodes and arrays<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>26373<span style='mso-spacerun:yes'> 
+</span>Remove</span> unnecessary formatting of XML<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>15331<span style='mso-spacerun:yes'> 
+</span>Delphi</span>-generated WSDLs are rejected by Java WSDL importers<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>22485<span style='mso-spacerun:yes'> 
+</span>Array</span> Deserialization logic does not handle non-ntElement (such
+as comment) nodes<o:p></o:p></p>
+
+<p class=MsoNormal>QC#3980<span style='mso-spacerun:yes'>   </span>Logic that
+serializes array properties AV when a setter is used<o:p></o:p></p>
+
+<p class=MsoNormal>QC#<span class=GramE>33205<span style='mso-spacerun:yes'> 
+</span>Importer</span> mishandles cases where wrapper element does not match
+operation name (NOTE: We won't unwrap anymore).<o:p></o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>Importer issues:<o:p></o:p></p>
+
+<p class=MsoNormal>(a) Various issues QC#31143, for Amazon'<o:p></o:p></p>
+
+<p class=MsoNormal>(b) Incorrect code generated Amazon's Alexa (QC#11920)<o:p></o:p></p>
+
+<p class=MsoNormal>(c) Incorrect code generated for Inline enumerations
+(QC#9309), <o:p></o:p></p>
+
+<p class=MsoNormal>(d) No Unbounded element support (QC#240056, 28062, 30712)<o:p></o:p></p>
+
+<p class=MsoNormal>(e) AV on GoogleSearch<o:p></o:p></p>
+
+<p class=MsoNormal>(f) Need to check Assigned(X) before invoking X.Free.<o:p></o:p></p>
+
+<p class=MsoNormal>(g) Incorrect code for Complex type with simple content
+(Amazon's &quot;Creator&quot; for example)<o:p></o:p></p>
+
+<p class=MsoNormal>(h) Incorrect code gen. for eBay's WSDL<o:p></o:p></p>
+
+<p class=MsoNormal>(i) Does not properly decide when to <span class=GramE>unwrap</span>
+doc|lit services<o:p></o:p></p>
+
+<p class=MsoNormal>(j) Does not support imported or included schemas<o:p></o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal>Misc:<o:p></o:p></p>
+
+<p class=MsoNormal>Serialization of zeroed-out array of bytes fixed<o:p></o:p></p>
+
+<p class=MsoNormal>Now sets utf-8 in HTTP content-type header to support
+international characters (XML is already utf-8 encoded)<o:p></o:p></p>
+
+<p class=MsoNormal>TXSxxxx types have sensible defaults. For example, TXSDateTime
+defaults to &quot;0001-01-01T00:00:00&quot; instead of
+&quot;1899-12-30T00:00:00.000&quot;.</p>
+
+<p class=MsoNormal style='margin-left:.25in'>&nbsp;</p>
+
+<p class=MsoNormal style='margin-left:.25in'>&nbsp;</p>
+
+<p class=MsoNormal style='margin-left:.25in'><o:p>&nbsp;</o:p></p>
+
+</div>
+
+</body>
+
+</html>

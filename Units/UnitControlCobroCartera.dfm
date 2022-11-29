@@ -1,8 +1,15 @@
 object frmControlCobroCartera: TfrmControlCobroCartera
+<<<<<<< HEAD
   Left = 345
   Top = 205
   Width = 1172
   Height = 608
+=======
+  Left = 392
+  Top = 199
+  Width = 1172
+  Height = 621
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   Caption = 'Control de Cobro'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -7554,7 +7561,11 @@ object frmControlCobroCartera: TfrmControlCobroCartera
   object frReportPrimerAviso: TfrReport
     InitialZoom = pzDefault
     ModifyPrepared = False
+<<<<<<< HEAD
     PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit, pbPageSetup]
+=======
+    PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit]
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     RebuildPrinter = False
     OnGetValue = frReportPrimerAvisoGetValue
     Left = 24

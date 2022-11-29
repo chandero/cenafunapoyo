@@ -1,6 +1,11 @@
 object frmMain: TfrmMain
+<<<<<<< HEAD
   Left = 517
   Top = 259
+=======
+  Left = 0
+  Top = 23
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   Width = 640
   Height = 434
   Caption = 'Cr'#233'ditos - '

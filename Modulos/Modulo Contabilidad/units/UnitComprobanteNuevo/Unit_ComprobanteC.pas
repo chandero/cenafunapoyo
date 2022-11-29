@@ -228,7 +228,10 @@ type
     IBAuxiliarCREDITO: TIBBCDField;
     Report1: TprTxReport;
     prReport1: TprReport;
+<<<<<<< HEAD
     btnDSA: TBitBtn;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
     procedure BtnGrabarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -307,7 +310,10 @@ type
     procedure btnLimpiarClaseOperacionClick(Sender: TObject);
     procedure cbClaseOperacionKeyPress(Sender: TObject; var Key: Char);
     procedure EdAgenciaKeyPress(Sender: TObject; var Key: Char);
+<<<<<<< HEAD
     procedure btnDSAClick(Sender: TObject);
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 
   private
@@ -443,7 +449,11 @@ var
 
 implementation
 
+<<<<<<< HEAD
 uses UnitCreaciondePersona, Unit_buscarcomprobante,unit_Dmpuc, UnitGlobales, Unit_Mantenimientopuc, NLetra, UnitDocumentoSoporte;
+=======
+uses UnitCreaciondePersona, Unit_buscarcomprobante,unit_Dmpuc, UnitGlobales, Unit_Mantenimientopuc, NLetra;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 
 {$R *.dfm}
@@ -1701,13 +1711,19 @@ begin
           begin
            BtnModificarGrid.Enabled := False;
            BtnEliminar.Enabled := False;
+<<<<<<< HEAD
            btnDSA.Enabled := True;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
           end
           else
           begin
            BtnModificarGrid.Enabled := True;
            BtnEliminar.Enabled := True;
+<<<<<<< HEAD
            btnDSA.Enabled := False;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
           end;
 
 end;
@@ -2697,6 +2713,7 @@ begin
         EnterTabs(Key, Self);
 end;
 
+<<<<<<< HEAD
 procedure TfrmComprobanteC.btnDSAClick(Sender: TObject);
 var
   frmDocumentoSoporte: TfrmDocumentoSoporte;
@@ -2733,4 +2750,6 @@ begin
         frmDocumentoSoporte.ShowModal;
 end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end.

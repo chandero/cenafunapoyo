@@ -3016,7 +3016,10 @@ idauxiliar: Integer;
 TipoComprobante: Integer;
 _valorFacturarCXC, _valorFacturarMES, _valorFacturarMORA, _valorFacturarANT, _valorFacturarDEV, _valor: Currency;
 _fechaFactura: TDateTime;
+<<<<<<< HEAD
 _fechaNota: TDateTime;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 _consecutivoFacturaValido: Boolean;
 begin
 if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mrYes then
@@ -3274,9 +3277,18 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
            //   ParamByName('ID_CUENTA').AsInteger := NumeroCuentaAp
            // else
            //   ParamByName('ID_CUENTA').AsInteger := 0;
+<<<<<<< HEAD
             ParamByName('ID_COLOCACION').AsString := vColocacion;
             ParamByName('ID_IDENTIFICACION').AsInteger := vTipoId;
             ParamByName('ID_PERSONA').AsString := vNumeroId;
+=======
+            if LeftStr(AR^.CodigoPuc,2) = '13' then
+              ParamByName('ID_COLOCACION').AsString := vColocacion
+            else
+              ParamByName('ID_COLOCACION').AsString := '';
+            ParamByName('ID_IDENTIFICACION').AsInteger := AR^.Id_Identificacion;
+            ParamByName('ID_PERSONA').AsString := AR^.Id_Persona;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             ParamByName('MONTO_RETENCION').AsCurrency := 0;
             ParamByName('TASA_RETENCION').AsFloat := 0;
             ParamByName('ESTADOAUX').AsString := 'O';
@@ -3462,7 +3474,11 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
              if _consecutivoFacturaValido then
              begin
                      _fechaFactura := fFechaHoraActual;
+<<<<<<< HEAD
                      // _fechaFactura := EncodeDateTime(YearOf(EdFecha.Date), MonthOf(EdFecha.Date), DayOf(EdFecha.Date), HourOfTheDay(_fechaFactura), MinuteOfTheHour(_fechaFactura), SecondOf(_fechaFactura), 0);
+=======
+                     _fechaFactura := EncodeDateTime(YearOf(EdFecha.Date), MonthOf(EdFecha.Date), DayOf(EdFecha.Date), HourOfTheDay(_fechaFactura), MinuteOfTheHour(_fechaFactura), SecondOf(_fechaFactura), 0);
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                      with IBQuery1 do
                      begin
                        SQL.Clear;

@@ -60,8 +60,11 @@ type
     txtFechaFinal: TDateTimePicker;
     Label2: TLabel;
     Repanormal: TprTxReport;
+<<<<<<< HEAD
     IBTransaction2: TIBTransaction;
     IBSQLotros: TIBSQL;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     procedure BtnAceptarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BtnReporteClick(Sender: TObject);
@@ -180,6 +183,7 @@ begin
        frmProgreso.Titulo := 'Procesando Cierre del Día';
        frmProgreso.Position := 0;
        frmProgreso.Ejecutar;
+<<<<<<< HEAD
 
        with IBSQLcierre do
        begin
@@ -189,6 +193,8 @@ begin
            Close;
        end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         While not QueryCompcierre.Eof do
          begin
            id_comprobante := FieldByName('ID_COMPROBANTE').AsInteger;
@@ -213,6 +219,13 @@ begin
               if total_debito <> total_credito then
                  with IBSQLcierre do
                    begin
+<<<<<<< HEAD
+=======
+                     SQL.Clear;
+                     SQL.Add('delete from "con$errorcierrecomp"');
+                     ExecQuery;
+                     Close;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                      sql.Clear;
                      sql.Add('insert into "con$errorcierrecomp" (');
                      sql.Add('"con$errorcierrecomp"."ID_AGENCIA",');
@@ -870,13 +883,19 @@ begin
         _conn.getConnected;
 
         IBTransaction1.DefaultDatabase := _conn.IBDatabase1;
+<<<<<<< HEAD
         IBTransaction2.DefaultDatabase := _conn.IBDatabase1;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         IBSQLcierre.Database := _conn.IBDatabase1;
         IBQRepnormal.Database := _conn.IBDatabase1;
         IBQRepanormal.Database := _conn.IBDatabase1;
         IBSQLcierre1.Database := _conn.IBDatabase1;
+<<<<<<< HEAD
         IBSQLotros.Database := _conn.IBDatabase1;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         IBVerificarcap.Database := _conn.IBDatabase1;
         IBSQL1.Database := _conn.IBDatabase1;
         IBSQL2.Database := _conn.IBDatabase1;
@@ -886,6 +905,7 @@ begin
         Querycompcierre.Database := _conn.IBDatabase1;
         Queryauxcierre.Database := _conn.IBDatabase1;
 
+<<<<<<< HEAD
         // IBSQLcierre.Transaction := IBTransaction2;
         // IBSQLcierre1.Transaction := IBTransaction2;
         // IBQRepanormal.Transaction := IBTransaction2;
@@ -899,6 +919,8 @@ begin
         IBTransaction2.StartTransaction;
 
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end;
 
 procedure Tfrmcierredia.FormClose(Sender: TObject;

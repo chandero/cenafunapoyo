@@ -1,4 +1,5 @@
 object FrmInformacion: TFrmInformacion
+<<<<<<< HEAD
   Left = 594
   Top = 222
   BorderIcons = [biSystemMenu]
@@ -6,6 +7,15 @@ object FrmInformacion: TFrmInformacion
   Caption = 'Formulario de Solicitudes'
   ClientHeight = 620
   ClientWidth = 682
+=======
+  Left = 438
+  Top = 136
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Formulario de Solicitudes'
+  ClientHeight = 514
+  ClientWidth = 662
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clBlack
@@ -32,7 +42,11 @@ object FrmInformacion: TFrmInformacion
     Left = -1
     Top = 3
     Width = 630
+<<<<<<< HEAD
     Height = 521
+=======
+    Height = 462
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     ActivePage = TSolicitante
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlack
@@ -382,10 +396,17 @@ object FrmInformacion: TFrmInformacion
         Left = 0
         Top = 186
         Width = 622
+<<<<<<< HEAD
         Height = 303
         ActivePage = TabSheet1
         Images = ImageList1
         TabIndex = 4
+=======
+        Height = 256
+        ActivePage = TabAdjuntos
+        Images = ImageList1
+        TabIndex = 6
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         TabOrder = 4
         object Economico: TTabSheet
           Caption = '1.  Informaci'#243'n &Laboral'
@@ -935,7 +956,11 @@ object FrmInformacion: TFrmInformacion
           ImageIndex = 6
           DesignSize = (
             614
+<<<<<<< HEAD
             274)
+=======
+            227)
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
           object label23: TLabel
             Left = 7
             Top = 148
@@ -1383,7 +1408,11 @@ object FrmInformacion: TFrmInformacion
           end
           object DBCheckBox1: TDBCheckBox
             Left = -96
+<<<<<<< HEAD
             Top = -77
+=======
+            Top = -65
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Width = 10
             Height = 17
             Anchors = [akRight]
@@ -2321,8 +2350,14 @@ object FrmInformacion: TFrmInformacion
             Left = 5
             Top = 0
             Width = 609
+<<<<<<< HEAD
             Height = 71
             Caption = 'Informacion General'
+=======
+            Height = 49
+            Caption = 'Informacion General'
+            Enabled = False
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             TabOrder = 3
             object Label37: TLabel
               Left = 8
@@ -2330,6 +2365,7 @@ object FrmInformacion: TFrmInformacion
               Width = 54
               Height = 13
               Caption = 'Cuenta No:'
+<<<<<<< HEAD
               Enabled = False
               Visible = False
             end
@@ -2340,6 +2376,10 @@ object FrmInformacion: TFrmInformacion
               Height = 13
               Caption = 'Tipo de Solicitud'
             end
+=======
+              Visible = False
+            end
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             object JvStaticText2: TJvStaticText
               Left = 149
               Top = 21
@@ -2348,7 +2388,10 @@ object FrmInformacion: TFrmInformacion
               TextMargins.X = 0
               TextMargins.Y = 0
               Caption = 'Radicado No:'
+<<<<<<< HEAD
               Enabled = False
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -11
@@ -2374,7 +2417,10 @@ object FrmInformacion: TFrmInformacion
               AutoSize = False
               BorderStyle = sbsSunken
               Color = clWhite
+<<<<<<< HEAD
               Enabled = False
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -11
@@ -2401,7 +2447,10 @@ object FrmInformacion: TFrmInformacion
               AutoSize = False
               BorderStyle = sbsSunken
               Color = clWhite
+<<<<<<< HEAD
               Enabled = False
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -11
@@ -2427,7 +2476,10 @@ object FrmInformacion: TFrmInformacion
               TextMargins.X = 0
               TextMargins.Y = 0
               Caption = 'Fecha de Recepci'#243'n'
+<<<<<<< HEAD
               Enabled = False
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               HotTrackFont.Charset = DEFAULT_CHARSET
               HotTrackFont.Color = clBlack
               HotTrackFont.Height = -11
@@ -2448,7 +2500,10 @@ object FrmInformacion: TFrmInformacion
               Color = clWhite
               DateFormat = dfShort
               DateMode = dmComboBox
+<<<<<<< HEAD
               Enabled = False
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clBlack
               Font.Height = -11
@@ -2468,6 +2523,7 @@ object FrmInformacion: TFrmInformacion
               Alignment = taLeftJustify
               Caption = 'Educaci'#243'n'
               Color = clWhite
+<<<<<<< HEAD
               Enabled = False
               ParentColor = False
               TabOrder = 5
@@ -2489,6 +2545,17 @@ object FrmInformacion: TFrmInformacion
             Top = 70
             Width = 270
             Height = 179
+=======
+              ParentColor = False
+              TabOrder = 5
+            end
+          end
+          object GroupBox6: TGroupBox
+            Left = 5
+            Top = 42
+            Width = 270
+            Height = 147
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Caption = 'Valor Solicitado Amortizaciones'
             TabOrder = 0
             object Label38: TLabel
@@ -2500,53 +2567,82 @@ object FrmInformacion: TFrmInformacion
             end
             object Label39: TLabel
               Left = 7
+<<<<<<< HEAD
               Top = 44
+=======
+              Top = 45
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 52
               Height = 13
               Caption = 'Tipo Cuota'
             end
             object Label40: TLabel
               Left = 8
+<<<<<<< HEAD
               Top = 70
+=======
+              Top = 71
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 60
               Height = 13
               Caption = 'Amortizaci'#243'n'
             end
             object Label41: TLabel
               Left = 145
+<<<<<<< HEAD
               Top = 70
+=======
+              Top = 71
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 60
               Height = 13
               Caption = 'Pago Interes'
             end
             object Label44: TLabel
               Left = 8
+<<<<<<< HEAD
               Top = 118
+=======
+              Top = 119
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 57
               Height = 13
               Caption = 'Codeudores'
             end
             object Label81: TLabel
               Left = 119
+<<<<<<< HEAD
               Top = 118
+=======
+              Top = 119
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 26
               Height = 13
               Caption = 'Plazo'
             end
             object Label84: TLabel
               Left = 238
+<<<<<<< HEAD
               Top = 118
+=======
+              Top = 119
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 21
               Height = 13
               Caption = 'Dias'
             end
             object Label85: TLabel
               Left = 8
+<<<<<<< HEAD
               Top = 93
+=======
+              Top = 94
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 45
               Height = 13
               Caption = 'Respaldo'
             end
+<<<<<<< HEAD
             object Label103: TLabel
               Left = 7
               Top = 143
@@ -2554,6 +2650,8 @@ object FrmInformacion: TFrmInformacion
               Height = 13
               Caption = 'Aporte/Donaci'#243'n'
             end
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             object JVvalorprestamo: TJvCurrencyEdit
               Left = 88
               Top = 17
@@ -2563,7 +2661,10 @@ object FrmInformacion: TFrmInformacion
               Color = clWhite
               ReadOnly = False
               TabOrder = 0
+<<<<<<< HEAD
               OnChange = JVvalorprestamoChange
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               OnEnter = JVvalorprestamoEnter
               OnExit = JVvalorprestamoExit
               HasMaxValue = False
@@ -2571,7 +2672,11 @@ object FrmInformacion: TFrmInformacion
             end
             object DBtipocuota: TDBLookupComboBox
               Left = 88
+<<<<<<< HEAD
               Top = 42
+=======
+              Top = 43
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 174
               Height = 21
               Color = clWhite
@@ -2584,7 +2689,11 @@ object FrmInformacion: TFrmInformacion
             end
             object JVcodeudores: TJvIntegerEdit
               Left = 88
+<<<<<<< HEAD
               Top = 116
+=======
+              Top = 117
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 26
               Height = 21
               Alignment = taRightJustify
@@ -2599,14 +2708,21 @@ object FrmInformacion: TFrmInformacion
             end
             object JVplazo: TJvIntegerEdit
               Left = 149
+<<<<<<< HEAD
               Top = 116
+=======
+              Top = 117
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 85
               Height = 21
               Alignment = taRightJustify
               Color = clWhite
               ReadOnly = False
               TabOrder = 6
+<<<<<<< HEAD
               OnChange = JVplazoChange
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               OnExit = JVplazoExit
               Value = 0
               MaxValue = 0
@@ -2616,7 +2732,11 @@ object FrmInformacion: TFrmInformacion
             end
             object DBrespaldo: TDBLookupComboBox
               Left = 88
+<<<<<<< HEAD
               Top = 91
+=======
+              Top = 92
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 174
               Height = 21
               Color = clWhite
@@ -2628,7 +2748,11 @@ object FrmInformacion: TFrmInformacion
             end
             object JVamortizacion: TJvIntegerEdit
               Left = 88
+<<<<<<< HEAD
               Top = 68
+=======
+              Top = 69
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 49
               Height = 21
               Alignment = taRightJustify
@@ -2644,7 +2768,11 @@ object FrmInformacion: TFrmInformacion
             end
             object JVpagointeres: TJvIntegerEdit
               Left = 208
+<<<<<<< HEAD
               Top = 67
+=======
+              Top = 68
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
               Width = 51
               Height = 21
               Alignment = taRightJustify
@@ -2658,6 +2786,7 @@ object FrmInformacion: TFrmInformacion
               HasMaxValue = False
               HasMinValue = False
             end
+<<<<<<< HEAD
             object JvValorAporte: TJvCurrencyEdit
               Left = 90
               Top = 141
@@ -2676,6 +2805,12 @@ object FrmInformacion: TFrmInformacion
           object GroupBox7: TGroupBox
             Left = 273
             Top = 70
+=======
+          end
+          object GroupBox7: TGroupBox
+            Left = 273
+            Top = 43
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Width = 341
             Height = 101
             Caption = 'Linea y Garantia'
@@ -2740,7 +2875,11 @@ object FrmInformacion: TFrmInformacion
           end
           object GroupBox8: TGroupBox
             Left = 273
+<<<<<<< HEAD
             Top = 171
+=======
+            Top = 143
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Width = 341
             Height = 46
             Caption = 'Destino del Prestamo'
@@ -2758,7 +2897,11 @@ object FrmInformacion: TFrmInformacion
           end
           object BitBtn5: TBitBtn
             Left = 276
+<<<<<<< HEAD
             Top = 244
+=======
+            Top = 191
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Width = 165
             Height = 31
             Caption = '&Documentos Exigidos'
@@ -2810,7 +2953,11 @@ object FrmInformacion: TFrmInformacion
           end
           object BitBtn7: TBitBtn
             Left = 447
+<<<<<<< HEAD
             Top = 244
+=======
+            Top = 191
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Width = 165
             Height = 31
             Caption = '&Observaciones'
@@ -2862,7 +3009,11 @@ object FrmInformacion: TFrmInformacion
           end
           object BitBtn8: TBitBtn
             Left = 4
+<<<<<<< HEAD
             Top = 245
+=======
+            Top = 192
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Width = 134
             Height = 31
             Caption = '&Actualizar Datos'
@@ -2914,7 +3065,11 @@ object FrmInformacion: TFrmInformacion
           end
           object BitBtn9: TBitBtn
             Left = 140
+<<<<<<< HEAD
             Top = 245
+=======
+            Top = 192
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Width = 133
             Height = 31
             Caption = 'Imprimir Formulario'
@@ -3756,7 +3911,11 @@ object FrmInformacion: TFrmInformacion
             Left = 0
             Top = 0
             Width = 614
+<<<<<<< HEAD
             Height = 274
+=======
+            Height = 227
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             Align = alClient
             Color = clWhite
             DataSource = GDSDescuento
@@ -7215,7 +7374,11 @@ object FrmInformacion: TFrmInformacion
   end
   object Panel10: TPanel
     Left = 5
+<<<<<<< HEAD
     Top = 528
+=======
+    Top = 461
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     Width = 620
     Height = 38
     Color = clOlive
@@ -8515,7 +8678,11 @@ object FrmInformacion: TFrmInformacion
     SQL.Strings = (
       'select * from "gen$agencia"')
     Left = 200
+<<<<<<< HEAD
     Top = 560
+=======
+    Top = 544
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   end
   object DSoficina: TDataSource
     DataSet = IBoficina
@@ -8546,7 +8713,11 @@ object FrmInformacion: TFrmInformacion
     SQL.Strings = (
       'select * from "col$tiposcuota"')
     Left = 168
+<<<<<<< HEAD
     Top = 560
+=======
+    Top = 536
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   end
   object DSamortiza: TDataSource
     Left = 104
@@ -9191,7 +9362,11 @@ object FrmInformacion: TFrmInformacion
     SQL.Strings = (
       'select * from "gen$tiposreferencia"')
     Left = 224
+<<<<<<< HEAD
     Top = 560
+=======
+    Top = 536
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   end
   object IBparentesco: TIBQuery
     Database = dmGeneral.IBDatabase1
@@ -9857,8 +10032,13 @@ object FrmInformacion: TFrmInformacion
   end
   object frDBDataSet9: TfrDBDataSet
     DataSet = CDinfbienes
+<<<<<<< HEAD
     Left = 256
     Top = 496
+=======
+    Left = 264
+    Top = 488
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   end
   object DSinfgeneral: TDataSource
     DataSet = CDinfgeneral
@@ -10134,8 +10314,13 @@ object FrmInformacion: TFrmInformacion
   end
   object frDBDataSet10: TfrDBDataSet
     DataSet = CDinfmaquinaria
+<<<<<<< HEAD
     Left = 320
     Top = 472
+=======
+    Left = 296
+    Top = 488
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   end
   object CDinfreferencias: TClientDataSet
     Active = True
@@ -10226,8 +10411,13 @@ object FrmInformacion: TFrmInformacion
   end
   object frDBDataSet11: TfrDBDataSet
     DataSet = IBinfreferencias
+<<<<<<< HEAD
     Left = 336
     Top = 496
+=======
+    Left = 328
+    Top = 488
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   end
   object CDfirmas: TClientDataSet
     Active = True
@@ -11427,8 +11617,13 @@ object FrmInformacion: TFrmInformacion
     InitialZoom = pzDefault
     PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit]
     RebuildPrinter = False
+<<<<<<< HEAD
     Left = 72
     Top = 296
+=======
+    Left = 96
+    Top = 288
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     ReportForm = {19000000}
   end
   object CDBancoldex: TClientDataSet
@@ -11814,8 +12009,13 @@ object FrmInformacion: TFrmInformacion
     Params = <>
     StoreDefs = True
     AfterScroll = CDSadjuntoAfterScroll
+<<<<<<< HEAD
     Left = 488
     Top = 240
+=======
+    Left = 512
+    Top = 280
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     Data = {
       4E0000009619E0BD0100000018000000020000000000030000004E00064E6F6D
       627265010049000000010005574944544802000200C800045275746102004900
@@ -11832,8 +12032,13 @@ object FrmInformacion: TFrmInformacion
   end
   object DSAdjunto: TDataSource
     DataSet = CDSadjunto
+<<<<<<< HEAD
     Left = 456
     Top = 240
+=======
+    Left = 472
+    Top = 296
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   end
   object IBQadjunto: TIBQuery
     Database = dmGeneral.IBDatabase1
@@ -11841,6 +12046,7 @@ object FrmInformacion: TFrmInformacion
     Left = 376
     Top = 352
   end
+<<<<<<< HEAD
   object IBsolicitudtipo: TIBQuery
     Database = dmGeneral.IBDatabase1
     Transaction = IBTransaction1
@@ -11855,4 +12061,6 @@ object FrmInformacion: TFrmInformacion
     Left = 416
     Top = 240
   end
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end

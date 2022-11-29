@@ -9,7 +9,10 @@ type
   public
     // property factura: Integer read fact_id write fact_id;
     function Facturar(fact_id: Integer): String;
+<<<<<<< HEAD
     function Dsa(dsa_id: Integer): String;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     function Status: String;
     function GetURLAsString(const aURL: string): string;
 end;
@@ -65,6 +68,7 @@ begin
   result := _result;
 end;
 
+<<<<<<< HEAD
 function TFacturar.Dsa(dsa_id: Integer): String;
 var _result : String;
 _query: TIBQuery;
@@ -89,4 +93,6 @@ begin
   result := _result;
 end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end.

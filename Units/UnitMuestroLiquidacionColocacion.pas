@@ -114,7 +114,10 @@ type
     MyColocacion:string;
     MyProximaCuota:TDate;
     MyFechaCorte:TDate;
+<<<<<<< HEAD
     MyFechaNota:TDate;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     MyAsociado:string;
     MyNuevoSaldo:Currency;
     MyInteresesHasta:TDate;
@@ -151,7 +154,10 @@ type
     property Colocacion:string read MyColocacion Write MyColocacion;
     property ProximaCuota:TDate read MyProximaCuota Write MyProximaCuota;
     property FechaCorte:TDate read MyFechaCorte Write MyFechaCorte;
+<<<<<<< HEAD
     property FechaNota:TDate read MyFechaNota Write MyFechaNota;    
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     property Asociado:string read MyAsociado Write MyAsociado;
     property NuevoSaldo:Currency read MyNuevoSaldo Write MyNuevoSaldo;
     property InteresesHasta:TDate read MyInteresesHasta Write MyInteresesHasta;
@@ -605,7 +611,11 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
          sql.Add(':"ID_AGENCIA", :"DESCRIPCION", :"TOTAL_DEBITO",');
          sql.Add(':"TOTAL_CREDITO", :"ESTADO", :"IMPRESO", :"ANULACION", :"ID_EMPLEADO")');
          ParamByName('ID_COMPROBANTE').AsString:= vNoComprobante;
+<<<<<<< HEAD
          ParamByname('FECHADIA').AsDate := FechaNota; //fFechaActual;
+=======
+         ParamByname('FECHADIA').AsDate := FechaCorte; //fFechaActual;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
          ParamByName('ID_AGENCIA').AsInteger := Agencia;
          ParamByName('TIPO_COMPROBANTE').AsInteger := 1;
          if Nacional then
@@ -634,7 +644,11 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
             SQL.Add(':"ID_PERSONA",:"MONTO_RETENCION",:"TASA_RETENCION",:"ESTADOAUX", :"TIPO_COMPROBANTE", :"ID", :"ID_CLASE_OPERACION")');
             ParamByName('ID_COMPROBANTE').AsString := vNoComprobante;
             ParamByName('ID_AGENCIA').AsInteger:= Agencia;
+<<<<<<< HEAD
             ParamByName('FECHA').AsDate := FechaNota; //fFechaActual;
+=======
+            ParamByName('FECHA').AsDate := FechaCorte; //fFechaActual;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             ParamByName('CODIGO').AsString := AR^.CodigoPuc;
             ParamByName('DEBITO').AsCurrency := ar^.Debito;
             ParamByName('CREDITO').AsCurrency := ar^.Credito;
@@ -745,7 +759,11 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
         SQL.Add(':FECHA_CONSIGNACION)');
         ParamByName('ID_AGENCIA').AsInteger := Agencia;
         ParamByName('ID_COLOCACION').AsString := Colocacion;
+<<<<<<< HEAD
         ParamByName('FECHA_EXTRACTO').AsDate := FechaNota; //fFechaActual;
+=======
+        ParamByName('FECHA_EXTRACTO').AsDate := FechaCorte; //fFechaActual;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         ParamByName('ID_CBTE_COLOCACION').AsString := vNoComprobante;
         ParamByName('FECHA_CONSIGNACION').AsDate := FechaConsignacion;
          try
@@ -792,7 +810,11 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
              if _consecutivoFacturaValido then
              begin
                      _fechaFactura := fFechaHoraActual;
+<<<<<<< HEAD
                      //_fechaFactura := EncodeDateTime(YearOf(FechaCorte), MonthOf(FechaCorte), DayOf(FechaCorte), HourOfTheDay(_fechaFactura), MinuteOfTheHour(_fechaFactura), SecondOf(_fechaFactura), 0);
+=======
+                     _fechaFactura := EncodeDateTime(YearOf(FechaCorte), MonthOf(FechaCorte), DayOf(FechaCorte), HourOfTheDay(_fechaFactura), MinuteOfTheHour(_fechaFactura), SecondOf(_fechaFactura), 0);
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                      with IBQuery1 do
                      begin
                        SQL.Clear;
@@ -803,7 +825,11 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
                        ParamByName('FACT_DESCRIPCION').AsString := 'Ingresos por Cartera de Crédito';
                        ParamByName('TIPO_COMPROBANTE').AsInteger := 1;
                        ParamByName('ID_COMPROBANTE').AsInteger := StrToInt(vNocomprobante);
+<<<<<<< HEAD
                        ParamByName('FECHA_COMPROBANTE').AsDate := FechaNota;
+=======
+                       ParamByName('FECHA_COMPROBANTE').AsDate := FechaCorte;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                        ParamByName('ID_IDENTIFICACION').AsInteger :=  TipoId;
                        ParamByName('ID_PERSONA').AsString := NumeroId;
                        ParamByName('ID_EMPLEADO').AsString := DBAlias;
@@ -852,6 +878,7 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
                           ParamByName('FAIT_TOTAL').AsCurrency := _valorFacturarMORA;
                           ExecSQL;
                        end;
+<<<<<<< HEAD
 
                        if Nacional then
                        begin
@@ -862,6 +889,8 @@ if MessageDlg('Seguro de Realizar el Abono?',mtConfirmation,[mbYes,mbNo],0) = mr
                          ParamByName('FALN_DESCRIPCION').AsString := 'Fecha Consignación: ' + DateToStr(EncodeDateTime(YearOf(FechaConsignacion), MonthOf(FechaConsignacion), DayOf(FechaConsignacion), HourOfTheDay(_fechaFactura), MinuteOfTheHour(_fechaFactura), SecondOf(_fechaFactura), 0));
                          ExecSQL;
                        end;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                      end;
                edFactura.Text := IntToStr(_vFacturaConsecutivo);
              end;

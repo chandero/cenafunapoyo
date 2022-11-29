@@ -190,8 +190,11 @@ type
     IBQasesor: TIBQuery;
     DSagencia: TDataSource;
     DSasesor: TDataSource;
+<<<<<<< HEAD
     Label38: TLabel;
     JvValorAporte: TJvCurrencyEdit;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     procedure FormCreate(Sender: TObject);
     procedure BTbuscarClick(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
@@ -652,7 +655,10 @@ begin
               frmInformacionBancoldexEnte.Saldo := SaldoBancoldex;
               frmInformacionBancoldexEnte.Analisis := True;
               frmInformacionBancoldexEnte.Solicitud := Msolicitud.Text;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             end;
           end;
 
@@ -695,6 +701,7 @@ begin
           aportes;
           PageControl1.ActivePageIndex := 0;
           Panel1.Enabled := False;
+<<<<<<< HEAD
 
               // Buscar Valor Aporte
 
@@ -704,6 +711,8 @@ begin
 
               if FieldByName('VALOR_APORTE').AsCurrency <= 0 then                 JvValorAporte.Value := 0              else                 JvValorAporte.Value := FieldByName('VALOR_APORTE').AsCurrency;          
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         end;
         IBfoto.Close;
         IBfoto.ParamByName('ID_PERSONA').AsString := id_persona;

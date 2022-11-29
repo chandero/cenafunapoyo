@@ -1,7 +1,13 @@
 object frmMain: TfrmMain
+<<<<<<< HEAD
   Left = 354
   Top = 150
   Width = 640
+=======
+  Left = 295
+  Top = 132
+  Width = 812
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   Height = 406
   Caption = 'Modulo Contable - '
   Color = clBtnFace
@@ -65,7 +71,11 @@ object frmMain: TfrmMain
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
+<<<<<<< HEAD
     Width = 632
+=======
+    Width = 804
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     Height = 39
     ButtonHeight = 36
     ButtonWidth = 75
@@ -300,10 +310,13 @@ object frmMain: TfrmMain
         Caption = 'Balance General Detallado'
         OnClick = BalanceGeneralDetallado1Click
       end
+<<<<<<< HEAD
       object BalanceGeneralDetalladoAo1: TMenuItem
         Caption = 'Balance General Detallado A'#241'o'
         OnClick = BalanceGeneralDetalladoAo1Click
       end
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
       object EstadodeIngresosyGastos1: TMenuItem
         Caption = 'Estado de Ingresos y Gastos'
         Visible = False

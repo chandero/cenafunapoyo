@@ -892,7 +892,10 @@ var I,J:Integer;
     IBSQL: TIBSQL;
     IBSQLcodigos, IBSQLcodigosdup: TIBSQL;
     IBQuery: TIBQuery;
+<<<<<<< HEAD
     IBQueryTasaMaxima: TIBQuery;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     IBQDescuentos: TIBQuery;
     IBQConsulta: TIBQuery;
 //
@@ -902,8 +905,11 @@ var I,J:Integer;
     CDSCuotas:TClientDataSet;
     Saldo: Currency;
     vDesembolso: Currency;
+<<<<<<< HEAD
     valorAporte, valorTotalAporte, valorCobradoAporte: Currency;
     vPlazoAporte: Integer;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 begin
 
   dmGeneral := TdmGeneral.Create(nil);
@@ -913,7 +919,10 @@ begin
   IBSQLcodigos := TIBSQL.Create(nil);
   IBSQLcodigosdup := TIBSQL.Create(nil);
   IBQuery := TIBQuery.Create(nil);
+<<<<<<< HEAD
   IBQueryTasaMaxima := TIBQuery.Create(nil);
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   IBQDescuentos := TIBQuery.Create(nil);
   IBQConsulta := TIBQuery.Create(nil);
 
@@ -931,7 +940,10 @@ begin
   IBSQLcodigos.Database := dmGeneral.IBDatabase1;
   IBSQLcodigosdup.Database := dmGeneral.IBDatabase1;
   IBQuery.Database := dmGeneral.IBDatabase1;
+<<<<<<< HEAD
   IBQueryTasaMaxima.Database := dmGeneral.IBDatabase1;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   IBQDescuentos.Database := dmGeneral.IBDatabase1;
   IBQConsulta.Database := dmGeneral.IBDatabase1;
 
@@ -939,7 +951,10 @@ begin
   IBSQLcodigos.Transaction := dmGeneral.IBTransaction1;
   IBSQLcodigosdup.Transaction := dmGeneral.IBTransaction1;
   IBQuery.Transaction := dmGeneral.IBTransaction1;
+<<<<<<< HEAD
   IBQueryTasaMaxima.Transaction := dmGeneral.IBTransaction1;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   IBQDescuentos.Transaction := dmGeneral.IBTransaction1;
   IBQConsulta.Transaction := dmGeneral.IBTransaction1;
 
@@ -1026,11 +1041,14 @@ begin
       DataType := ftCurrency;
       Name := 'OTROS';
     end;
+<<<<<<< HEAD
     with FieldDefs.AddFieldDef do
     begin
       DataType := ftCurrency;
       Name := 'APORTE';
     end;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     CreateDataSet;
   end;
 
@@ -1044,6 +1062,7 @@ begin
      TasaMoraCredito := FieldByName('TASA_INTERES_MORA').AsCurrency;
      vDesembolso := Saldo;
 
+<<<<<<< HEAD
       // Buscar Valor Aporte
       Close;
       SQL.Clear;
@@ -1055,6 +1074,8 @@ begin
       else
          valorAporte := SimpleRoundTo(FieldByName('APORTE').AsCurrency / FieldByName('PLAZO').AsInteger, 0);
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
      Close;
      SQL.Clear;
      SQL.Add('select * from "col$tablaliquidacion" where ID_COLOCACION = :ID_COLOCACION');
@@ -1062,7 +1083,10 @@ begin
      ExecQuery;
 
      CDSCuotas.Open;
+<<<<<<< HEAD
      valorCobradoAporte := 0;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
      while not Eof do
      begin
          CDSCuotas.Append;
@@ -1071,11 +1095,16 @@ begin
          CDSCuotas.FieldByName('CAPITAL_A_PAGAR').AsCurrency := FieldByName('CAPITAL_A_PAGAR').AsCurrency;
          CDSCuotas.FieldByName('INTERES_A_PAGAR').AsCurrency := FieldByName('INTERES_A_PAGAR').AsCurrency;
          Saldo := Saldo - FieldByName('CAPITAL_A_PAGAR').AsCurrency;
+<<<<<<< HEAD
          if (Saldo <= 0) then valorAporte := valorTotalAporte - valorCobradoAporte;
          valorCobradoAporte := valorCobradoAporte + valorAporte;
          CDSCuotas.FieldByName('SALDO').AsCurrency := Saldo;
          CDSCuotas.FieldByName('OTROS').AsCurrency := 0;
          CDSCuotas.FieldByName('APORTE').AsCurrency := valorAporte;         
+=======
+         CDSCuotas.FieldByName('SALDO').AsCurrency := Saldo;
+         CDSCuotas.FieldByName('OTROS').AsCurrency := 0;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
          CDSCuotas.Post;
          Next;
      end;
@@ -1102,6 +1131,10 @@ begin
 
    CalcularDescuentoPorCuota(CDSCuotas,CDSDescuento, CDSADescontar, vDesembolso, AmortizaK, SaldoActual);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   TotalCredito := 0;
   TotalDebito  := 0;
   Costas := 0;
@@ -1262,9 +1295,15 @@ begin
       end;
 
 
+<<<<<<< HEAD
      TasaMaxima := BuscoTasaEfectivaMaxima1(IBQueryTasaMaxima,FechaCorte,Clasificacion,'A');
      if (ValorTasa > TasaMaxima) then ValorTasa := TasaMaxima;
       
+=======
+
+
+
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
      for I := 0 to (CuotasALiquidar - 1) do
       begin
      // Calcular Fechas a Liquidar
@@ -1322,7 +1361,11 @@ begin
           begin
             _duplicarlo := False;
             AF := FechasLiq.Items[J];
+<<<<<<< HEAD
             TasaMaxima := BuscoTasaEfectivaMaxima1(IBQueryTasaMaxima,AF^.FechaFinal,Clasificacion,'A');
+=======
+            TasaMaxima := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
             New(AR);
             if (TipoInteres = 0) then
              begin
@@ -2104,12 +2147,20 @@ begin
             New(AR);
             if TipoInteres = 0 then
              begin
+<<<<<<< HEAD
                {TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
                if ValorTasa > TasaEfectiva then
                   TasaLiquidar := TasaEfectiva
                else
                   TasaLiquidar := ValorTasa;}
                TasaLiquidar := ValorTasa;
+=======
+               TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+               if ValorTasa > TasaEfectiva then
+                  TasaLiquidar := TasaEfectiva
+               else
+                  TasaLiquidar := ValorTasa;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                TasaLiquidar := TasaNominalAnticipada(TasaLiquidar,Amortizacion);
              end
             else if TipoInteres = 1 then
@@ -2810,12 +2861,20 @@ begin
             TasaMaxima := BuscoTasaEfectivaMaxima(AF^.FechaFinal,clasificacion,'A');
             if TipoInteres = 0 then
              begin
+<<<<<<< HEAD
                { TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
                if ValorTasa > TasaEfectiva then
                   TasaLiquidar := TasaEfectiva
                else
                   TasaLiquidar := ValorTasa; }
                TasaLiquidar := ValorTasa;
+=======
+               TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+               if ValorTasa > TasaEfectiva then
+                  TasaLiquidar := TasaEfectiva
+               else
+                  TasaLiquidar := ValorTasa;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                TasaLiquidar := TasaNominalVencida(TasaLiquidar,Amortizacion);
              end
             else if TipoInteres = 1 then
@@ -3344,12 +3403,20 @@ begin
                  New(AR);
             if TipoInteres = 0 then
              begin
+<<<<<<< HEAD
                { TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
                if ValorTasa > TasaEfectiva then
                   TasaLiquidar := TasaEfectiva
                else
                   TasaLiquidar := ValorTasa;}
                TasaLiquidar := ValorTasa;
+=======
+               TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+               if ValorTasa > TasaEfectiva then
+                  TasaLiquidar := TasaEfectiva
+               else
+                  TasaLiquidar := ValorTasa;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                TasaLiquidar := TasaNominalVencida(TasaLiquidar,Amortizacion);
              end
             else if TipoInteres = 1 then
@@ -3614,12 +3681,20 @@ begin
             New(AR);
             if TipoInteres = 0 then
              begin
+<<<<<<< HEAD
                { TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
                if ValorTasa > TasaEfectiva then
                   TasaLiquidar := TasaEfectiva
                else
                   TasaLiquidar := ValorTasa;}
                TasaLiquidar := ValorTasa;
+=======
+               TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+               if ValorTasa > TasaEfectiva then
+                  TasaLiquidar := TasaEfectiva
+               else
+                  TasaLiquidar := ValorTasa;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                TasaLiquidar := TasaNominalVencida(TasaLiquidar,Amortizacion);
              end
             else if TipoInteres = 1 then
@@ -4057,12 +4132,20 @@ begin
           New(AR);
             if TipoInteres = 0 then
              begin
+<<<<<<< HEAD
                {TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
                if ValorTasa > TasaEfectiva then
                   TasaLiquidar := TasaEfectiva
                else
                   TasaLiquidar := ValorTasa;}
                TasaLiquidar := ValorTasa;
+=======
+               TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+               if ValorTasa > TasaEfectiva then
+                  TasaLiquidar := TasaEfectiva
+               else
+                  TasaLiquidar := ValorTasa;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                TasaLiquidar := TasaNominalAnticipada(TasaLiquidar,Amortizacion);
              end
             else if TipoInteres = 1 then
@@ -4257,12 +4340,20 @@ begin
             New(AR);
             if TipoInteres = 0 then
              begin
+<<<<<<< HEAD
                {TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
                if ValorTasa > TasaEfectiva then
                   TasaLiquidar := TasaEfectiva
                else
                   TasaLiquidar := ValorTasa;}
                TasaLiquidar := ValorTasa;
+=======
+               TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+               if ValorTasa > TasaEfectiva then
+                  TasaLiquidar := TasaEfectiva
+               else
+                  TasaLiquidar := ValorTasa;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                TasaLiquidar := TasaNominalAnticipada(TasaLiquidar,Amortizacion);
              end
             else if TipoInteres = 1 then
@@ -4686,12 +4777,20 @@ begin
           TasaMaxima := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
             if TipoInteres = 0 then
              begin
+<<<<<<< HEAD
                {TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
                if ValorTasa > TasaEfectiva then
                   TasaLiquidar := TasaEfectiva
                else
                   TasaLiquidar := ValorTasa;}
                TasaLiquidar := ValorTasa;
+=======
+               TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+               if ValorTasa > TasaEfectiva then
+                  TasaLiquidar := TasaEfectiva
+               else
+                  TasaLiquidar := ValorTasa;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                TasaLiquidar := TasaNominalVencida(TasaLiquidar,Amortizacion);
              end
             else if TipoInteres = 1 then
@@ -4887,13 +4986,20 @@ begin
             TasaMaxima := BuscoTasaEfectivaMaxima(AF^.FechaFinal,clasificacion,'A');
             if TipoInteres = 0 then
              begin
+<<<<<<< HEAD
                {TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+=======
+               TasaEfectiva := BuscoTasaEfectivaMaxima(AF^.FechaFinal,Clasificacion,'A');
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
                if ValorTasa > TasaEfectiva then
                   TasaLiquidar := TasaEfectiva
                else
                   TasaLiquidar := ValorTasa;
+<<<<<<< HEAD
                }
                TasaLiquidar := ValorTasa;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
              end
             else if TipoInteres = 1 then
              begin

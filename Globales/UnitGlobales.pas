@@ -469,7 +469,7 @@ begin
          end;
         end;
 end;
-///* Función para calcular edad */
+///* Funciï¿½n para calcular edad */
 function Edad(Fecha:TDateTime):String;
 var A, AA, M, MM, D, DD: Word;
   Anio, Mes, Dia: double;
@@ -491,13 +491,13 @@ begin
     Dia:=DD+MonthDays[IsLeapYear(AA),MM]-D;
     Mes := Mes -1;
   end;
-//Caso especial donde no ha cumplido años, pero los cumplirá el mismo mes
+//Caso especial donde no ha cumplido aï¿½os, pero los cumplirï¿½ el mismo mes
   if Mes < 0 then
   begin
     Anio := Anio - 1;
     Mes := 12 + Mes;
   end;
-  Result := Format('Años: %.0f, Meses: %.0f, Dias: %.0f', [Anio, Mes, Dia]);
+  Result := Format('Aï¿½os: %.0f, Meses: %.0f, Dias: %.0f', [Anio, Mes, Dia]);
 end;
 
 
@@ -520,7 +520,7 @@ begin
 
     DC1:=11-Resto;
     if DC1=10 then DC1:=1;
-    if DC1=11 then DC1:=0;              // Dígito control Entidad-Oficina
+    if DC1=11 then DC1:=0;              // Dï¿½gito control Entidad-Oficina
 
     x:=10;
     Repeat
@@ -531,9 +531,9 @@ begin
     Resto := DC2-(11*(int(DC2/11)));
     DC2:=11-Resto;
     if DC2=10 then DC2:=1;
-    if DC2=11 then DC2:=0;         // Dígito Control C/C
+    if DC2=11 then DC2:=0;         // Dï¿½gito Control C/C
 
-    DigControl:=FloattoStr(DC1)+FloattoStr(DC2);   // los 2 números del D.C.
+    DigControl:=FloattoStr(DC1)+FloattoStr(DC2);   // los 2 nï¿½meros del D.C.
     Result:=DigControl;
 end;
 
@@ -1845,7 +1845,7 @@ begin
 
        if (_id + 30) >= Consecutivo then
        begin
-          ShowMessage('Ya casi se acaba la númeración de Documento Soporte de Adquisición, faltan:' + IntToStr(Consecutivo - _id));
+          ShowMessage('Ya casi se acaba la nï¿½meraciï¿½n de Documento Soporte de Adquisiciï¿½n, faltan:' + IntToStr(Consecutivo - _id));
        end;
 
        if _id > Consecutivo then
@@ -2435,7 +2435,7 @@ begin
            try
              ExecQuery;
              if RecordCount < 1 then begin
-                MessageDlg('Usted no está autorizado para ejecutar esta opción',mtError,[mbcancel],0);
+                MessageDlg('Usted no estï¿½ autorizado para ejecutar esta opciï¿½n',mtError,[mbcancel],0);
                 Result := False;
              end
              else
@@ -2980,7 +2980,7 @@ begin
   Filename:= ChangeFileExt(ParamStr(0),'.log');
   if FindFirst(Filename,faArchive,SearchRec) = 0 then
   begin
-    // Comprobamos el tamaño de .log
+    // Comprobamos el tamaï¿½o de .log
     if SearchRec.Size > (1024*1024) then
       // Y si es mayor de 1 MB lo movemos
       MoveFileEx(PChar(Filename),PChar(Filename + '.1'),

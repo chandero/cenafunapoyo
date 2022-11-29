@@ -1,6 +1,11 @@
 object frmProcesarDatacredito: TfrmProcesarDatacredito
+<<<<<<< HEAD
   Left = 618
   Top = 273
+=======
+  Left = 477
+  Top = 216
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   Width = 413
   Height = 360
   Caption = 'Proceso DataCredito'

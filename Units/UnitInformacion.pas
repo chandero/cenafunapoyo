@@ -914,12 +914,15 @@ type
     DSAdjunto: TDataSource;
     IBQadjunto: TIBQuery;
     CDSadjuntoNombre: TStringField;
+<<<<<<< HEAD
     Label102: TLabel;
     DBLCBsolicitudtipo: TDBLookupComboBox;
     IBsolicitudtipo: TIBQuery;
     DSsolicitudtipo: TDataSource;
     Label103: TLabel;
     JvValorAporte: TJvCurrencyEdit;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
     procedure FormCreate(Sender: TObject);
     procedure JvDocumentoExit(Sender: TObject);
     procedure JVingresosExit(Sender: TObject);
@@ -1102,9 +1105,12 @@ type
     procedure btnAgregarAdjuntoClick(Sender: TObject);
     procedure CDSadjuntoAfterScroll(DataSet: TDataSet);
     procedure btnEliminarAdjuntoClick(Sender: TObject);
+<<<<<<< HEAD
     procedure IBsolicitudtipoBeforeScroll(DataSet: TDataSet);
     procedure JVvalorprestamoChange(Sender: TObject);
     procedure JVplazoChange(Sender: TObject);
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
   private
     observaciones :string;
     es_personanatural :Boolean;
@@ -1175,7 +1181,10 @@ type
     procedure DatosPersona;
     procedure guardaDescuento;
     procedure guardarAdjunto;
+<<<<<<< HEAD
     procedure calcularAporte;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         { Private declarations }
   public
 
@@ -1210,8 +1219,11 @@ var
   dmGeneral: TdmGeneral;
   dmSolicitud: TdmSolicitud;
   _numero_radicado: String;
+<<<<<<< HEAD
   email: String;
   _bClienteNuevo: Boolean;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 
 implementation
@@ -1264,6 +1276,7 @@ begin
         Result := numero_radicado;
 end;
 
+<<<<<<< HEAD
 procedure TFrmInformacion.calcularAporte;
 var
    _tasa: Double;
@@ -1282,6 +1295,8 @@ begin
 
 end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 procedure TFrmInformacion.FormCreate(Sender: TObject);
 begin
         dmGeneral := TdmGeneral.Create(self);
@@ -1331,7 +1346,10 @@ begin
         IBMunicipio.Database := dmGeneral.IBDatabase1;
         IBDestino.Database := dmGeneral.IBDatabase1;
         IBGarantiaBan.Database := dmGeneral.IBDatabase1;
+<<<<<<< HEAD
         IBsolicitudtipo.Database := dmGeneral.IBDatabase1;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
         IBQDescuento.Database := dmGeneral.IBDatabase1;
         IBQDescuento.Transaction := dmGeneral.IBTransaction1;
@@ -1385,8 +1403,11 @@ begin
         IBDestino.Last;
         IBGarantiaBan.Open;
         IBGarantiaBan.Last;
+<<<<<<< HEAD
         IBsolicitudtipo.Open;
         IBsolicitudtipo.Last;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         DBidentificacioncod.KeyValue := 0;
         control_actualiza := True;  // controla la actualizacion o insercion de referencias
         DBCheckBox1.DataSource := DSinfcrediticia;
@@ -1406,7 +1427,11 @@ begin
         DBCheckBox2.ValueUnChecked := ' ';
         DBoficina.KeyValue := Agencia;
         Self.Width := 637;
+<<<<<<< HEAD
         Self.Height := 591;
+=======
+        Self.Height := 534;
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 
 end;
@@ -1477,6 +1502,7 @@ begin
            SQL.Add('select * from "gen$minimos" where ID_MINIMO = 29');
            Open;
            vMaximoLineaAlcaldia := FieldByName('VALOR_MINIMO').AsCurrency;
+<<<<<<< HEAD
            if IBSQL3.Transaction.InTransaction then
              IBSQL3.Transaction.Rollback;
            IBSQL3.Transaction.StartTransaction;
@@ -1504,6 +1530,9 @@ begin
                 _bClienteNuevo := true;
                 DBLCBsolicitudtipo.KeyValue := 1;
            end;
+=======
+
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         end;
 
       
@@ -3506,6 +3535,7 @@ begin
            DBasesor.SetFocus;
            Exit;
         end;
+<<<<<<< HEAD
 
         if DBLCBsolicitudtipo.KeyValue < 1 then
         begin
@@ -3519,6 +3549,8 @@ begin
            Exit;
         end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         if not es_adicion then
         begin
          valor := 0;
@@ -3715,6 +3747,7 @@ begin
           ParamByName('ID_EMPLEADO').AsString := DBAlias;
           ParamByName('FECHAHORA').AsDateTime := fFechaActual + Time;
           ExecSQL;
+<<<<<<< HEAD
           SQL.Clear;
           SQL.Add('DELETE FROM COL$SOLICITUD_SOLICITUD_TIPO WHERE ID_SOLICITUD = :ID_SOLICITUD');
           ParamByName('ID_SOLICITUD').AsString := num_radicado;
@@ -3724,6 +3757,8 @@ begin
           ParamByName('ID_SOLICITUD').AsString := num_radicado;
           ParamByName('SOTI_ID').AsInteger := DBLCBsolicitudtipo.KeyValue;
           ExecSQL;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
           //registro informacion seccion créditos
           //verificar solicitud desde analisis
           SQL.Clear;
@@ -3816,6 +3851,7 @@ begin
           ParamByName('ASES_ID').AsInteger := DBasesor.KeyValue;
           ParamByName('ID_SOLICITUD').AsString := num_radicado;
           ExecSQL;
+<<<<<<< HEAD
           // Colocar Aporte
           SQL.Clear;
           SQL.Add('DELETE FROM COL$SOLICITUDAPORTE WHERE ID_SOLICITUD = :ID_SOLICITUD');
@@ -3827,6 +3863,8 @@ begin
           ParamByName('VALOR_APORTE').AsCurrency := JvValorAporte.Value;
           ParamByName('PLAZO').AsInteger := (JvPlazo.Value div JVpagointeres.Value);
           ExecSQL;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
           Transaction.Commit;
           registra_requisito(JvDocumento.Text,DBidentificacion.KeyValue,CDrequisitos);
           registra_referencia;
@@ -4163,8 +4201,12 @@ begin
         //frCompositeReport1.Reports.Add(frReport1);
         frReport1.Preview := FrmImpresion.frPreview1;
         frReport1.ShowReport;
+<<<<<<< HEAD
         FrmImpresion.ShowModal;
         FrmImpresion.Close;
+=======
+        FrmImpresion.ShowModal
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 end;
 
@@ -4326,8 +4368,11 @@ begin
                ParValue := vSeguroVida
             else
                ParValue := numero_riesgo;
+<<<<<<< HEAD
          if ParName = 'email' then
             ParValue := email;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 
 end;
 
@@ -4966,7 +5011,11 @@ begin
         CDinfgeneral.IndexFieldNames := 'numero';
         inf_referencias;
         firmas;
+<<<<<<< HEAD
         imprimir_reporte(frmMain.ruta1 + 'reporte\RepSolicitud_nuevo.frf');
+=======
+        imprimir_reporte(frmMain.ruta1 + 'reporte\RepSolicitud.frf');
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 //        imprimir_reporte(frmMain.ruta1 + 'reporte\RepSolicitudBancoldex.frf');
 //        if CDBancoldex.RecordCount > 0 then
 //          imprimir_reporte(frmMain.ruta1 + 'reporte\RepAnexoBancoldexSolicitud.frf');
@@ -5409,7 +5458,10 @@ begin
              JVdeudas.Value := FieldByName('EGRESOS_DEUDAS').AsCurrency;
              JVotrosegresos.Value := FieldByName('EGRESOS_OTROS').AsCurrency;
              JVdescripcionegresos.Text := FieldByName('DESC_EGRE_OTROS').AsString;
+<<<<<<< HEAD
              email := FieldByName('EMAIL').AsString;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
            end;
            SQL.Clear;
            SQL.Add('select * from "gen$direccion"');
@@ -5849,6 +5901,7 @@ begin
           vMaximoLineaSocial := FieldByName('VALOR_MINIMO').AsCurrency;
           if StrToInt(DBlineas.KeyValue) in [6,12] then
              EDdescripciongar.ReadOnly := True;
+<<<<<<< HEAD
 
           // Buscar Valor Aporte
           Close;
@@ -5860,6 +5913,8 @@ begin
            JvValorAporte.Value := 0
           else
            JvValorAporte.Value := FieldByName('VALOR_APORTE').AsCurrency;
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
         end;
 
 end;
@@ -9310,6 +9365,7 @@ begin
         CDSadjunto.Delete;
 end;
 
+<<<<<<< HEAD
 procedure TFrmInformacion.IBsolicitudtipoBeforeScroll(DataSet: TDataSet);
 begin
         if (not _bClienteNuevo) and (DataSet.FieldByName('SOTI_ID').AsInteger = 1) then
@@ -9329,4 +9385,6 @@ begin
         if self.Showing then calcularAporte;
 end;
 
+=======
+>>>>>>> 171925b3cf59501bab9dd1664befb26ff80c6cee
 end.
